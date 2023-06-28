@@ -65,7 +65,7 @@ namespace TataGamedom.Models.EFModels
         [StringLength(100)]
         public string IconImg { get; set; }
 
-        public bool IsConfirmed { get; set; }
+        public bool? IsConfirmed { get; set; }
 
         [StringLength(50)]
         public string ConfirmCode { get; set; }
