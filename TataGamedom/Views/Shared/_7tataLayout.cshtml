@@ -54,9 +54,9 @@
 		<ul>
 			<li>
 				<a href="/HOME/INDEX">
-			<i class="fa fa-house"></i>
+					<i class="fa fa-house"></i>
 					<span>後台首頁</span>
-					</a>
+				</a>
 			</li>
 			<li class="selected">
 				<a href="">
@@ -66,7 +66,7 @@
 				<ul>
 					@if (!User.Identity.IsAuthenticated)
 					{
-						<li>@Html.ActionLink("會員登入", "Login", "Members", new { area = "" }, new { @class = "nav-link" })</li>
+						@*<li>@Html.ActionLink("會員登入", "Login", "Members", new { area = "" }, new { @class = "nav-link" })</li>*@
 						<li>@Html.ActionLink("管理員登入", "Login", "BackendMembers", new { area = "" }, new { @class = "nav-link" })</li>
 					}
 					@if (User.Identity.IsAuthenticated)
@@ -75,8 +75,9 @@
 						<li>@Html.ActionLink("管理員管理", "index", "BackendMembersList", new { area = "" }, new { @class = "nav-link" }) </li>
 						//<li><a href="#">電子報管理</a></li>
 					}
-					</ul>
+				</ul>
 			</li>
+		
 			<li>
 				<a href="#">
 					<i class="fa fa-comment"></i>
@@ -91,7 +92,7 @@
 						<li><a href="#">檢舉審核</a></li>
 						<li><a href="#">水桶名單管理</a></li>
 					}
-					</ul>
+				</ul>
 			</li>
 			<li>
 				<a href="#">
@@ -105,7 +106,7 @@
 						<li><a href="#">新聞分類管理</a></li>
 						<li>@Html.ActionLink("新聞留言管理", "Index", "NewsComments", new { area = "" }, new { @class = "nav-link" })</li>
 					}
-					</ul>
+				</ul>
 			</li>
 			<li>
 				<a href="#">
@@ -115,12 +116,12 @@
 				<ul>
 					@if (User.Identity.IsAuthenticated)
 					{
-						<li><a href="#">遊戲管理</a></li>
+						<li>@Html.ActionLink("遊戲管理", "Index", "Games", new { area = "" }, new { @class = "nav-link" })</li>
 						<li><a href="#">商品管理</a></li>
 						<li><a href="#">優惠券管理</a></li>
 						<li><a href="#">商品評論管理</a></li>
 					}
-					</ul>
+				</ul>
 			</li>
 			<li>
 				<a href="#">
@@ -134,7 +135,7 @@
 						<li><a href="#">叫貨管理</a></li>
 						<li><a href="#">庫存管理</a></li>
 					}
-					</ul>
+				</ul>
 			</li>
 			<li>
 				<a href="#">
@@ -147,7 +148,7 @@
 						<li><a href="#">訂單管理</a></li>
 						<li><a href="#">物流管理</a></li>
 					}
-					</ul>
+				</ul>
 			</li>
 			<li>
 				<a href="#">
@@ -161,7 +162,7 @@
 						<li><a href="#">公告管理</a></li>
 						<li><a href="#">客服管理</a></li>
 					}
-					</ul>
+				</ul>
 			</li>
 		</ul>
 		<a id="toggle">

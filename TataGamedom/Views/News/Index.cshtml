@@ -1,0 +1,105 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.News.NewsIndexVM>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>新聞頁面</h2>
+
+<p style="text-align: right;">
+	@Html.ActionLink("新增新聞", "Create", null, new { @class = "btn btn-danger" })
+</p>
+@*<section class="container">
+	<form method="get">
+		<div class="row">
+			<div class="mb-3 col-md-3">
+				<label for="s_gameId">新聞分類</label>
+				<select name="GamesId" id="s_gameId" class="form-select">
+					@foreach (var gameOption in ViewBag.GameOptions as IEnumerable<SelectListItem>)
+					{
+						<option value="@gameOption.Value" @(gameOption.Selected ? "selected" : "")>@gameOption.Text</option>
+					}
+				</select>
+			</div>
+
+			<div class="mb-3 col-md-3">
+				<label for="s_name">名稱</label>
+				<input type="text" class="form-control" name="name" id="s_name">
+			</div>
+
+			<div style="text-align: right" class="mb-3 col-md-3 align-self-end">
+				<button class="btn btn-primary" onclick="performSearch()">查詢</button>
+			</div>
+	</form>
+</section>*@
+
+
+<table class="table ">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Title)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ScheduleDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.BackendMemberName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.GameClassificationName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ViewCount)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.LikeCount)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ActiveFlag)
+		</th>
+		<th>
+			查看留言
+		</th>
+		<th>
+			編輯
+		</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Title)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ScheduleDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.BackendMemberName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.GameClassificationName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ViewCount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.LikeCount)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ActiveFlagText)
+			</td>
+			<td>
+				<a href="@Url.Action("index","newscomments")">
+					<i class="fa-regular fa-comments ms-3"></i>
+				</a>
+			</td>
+			<td>
+				<a href="@Url.Action("Edit", new { id = item.Id })">
+					<i class="fas fa-edit ms-2"></i>
+				</a>
+			</td>
+		</tr>
+
+	}
+</table>
