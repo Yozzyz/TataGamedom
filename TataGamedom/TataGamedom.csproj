@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -49,10 +50,10 @@
       <HintPath>..\packages\Dapper.2.0.143\lib\net461\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -129,13 +130,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
+    <Compile Include="App_Start\BundleConfig3.cs" />
+    <Compile Include="App_Start\BundleConfig4.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BackendMembersController.cs" />
+    <Compile Include="Controllers\BackendMembersListController.cs" />
+    <Compile Include="Controllers\BackendMembersListController1.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Files\Mails\Class1.cs" />
+    <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\Class1.cs" />
+    <Compile Include="Models\Dtos\EditProfileDto.cs" />
+    <Compile Include="Models\Dtos\LoginDto.cs" />
+    <Compile Include="Models\Dtos\RegisterDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
@@ -193,14 +206,26 @@
     <Compile Include="Models\EFModels\StockInSheet.cs" />
     <Compile Include="Models\EFModels\StockInStatusCode.cs" />
     <Compile Include="Models\EFModels\Supplier.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\Class1.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Interfaces\Class1.cs" />
+    <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
+    <Compile Include="Models\Interfaces\IMemberRepository.cs" />
+    <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\Class1.cs" />
+    <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\ViewModels\Class1.cs" />
+    <Compile Include="Models\ViewModels\EditPasswordVM.cs" />
+    <Compile Include="Models\ViewModels\EditProfileVM.cs" />
+    <Compile Include="Models\ViewModels\ForgetPasswordVM.cs" />
+    <Compile Include="Models\ViewModels\LoginVM.cs" />
+    <Compile Include="Models\ViewModels\RegisterVM.cs" />
+    <Compile Include="Models\ViewModels\ResetPasswordVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +248,7 @@
     <Content Include="Content\layoutStyle1.css" />
     <Content Include="favicon.ico" />
     <Content Include="Files\Images\otter.png" />
+    <Content Include="Files\Mails\77_gmail.com 20230628_174620.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -258,9 +284,31 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_TataLayout.cshtml" />
+    <Content Include="Views\BackendMembers\Index.cshtml" />
+    <Content Include="Views\BackendMembers\Login.cshtml" />
+    <Content Include="Views\BackendMembers\EditProfile.cshtml" />
+    <Content Include="Views\BackendMembers\EditPassword.cshtml" />
+    <Content Include="Views\BackendMembersList\Create.cshtml" />
+    <Content Include="Views\BackendMembersList\Delete.cshtml" />
+    <Content Include="Views\BackendMembersList\Details.cshtml" />
+    <Content Include="Views\BackendMembersList\Edit.cshtml" />
+    <Content Include="Views\BackendMembersList\Index.cshtml" />
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+    <Content Include="Views\Members\ConfirmForgetPassword.cshtml" />
+    <Content Include="Views\Members\ConfirmRegister.cshtml" />
+    <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\Login.cshtml" />
+    <Content Include="Views\Members\EditProfile.cshtml" />
+    <Content Include="Views\Members\EditPassword.cshtml" />
+    <Content Include="Views\Members\ForgetPassword.cshtml" />
+    <Content Include="Views\Members\ResetPassword.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Shared\_7tataLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -322,7 +370,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
