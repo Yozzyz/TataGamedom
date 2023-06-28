@@ -45,10 +45,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.143\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -124,6 +135,72 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\Class1.cs" />
+    <Compile Include="Models\EFModels\Announcement.cs" />
+    <Compile Include="Models\EFModels\AppDbContext.cs" />
+    <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
+    <Compile Include="Models\EFModels\BackendMember.cs" />
+    <Compile Include="Models\EFModels\BackendMembersPermissionsCode.cs" />
+    <Compile Include="Models\EFModels\BackendMembersRolePermission.cs" />
+    <Compile Include="Models\EFModels\BackendMembersRolesCode.cs" />
+    <Compile Include="Models\EFModels\Board.cs" />
+    <Compile Include="Models\EFModels\BoardsModerator.cs" />
+    <Compile Include="Models\EFModels\BoardsModeratorsApplication.cs" />
+    <Compile Include="Models\EFModels\BucketLog.cs" />
+    <Compile Include="Models\EFModels\Cart.cs" />
+    <Compile Include="Models\EFModels\Coupon.cs" />
+    <Compile Include="Models\EFModels\CouponsProduct.cs" />
+    <Compile Include="Models\EFModels\DiscountTypeCode.cs" />
+    <Compile Include="Models\EFModels\FAQ.cs" />
+    <Compile Include="Models\EFModels\Game.cs" />
+    <Compile Include="Models\EFModels\GameClassificationGame.cs" />
+    <Compile Include="Models\EFModels\GameClassificationsCode.cs" />
+    <Compile Include="Models\EFModels\GameComment.cs" />
+    <Compile Include="Models\EFModels\GamePlatformsCode.cs" />
+    <Compile Include="Models\EFModels\InventoryItem.cs" />
+    <Compile Include="Models\EFModels\Issue.cs" />
+    <Compile Include="Models\EFModels\IssueStatusCode.cs" />
+    <Compile Include="Models\EFModels\IssueTypesCode.cs" />
+    <Compile Include="Models\EFModels\Member.cs" />
+    <Compile Include="Models\EFModels\MemberProductView.cs" />
+    <Compile Include="Models\EFModels\MembersBoard.cs" />
+    <Compile Include="Models\EFModels\News.cs" />
+    <Compile Include="Models\EFModels\NewsCategoryCode.cs" />
+    <Compile Include="Models\EFModels\NewsComment.cs" />
+    <Compile Include="Models\EFModels\Newsletter.cs" />
+    <Compile Include="Models\EFModels\NewsletterLog.cs" />
+    <Compile Include="Models\EFModels\NewsLike.cs" />
+    <Compile Include="Models\EFModels\NewsView.cs" />
+    <Compile Include="Models\EFModels\Order.cs" />
+    <Compile Include="Models\EFModels\OrderItem.cs" />
+    <Compile Include="Models\EFModels\OrderItemReturn.cs" />
+    <Compile Include="Models\EFModels\OrderItemsCoupon.cs" />
+    <Compile Include="Models\EFModels\OrderStatusCode.cs" />
+    <Compile Include="Models\EFModels\PaymentStatusCode.cs" />
+    <Compile Include="Models\EFModels\Post.cs" />
+    <Compile Include="Models\EFModels\PostComment.cs" />
+    <Compile Include="Models\EFModels\PostCommentReport.cs" />
+    <Compile Include="Models\EFModels\PostCommentUpDownVote.cs" />
+    <Compile Include="Models\EFModels\PostEditLog.cs" />
+    <Compile Include="Models\EFModels\PostReport.cs" />
+    <Compile Include="Models\EFModels\PostUpDownVote.cs" />
+    <Compile Include="Models\EFModels\Product.cs" />
+    <Compile Include="Models\EFModels\ProductImage.cs" />
+    <Compile Include="Models\EFModels\ProductStatusCode.cs" />
+    <Compile Include="Models\EFModels\Reply.cs" />
+    <Compile Include="Models\EFModels\ShipmemtMethod.cs" />
+    <Compile Include="Models\EFModels\ShipmentStatusesCode.cs" />
+    <Compile Include="Models\EFModels\StockInSheet.cs" />
+    <Compile Include="Models\EFModels\StockInStatusCode.cs" />
+    <Compile Include="Models\EFModels\Supplier.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\Class1.cs" />
+    <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
+    <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Infra\Result.cs" />
+    <Compile Include="Models\Interfaces\Class1.cs" />
+    <Compile Include="Models\Services\Class1.cs" />
+    <Compile Include="Models\ViewModels\Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,7 +220,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\layoutStyle1.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Files\Images\otter.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -162,6 +241,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\layoutScript1.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -177,10 +257,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_TataLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
