@@ -21,7 +21,7 @@ namespace TataGamedom.Models.Infra
 			}
 		}
 
-		public static string GetSalt() //找到鹽巴鹹鹹的
+		public static string GetSalt()
 		{
 			return System.Configuration.ConfigurationManager.AppSettings["Salt"];
 		}
