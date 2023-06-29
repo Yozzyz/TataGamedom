@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using TataGamedom.Models.Dtos.Games;
@@ -36,18 +37,22 @@ namespace TataGamedom.Models.Services
 		public GameEditVM GetGameById(int id)
 		{
 			var game = _repo.GetGameById(id);
-			if (game == null) { return null; }
-			var test = new GameEditDto
+			if (game != null)
 			{
-				Id = game.Id,
-				ChiName = game.ChiName,
-				EngName = game.EngName,
-				Description = game.Description,
-				IsRestrict = game.IsRestrict,
-				ModifiedTime = game.ModifiedTime,
-				ModifiedBackendMemberId = 1,//之後要改
-			};
-			return test.ToViewModel();
+				if (!string.IsNullOrEmpty(game.SelectedGameClassificationString))
+				{
+					game.SelectedGameClassification = game.SelectedGameClassificationString
+					?.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+					.Select(int.Parse)
+					.ToList();
+				}
+				else
+				{
+					game.SelectedGameClassification = new List<int>();
+				}
+			}
+			else { return null; }
+			return game;
 		}
 
 		public Result UpdateGame(GameEditVM vm)
@@ -110,7 +115,7 @@ namespace TataGamedom.Models.Services
 			//找到的話取得該遊戲ID
 			//代入該遊戲資訊新增一筆Board
 			var result = _repo.GetGameByName2(name);
-			if(result == null)
+			if (result == null)
 			{
 				return Result.Fail("討論版新增失敗");
 			}
@@ -140,6 +145,13 @@ namespace TataGamedom.Models.Services
 					return Result.Fail("遊戲類別新增失敗");
 				}
 			}
+			return Result.Success();
+		}
+
+		public Result UpdateClassification(GameEditVM vm)
+		{
+			//將該遊戲已存在的類別全部刪除
+			//直接把新取得的遊戲類別值新增到TABLE中
 			return Result.Success();
 		}
 	}
