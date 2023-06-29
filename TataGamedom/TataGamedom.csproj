@@ -141,6 +141,7 @@
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Files\Mails\Class1.cs" />
     <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Global.asax.cs">
@@ -237,6 +238,9 @@
     <Compile Include="Models\ViewModels\Games\GameEditVM.cs" />
     <Compile Include="Models\ViewModels\Games\GameIndexVM.cs" />
     <Compile Include="Models\ViewModels\LoginVM.cs" />
+    <Compile Include="Models\ViewModels\News\NewsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\News\NewsEditVM.cs" />
+    <Compile Include="Models\ViewModels\News\NewsIndexVM.cs" />
     <Compile Include="Models\ViewModels\RegisterVM.cs" />
     <Compile Include="Models\ViewModels\ResetPasswordVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -318,6 +322,11 @@
     <Content Include="Views\Members\ResetPassword.cshtml" />
     <Content Include="Views\Members\Index.cshtml" />
     <Content Include="Views\Shared\_7tataLayout.cshtml" />
+    <Content Include="Views\Members\MembersList.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\News\Delete.cshtml" />
     <Content Include="Views\Games\Create.cshtml" />
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\EditGameCover.cshtml" />

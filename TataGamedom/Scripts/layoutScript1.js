@@ -35,3 +35,17 @@ function updateDateTime() {
 
 updateDateTime();
 setInterval(updateDateTime, 1000);
+
+
+//tiny edit
+tinymce.init({
+	selector: 'textarea',
+	plugins: '',
+	toolbar: 'blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | checklist numlist bullist indent outdent |',
+	tinycomments_mode: 'embedded',
+	tinycomments_author: 'Author name',
+	mergetags_list: [
+		{ value: 'First.Name', title: 'First Name' },
+		{ value: 'Email', title: 'Email' },
+	]
+});
