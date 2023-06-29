@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TataGamedom.Models.Dtos.Games;
 using TataGamedom.Models.EFModels;
+using TataGamedom.Models.ViewModels.Games;
 
 namespace TataGamedom.Models.Interfaces
 {
@@ -12,7 +13,7 @@ namespace TataGamedom.Models.Interfaces
 	{
 		IEnumerable<GameIndexDto> Search();
 
-		Game GetGameById(int id);
+		GameEditVM GetGameById(int id);
 
 		bool UpddateGame(GameEditDto dto);
 
@@ -24,6 +25,12 @@ namespace TataGamedom.Models.Interfaces
 		GameEditCoverImgDto GetGameById2(int id);
 
 		bool EditGameCover(GameEditCoverImgDto dto);
+
+		Game GetGameByName2(string name);
+
+		bool CreateBoard(Game game);
+
+		bool CreateClassification(Game game, int gameClassificationId);
 
 	}
 }
