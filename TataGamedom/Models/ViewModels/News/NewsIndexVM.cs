@@ -51,7 +51,7 @@ namespace TataGamedom.Models.ViewModels.News
 		{
 			get
 			{
-				return ActiveFlag == true ? "上線" : "隱藏";
+				return ActiveFlag == true ? "公開" : "已隱藏";
 			}
 		}
 
@@ -59,7 +59,7 @@ namespace TataGamedom.Models.ViewModels.News
 
 		public int? DeleteBackendMemberId { get; set; }
 		public BackendMember BackendMember { get; set; }
-		[Display(Name = "新增人員")]
+		[Display(Name = "編輯人員")]
 		public string BackendMemberName { get; set; }
 
 		[Display(Name = "遊戲分類")]
