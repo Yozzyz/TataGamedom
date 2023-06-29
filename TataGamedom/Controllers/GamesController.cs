@@ -29,7 +29,7 @@ namespace TataGamedom.Controllers
 		}
 		public ActionResult Create()
 		{
-			List<GameClassificationsCode> gameClassifications = GetGameClassifications();
+			var gameClassifications = GetGameClassifications();
 			GameCreateVM model = new GameCreateVM
 			{
 				GameClassification = gameClassifications
@@ -72,12 +72,31 @@ namespace TataGamedom.Controllers
 				Result createResult = CreateGame(vm);
 				if (createResult.IsSuccess)
 				{
+					//新增遊戲類別
+					CreateGameClassification(vm);
+					//新增遊戲討論版
+					CreateGameBoard(vm);
+
 					return RedirectToAction("Index");
 				}
 				ModelState.AddModelError(string.Empty, createResult.ErrorMessage);
 				return View(vm);
 			}
 			return View(vm);
+		}
+
+		private void CreateGameBoard(GameCreateVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			service.CreateBoard(vm.ChiName);
+		}
+
+		private void CreateGameClassification(GameCreateVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			service.CreateClassification(vm);
 		}
 
 		private Result CreateGame(GameCreateVM vm)
@@ -103,10 +122,25 @@ namespace TataGamedom.Controllers
 
 		public ActionResult Edit(int id)
 		{
+			var gameClassifications = GetGameClassifications();
 			IGameRepository repo = new GameDapperRepository();
 			GameService service = new GameService(repo);
 			var game = service.GetGameById(id);
-			return View(game);
+
+			GameEditVM model = new GameEditVM
+			{
+				GameClassification = gameClassifications,
+				//Game = game,
+				Id = game.Id,
+				ChiName = game.ChiName,
+				EngName = game.EngName,
+				Description = game.Description,
+				IsRestrict = game.IsRestrict,
+				ModifiedTime = game.ModifiedTime,
+				ModifiedBackendMemberName = game.ModifiedBackendMemberName,
+				ModifiedBackendMemberId = 1
+			};
+			return View(model);
 		}
 		[HttpPost]
 		public ActionResult Edit(GameEditVM vm)

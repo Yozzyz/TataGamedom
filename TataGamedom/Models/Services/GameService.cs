@@ -5,6 +5,7 @@ using System.Web;
 using TataGamedom.Models.Dtos.Games;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Infra;
+using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.ViewModels.Games;
 
@@ -44,7 +45,7 @@ namespace TataGamedom.Models.Services
 				Description = game.Description,
 				IsRestrict = game.IsRestrict,
 				ModifiedTime = game.ModifiedTime,
-				ModifiedBackendMemberId = 1 //之後要改
+				ModifiedBackendMemberId = 1,//之後要改
 			};
 			return test.ToViewModel();
 		}
@@ -99,6 +100,45 @@ namespace TataGamedom.Models.Services
 			if (!editCoverResult)
 			{
 				return Result.Fail("遊戲封面更新失敗！");
+			}
+			return Result.Success();
+		}
+
+		public Result CreateBoard(string name)
+		{
+			//用VM.chiname去搜尋遊戲
+			//找到的話取得該遊戲ID
+			//代入該遊戲資訊新增一筆Board
+			var result = _repo.GetGameByName2(name);
+			if(result == null)
+			{
+				return Result.Fail("討論版新增失敗");
+			}
+			var createBoard = _repo.CreateBoard(result);
+			if (!createBoard)
+			{
+				return Result.Fail("討論版新增失敗");
+			}
+			return Result.Success();
+		}
+
+		public Result CreateClassification(GameCreateVM vm)
+		{
+			//用VM.chiname去搜尋遊戲
+			//找到的話取得該遊戲ID
+			//代入該遊戲資訊新增1/2筆資料至[GameClassificationGames]TABLE中
+			var result = _repo.GetGameByName2(vm.ChiName);
+			if (result == null)
+			{
+				return Result.Fail("遊戲類別新增失敗");
+			}
+			foreach (var classificationId in vm.SelectedGameClassification)
+			{
+				var createClassification = _repo.CreateClassification(result, classificationId);
+				if (!createClassification)
+				{
+					return Result.Fail("遊戲類別新增失敗");
+				}
 			}
 			return Result.Success();
 		}

@@ -7,6 +7,7 @@ using TataGamedom.Models.Dtos.Games;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Interfaces;
 using Dapper;
+using TataGamedom.Models.ViewModels.Games;
 
 namespace TataGamedom.Models.Infra.DapperRepositories
 {
@@ -41,7 +42,7 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 			}
 		}
 
-		public Game GetGameById(int id)
+		public GameEditVM GetGameById(int id)
 		{
 			using (var conn = new SqlConnection(_connStr))
 			{
@@ -58,7 +59,7 @@ LEFT JOIN BackendMembers AS BM ON BM.Id = G.ModifiedBackendMemberId
 WHERE G.Id = @Id
 GROUP BY G.Id, G.ChiName,G.EngName,G.Description, G.IsRestrict, G.ModifiedTime, BM.Name
 ";
-				return conn.QueryFirstOrDefault<Game>(sql, new { Id = id });
+				return conn.QueryFirstOrDefault<GameEditVM>(sql, new { Id = id });
 			}
 		}
 
@@ -111,6 +112,35 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 			{
 				string sql = @"UPDATE Games SET GameCoverImg = @GameCoverImg,ModifiedTime=@ModifiedTime, ModifiedBackendMemberId=@ModifiedBackendMemberId  WHERE Id = @Id";
 				var rowAffected = conn.Execute(sql, dto);
+				return rowAffected > 0;
+			}
+		}
+
+		public Game GetGameByName2(string name)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"SELECT * FROM Games WHERE ChiName=@ChiName";
+				return conn.QueryFirstOrDefault<Game>(sql, new { ChiName = name });
+			}
+		}
+
+		public bool CreateBoard(Game game)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"INSERT INTO Boards(Name , GameId, BoardHeaderCoverImg) VALUES(@Name , @GameId, @BoardHeaderCoverImg);";
+				var rowAffected = conn.Execute(sql, new { Name = game.ChiName, GameId = game.Id, BoardHeaderCoverImg = game.GameCoverImg });
+				return rowAffected > 0;
+			}
+		}
+
+		public bool CreateClassification(Game game, int selectedGameClassification)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"INSERT INTO GameClassificationGames(GameId, GameClassificationId) VALUES(@GameId, @GameClassificationId);";
+				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
 				return rowAffected > 0;
 			}
 		}
