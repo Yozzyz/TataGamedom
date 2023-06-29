@@ -1,0 +1,13 @@
+﻿
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>
+	歡迎回來~~@Html.Raw(User.Identity.Name)
+</h2>
+<hr />
+<a href="/BackendMembers/EditProfile/">修改個人基本資料</a>
+<br />
+<a href="/BackendMembers/EditPassword/">修改密碼</a>
+

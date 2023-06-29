@@ -1,0 +1,341 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  color: #444246;
+  background-color: whitesmoke;
+}
+
+ul,
+li,
+span {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.title{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 10px;
+  top: 0;
+  text-align: center;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);  
+  min-width: 100px;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 0.8em;
+  margin-top: 5px;
+}
+
+.title:before {
+  background: linear-gradient(to right, goldenrod ,#3ed8b5  );
+  height: 2px;
+  display: block;
+  content: '';
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+  border-radius: 2px;
+}
+
+#title{
+  color: 444246;
+  font-size: large;
+  margin: 0;
+  padding: 0;
+}
+
+
+#user-nav a {
+  text-decoration: none;
+  color: goldenrod;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 650;
+  }
+  
+  
+  #user-nav {
+  display: flex;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  border-radius: 10px;
+  font-size: 0.8em;
+  backdrop-filter: blur(5px);
+  }
+  
+  .time{
+  margin-left:15px;
+  }
+  
+  #user-nav .user li {
+  padding: 0;
+  margin: 0;
+  }
+  
+  #user-nav .user {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 135px;
+  }
+
+#user-nav .user > ul {
+  display: block;
+  height: 100%;
+  cursor: pointer;
+}
+
+#user-nav .user > ul > li {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#user-nav .user > ul > li > a {
+  display: block;
+}
+
+#user-nav .user ul ul {
+  display: none;
+  position: fixed;
+  top: 50px;
+  right: 10px;
+  border-radius: 5px;
+}
+
+#user-nav > .user > ul li:hover ul li {
+  display: block;
+  padding: 15px;
+}
+
+#user-nav > .user > ul li:hover ul {
+  display: block;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
+}
+
+#user-nav > .user > ul > li > ul > li:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#user-nav > .user > ul > li > ul > li:hover > a {
+  color: #3ed8b5;
+}
+
+#side-nav {
+  width: 216px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease-out;
+  -webkit-animation: animate-width 1.2s 1 ease-in-out;
+  animation: animate-width 1.2s 1 ease-in-out;
+  border-radius: 30px;
+  position: fixed;
+  top: 75px;
+  left: 10px;
+  z-index: 2;
+}
+
+#side-nav a {
+  text-decoration: none;
+  color: goldenrod;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 650;
+}
+
+#side-nav.width {
+  width: 48px;
+}
+
+#side-nav.width ul .selected ul {
+  position: absolute;
+  right: -8rem;
+  width: 8rem;
+  top: 0;
+  display: none;
+  left: auto;
+  -webkit-animation: none;
+  animation: none;
+}
+
+#side-nav.width ul .selected:hover ul {
+  display: block;
+}
+
+#side-nav ul {
+  padding: 0;
+}
+
+#side-nav > ul > li {
+  display: block;
+  min-height: 48px;
+  font-weight: 500;
+  font-size: 0.76em;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#side-nav > ul > li:hover,
+#side-nav > ul > li.selected {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+#side-nav > ul > li:hover > a {
+  color: #3ed8b5;
+  transition: color 0.2s;
+}
+
+#side-nav > ul > li:hover ul {
+  display: block;
+}
+
+#side-nav > ul > li.selected ul {
+  display: block;
+  left: 0;
+  position: relative;
+  width: 100%;
+  top: 0;
+  overflow: hidden;
+  animation: animate-height 1s 1 ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+#side-nav > ul > li .fa {
+  font-size: 1.1rem;
+  padding: 14px;
+}
+
+#side-nav > ul > li a {
+  height: inherit;
+  display: block;
+}
+
+#side-nav > ul > li span {
+  position: absolute;
+  right: 0;
+  height: inherit;
+  padding: 14px 0 0 0;
+  left: 48px;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+#side-nav ul li ul {
+  position: absolute;
+  right: -8rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  width: 8rem;
+  top: 0;
+  display: none;
+}
+
+#side-nav ul li ul li a {
+  display: block;
+  padding: 1em;
+}
+
+#side-nav ul li ul li:hover{
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#side-nav ul li ul li a:hover {
+  color: #3ed8b5;
+  transition: color 0.2s;
+}
+
+#logo {
+  height: 48px;
+  background: transparent;
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+#logo:before {
+  background: linear-gradient(to right, goldenrod 0%, #3ed8b5 100%);
+  height: 1px;
+  display: block;
+  content: '';
+  width: 100%;
+  bottom: 0;
+  position: absolute;
+}
+
+#logo .otterlogo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+#toggle {
+  width: 48px;
+  height: 48px;
+  display: block;
+  padding: 16px;
+  cursor: pointer;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  position: relative;
+}
+
+#toggle .fa{
+  color: gray;
+}
+
+#toggle:hover .fa {
+  color: #3ed8b5;
+  position: absolute;
+}
+
+.container{
+margin-right: 10%;
+margin-left: 10%;
+margin-top: 80px;
+margin-bottom: 5%;
+}
+
+@keyframes animate-height {
+  0%,
+  50% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .time{
+    display: none;
+  }
+}

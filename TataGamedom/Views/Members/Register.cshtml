@@ -1,0 +1,101 @@
+﻿@model TataGamedom.Models.ViewModels.RegisterVM
+
+@{
+	ViewBag.Title = "Register";
+}
+
+<h2>註冊會員</h2>
+
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="row">
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="mt-3">
+			@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+
+			@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+
+			@Html.EditorFor(model => model.Account, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Account, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.CreatePassword, htmlAttributes: new { @class = "control-label col-md-2" })
+
+			@Html.EditorFor(model => model.CreatePassword, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.CreatePassword, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+
+			@Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+			@Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+
+			@Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+		</div>
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+
+			@Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+		</div>
+
+		@*<div class="mt-3">
+				@Html.LabelFor(model => model.RegistrationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.RegistrationDate, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.RegistrationDate, "", new { @class = "text-danger" })
+				</div>
+			</div>*@
+
+		<div class="mt-3">
+			@Html.LabelFor(model => model.IconImg, htmlAttributes: new { @class = "control-label col-md-2" })
+			@Html.EditorFor(model => model.IconImg, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.IconImg, "", new { @class = "text-danger" })
+		</div>
+
+		<div class="mt-3">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="註冊" class="btn btn-primary" />
+			</div>
+		</div>
+	</div>
+}
+
+@*<div>
+		@Html.ActionLink("Back to List", "Index")
+	</div>*@
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
+
+

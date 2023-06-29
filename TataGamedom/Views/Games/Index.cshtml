@@ -1,0 +1,89 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.Games.GameIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>遊戲管理列表</h2>
+<div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-secondary">
+            @Html.ActionLink("新增遊戲", "Create")
+        </button>
+    </div>
+</div>
+
+<br />
+<div class="text-center">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChiName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Classification)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRestrict)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+            <th>編輯</th>
+            <th>編輯封面</th>
+            <th>評論管理</th>
+            <th>新增商品</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChiName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classification)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsRestrict)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
+                </td>
+                <td>
+                    @item.CreatedTime.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.Id })" class="icon-link">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("EditGameCover", new { id = item.Id })" class="icon-link">
+                        <i class="fa-regular fa-image"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("Comment", new { id = item.Id })" class="icon-link">
+                        <i class="fa-regular fa-comments"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("AddProduct", new { id = item.Id })" class="icon-link">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

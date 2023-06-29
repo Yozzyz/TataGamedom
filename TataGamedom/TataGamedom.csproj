@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -45,10 +46,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.143\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -118,12 +130,115 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
+    <Compile Include="App_Start\BundleConfig3.cs" />
+    <Compile Include="App_Start\BundleConfig4.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BackendMembersController.cs" />
+    <Compile Include="Controllers\BackendMembersListController.cs" />
+    <Compile Include="Controllers\BackendMembersListController1.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Files\Mails\Class1.cs" />
+    <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\Class1.cs" />
+    <Compile Include="Models\Dtos\EditProfileDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameEditDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameIndexDto.cs" />
+    <Compile Include="Models\Dtos\LoginDto.cs" />
+    <Compile Include="Models\Dtos\RegisterDto.cs" />
+    <Compile Include="Models\EFModels\Announcement.cs" />
+    <Compile Include="Models\EFModels\AppDbContext.cs" />
+    <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
+    <Compile Include="Models\EFModels\BackendMember.cs" />
+    <Compile Include="Models\EFModels\BackendMembersPermissionsCode.cs" />
+    <Compile Include="Models\EFModels\BackendMembersRolePermission.cs" />
+    <Compile Include="Models\EFModels\BackendMembersRolesCode.cs" />
+    <Compile Include="Models\EFModels\Board.cs" />
+    <Compile Include="Models\EFModels\BoardsModerator.cs" />
+    <Compile Include="Models\EFModels\BoardsModeratorsApplication.cs" />
+    <Compile Include="Models\EFModels\BucketLog.cs" />
+    <Compile Include="Models\EFModels\Cart.cs" />
+    <Compile Include="Models\EFModels\Coupon.cs" />
+    <Compile Include="Models\EFModels\CouponsProduct.cs" />
+    <Compile Include="Models\EFModels\DiscountTypeCode.cs" />
+    <Compile Include="Models\EFModels\FAQ.cs" />
+    <Compile Include="Models\EFModels\Game.cs" />
+    <Compile Include="Models\EFModels\GameClassificationGame.cs" />
+    <Compile Include="Models\EFModels\GameClassificationsCode.cs" />
+    <Compile Include="Models\EFModels\GameComment.cs" />
+    <Compile Include="Models\EFModels\GamePlatformsCode.cs" />
+    <Compile Include="Models\EFModels\InventoryItem.cs" />
+    <Compile Include="Models\EFModels\Issue.cs" />
+    <Compile Include="Models\EFModels\IssueStatusCode.cs" />
+    <Compile Include="Models\EFModels\IssueTypesCode.cs" />
+    <Compile Include="Models\EFModels\Member.cs" />
+    <Compile Include="Models\EFModels\MemberProductView.cs" />
+    <Compile Include="Models\EFModels\MembersBoard.cs" />
+    <Compile Include="Models\EFModels\News.cs" />
+    <Compile Include="Models\EFModels\NewsCategoryCode.cs" />
+    <Compile Include="Models\EFModels\NewsComment.cs" />
+    <Compile Include="Models\EFModels\Newsletter.cs" />
+    <Compile Include="Models\EFModels\NewsletterLog.cs" />
+    <Compile Include="Models\EFModels\NewsLike.cs" />
+    <Compile Include="Models\EFModels\NewsView.cs" />
+    <Compile Include="Models\EFModels\Order.cs" />
+    <Compile Include="Models\EFModels\OrderItem.cs" />
+    <Compile Include="Models\EFModels\OrderItemReturn.cs" />
+    <Compile Include="Models\EFModels\OrderItemsCoupon.cs" />
+    <Compile Include="Models\EFModels\OrderStatusCode.cs" />
+    <Compile Include="Models\EFModels\PaymentStatusCode.cs" />
+    <Compile Include="Models\EFModels\Post.cs" />
+    <Compile Include="Models\EFModels\PostComment.cs" />
+    <Compile Include="Models\EFModels\PostCommentReport.cs" />
+    <Compile Include="Models\EFModels\PostCommentUpDownVote.cs" />
+    <Compile Include="Models\EFModels\PostEditLog.cs" />
+    <Compile Include="Models\EFModels\PostReport.cs" />
+    <Compile Include="Models\EFModels\PostUpDownVote.cs" />
+    <Compile Include="Models\EFModels\Product.cs" />
+    <Compile Include="Models\EFModels\ProductImage.cs" />
+    <Compile Include="Models\EFModels\ProductStatusCode.cs" />
+    <Compile Include="Models\EFModels\Reply.cs" />
+    <Compile Include="Models\EFModels\ShipmemtMethod.cs" />
+    <Compile Include="Models\EFModels\ShipmentStatusesCode.cs" />
+    <Compile Include="Models\EFModels\StockInSheet.cs" />
+    <Compile Include="Models\EFModels\StockInStatusCode.cs" />
+    <Compile Include="Models\EFModels\Supplier.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\Class1.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
+    <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Infra\Result.cs" />
+    <Compile Include="Models\Infra\UploadFileHelper.cs" />
+    <Compile Include="Models\Interfaces\Class1.cs" />
+    <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
+    <Compile Include="Models\Interfaces\IGameRepository.cs" />
+    <Compile Include="Models\Interfaces\IMemberRepository.cs" />
+    <Compile Include="Models\Services\BackendMemberService.cs" />
+    <Compile Include="Models\Services\Class1.cs" />
+    <Compile Include="Models\Services\GameService.cs" />
+    <Compile Include="Models\Services\MemberService.cs" />
+    <Compile Include="Models\ViewModels\Class1.cs" />
+    <Compile Include="Models\ViewModels\EditPasswordVM.cs" />
+    <Compile Include="Models\ViewModels\EditProfileVM.cs" />
+    <Compile Include="Models\ViewModels\ForgetPasswordVM.cs" />
+    <Compile Include="Models\ViewModels\Games\GameCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Games\GameEditCoverImgVM.cs" />
+    <Compile Include="Models\ViewModels\Games\GameEditVM.cs" />
+    <Compile Include="Models\ViewModels\Games\GameIndexVM.cs" />
+    <Compile Include="Models\ViewModels\LoginVM.cs" />
+    <Compile Include="Models\ViewModels\RegisterVM.cs" />
+    <Compile Include="Models\ViewModels\ResetPasswordVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -143,7 +258,10 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\layoutStyle1.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Files\Images\otter.png" />
+    <Content Include="Files\Mails\77_gmail.com 20230628_174620.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -162,6 +280,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\layoutScript1.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -177,10 +296,36 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_TataLayout.cshtml" />
+    <Content Include="Views\BackendMembers\Index.cshtml" />
+    <Content Include="Views\BackendMembers\Login.cshtml" />
+    <Content Include="Views\BackendMembers\EditProfile.cshtml" />
+    <Content Include="Views\BackendMembers\EditPassword.cshtml" />
+    <Content Include="Views\BackendMembersList\Create.cshtml" />
+    <Content Include="Views\BackendMembersList\Delete.cshtml" />
+    <Content Include="Views\BackendMembersList\Details.cshtml" />
+    <Content Include="Views\BackendMembersList\Edit.cshtml" />
+    <Content Include="Views\BackendMembersList\Index.cshtml" />
+    <Content Include="Views\Members\ActiveRegister.cshtml" />
+    <Content Include="Views\Members\ConfirmForgetPassword.cshtml" />
+    <Content Include="Views\Members\ConfirmRegister.cshtml" />
+    <Content Include="Views\Members\ConfirmResetPassword.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\Login.cshtml" />
+    <Content Include="Views\Members\EditProfile.cshtml" />
+    <Content Include="Views\Members\EditPassword.cshtml" />
+    <Content Include="Views\Members\ForgetPassword.cshtml" />
+    <Content Include="Views\Members\ResetPassword.cshtml" />
+    <Content Include="Views\Members\Index.cshtml" />
+    <Content Include="Views\Shared\_7tataLayout.cshtml" />
+    <Content Include="Views\Games\Create.cshtml" />
+    <Content Include="Views\Games\Edit.cshtml" />
+    <Content Include="Views\Games\EditGameCover.cshtml" />
+    <Content Include="Views\Games\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -242,7 +387,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
