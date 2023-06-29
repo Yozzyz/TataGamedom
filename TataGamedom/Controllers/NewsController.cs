@@ -10,6 +10,8 @@ using Dapper;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.News;
 
+
+
 namespace TataGamedom.Controllers
 {
 	public class NewsController : Controller
@@ -29,11 +31,11 @@ namespace TataGamedom.Controllers
 			COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
 			FROM news AS n
 			JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
-			JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+			LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
 			LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
 			LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
 			GROUP BY n.Id,n.Title,n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
-			ORDER BY N.ScheduleDate DESC";
+			ORDER BY N.ActiveFlag DESC";
 
 				var gameOptions = db.GameClassificationsCodes
 	.Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name })
@@ -57,6 +59,8 @@ namespace TataGamedom.Controllers
 			ViewBag.NewsCategoryId = new SelectList(db.NewsCategoryCodes, "Id", "Name");
 			return View();
 		}
+
+
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -64,11 +68,22 @@ namespace TataGamedom.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				DateTime now = DateTime.Now;
+
+				if (newsCreateVM.ScheduleDate <= now)
+				{
+					newsCreateVM.ActiveFlag = true;
+				}
+				else
+				{
+					newsCreateVM.ActiveFlag = false;
+				}
+
 				using (var con = new SqlConnection(_connstr))
 				{
 					string sql = @"INSERT INTO News (Title, Content, BackendMemberId, NewsCategoryId, GamesId, CoverImg, ScheduleDate, ActiveFlag)
-                           VALUES (@Title, @Content, @BackendMemberId, @NewsCategoryId, @GamesId, @CoverImg, @ScheduleDate, @ActiveFlag);
-                           SELECT CAST(SCOPE_IDENTITY() AS INT)";
+		                         VALUES (@Title, @Content, @BackendMemberId, @NewsCategoryId, @GamesId, @CoverImg, @ScheduleDate, @ActiveFlag);
+		                         SELECT CAST(SCOPE_IDENTITY() AS INT)";
 
 					var id = con.Query<int>(sql, newsCreateVM).Single();
 					newsCreateVM.Id = id;
@@ -76,6 +91,11 @@ namespace TataGamedom.Controllers
 
 				return RedirectToAction("Index");
 			}
+
+			ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
+			ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
+			ViewBag.NewsCategoryId = new SelectList(db.NewsCategoryCodes, "Id", "Name");
+
 			return View(newsCreateVM);
 		}
 
@@ -94,7 +114,7 @@ namespace TataGamedom.Controllers
                    b.Name AS BackendMemberName, gc.Name AS GameClassificationName
                    FROM News AS n
                    JOIN BackendMembers AS b ON b.Id = n.BackendMemberId
-                   JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+                   LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
                    WHERE n.Id = @Id";
 
 			using (var con = new SqlConnection(_connstr))
