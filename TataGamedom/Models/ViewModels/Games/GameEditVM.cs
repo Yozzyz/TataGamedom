@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TataGamedom.Models.EFModels;
 
 namespace TataGamedom.Models.ViewModels.Games
 {
@@ -20,11 +21,12 @@ namespace TataGamedom.Models.ViewModels.Games
 		[StringLength(100)]
 		public string EngName { get; set; }
 		public string Classification { get; set; }
-		//[Display(Name = "遊戲類別（複選最多兩項）")]
-		//public List<GameClassificationsCode> GameClassification { get; set; }
+		[Display(Name = "遊戲類別（複選最多兩項）")]
+		[Required(ErrorMessage = "請選擇遊戲分類")] 
+		public List<GameClassificationsCode> GameClassification { get; set; }
 
-		//[Required]
-		//public List<int> SelectedGameClassification { get; set; }
+		[Required]
+		public List<int> SelectedGameClassification { get; set; }
 
 		[Display(Name = "遊戲介紹")]
 		[Required]
@@ -41,5 +43,7 @@ namespace TataGamedom.Models.ViewModels.Games
 
 		public int ModifiedBackendMemberId { get; set; }
 
-	}
+        public Game Game { get; set; }
+
+    }
 }
