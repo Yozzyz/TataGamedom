@@ -7,5 +7,6 @@ namespace TataGamedom.Models.Dtos
 {
 	public class Class1
 	{
+		//123
 	}
 }
