@@ -51,7 +51,7 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 				//LEFT JOIN BackendMembers AS BM ON BM.Id=G.ModifiedBackendMemberId
 				//WHERE G.Id = @Id";
 
-				string sql = @"SELECT ChiName, EngName, STRING_AGG(GCC.Name, ' , ') AS Classification,Description, G.IsRestrict AS IsRestrict,BM.Name AS ModifiedBackendMemberName, G.ModifiedTime AS ModifiedTime
+				string sql = @"SELECT ChiName, EngName, STRING_AGG(GCC.Id, ',') AS SelectedGameClassificationString,Description, G.IsRestrict AS IsRestrict,BM.Name AS ModifiedBackendMemberName, G.ModifiedTime AS ModifiedTime
 FROM Games AS G
 LEFT JOIN GameClassificationGames AS GCG ON GCG.GameId = G.Id
 LEFT JOIN GameClassificationsCodes AS GCC ON GCC.Id = GCG.GameClassificationId
@@ -140,6 +140,33 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"INSERT INTO GameClassificationGames(GameId, GameClassificationId) VALUES(@GameId, @GameClassificationId);";
+				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
+				return rowAffected > 0;
+			}
+		}
+		public bool UpdateClassification(GameEditVM game, int selectedGameClassification)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"INSERT INTO GameClassificationGames(GameId, GameClassificationId) VALUES(@GameId, @GameClassificationId);";
+				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
+				return rowAffected > 0;
+			}
+		}
+		public List<int> GetGameClassificationsByGameId(int gameId)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"SELECT GameClassificationId FROM GameClassificationGames WHERE GameId = @GameId;";
+				return conn.Query<int>(sql, new { GameId = gameId }).ToList();
+			}
+		}
+
+		public bool RemoveClassification(GameEditVM game, int selectedGameClassification)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"DELETE FROM GameClassificationGames WHERE GameId = @GameId AND GameClassificationId = @GameClassificationId;";
 				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
 				return rowAffected > 0;
 			}

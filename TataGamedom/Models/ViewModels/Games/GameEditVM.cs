@@ -20,12 +20,12 @@ namespace TataGamedom.Models.ViewModels.Games
 		[Required]
 		[StringLength(100)]
 		public string EngName { get; set; }
-		public string Classification { get; set; }
-		[Display(Name = "遊戲類別（複選最多兩項）")]
-		[Required(ErrorMessage = "請選擇遊戲分類")] 
+		
 		public List<GameClassificationsCode> GameClassification { get; set; }
-
-		[Required]
+		
+		public string SelectedGameClassificationString { get; set; }
+		[Display(Name = "遊戲類別（複選最多兩項）")]
+		[Required(ErrorMessage = "請選擇遊戲分類")]
 		public List<int> SelectedGameClassification { get; set; }
 
 		[Display(Name = "遊戲介紹")]
