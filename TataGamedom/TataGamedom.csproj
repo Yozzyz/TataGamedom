@@ -147,13 +147,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\Class1.cs" />
-    <Compile Include="Models\Dtos\EditProfileDto.cs" />
+    <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
     <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
     <Compile Include="Models\Dtos\Games\GameEditDto.cs" />
     <Compile Include="Models\Dtos\Games\GameIndexDto.cs" />
-    <Compile Include="Models\Dtos\LoginDto.cs" />
-    <Compile Include="Models\Dtos\RegisterDto.cs" />
+    <Compile Include="Models\Dtos\Members\LoginDto.cs" />
+    <Compile Include="Models\Dtos\Members\RegisterDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
@@ -330,6 +330,7 @@
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\EditGameCover.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
+    <Content Include="Views\News\Reduction.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
