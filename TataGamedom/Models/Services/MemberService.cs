@@ -56,7 +56,7 @@ namespace TataGamedom.Models.Services
 				return Result.Fail("帳密錯誤");
 			}
 
-			if (!member.IsConfirmed.HasValue || !member.IsConfirmed.Value)
+			if (member.IsConfirmed == false)
 			{
 				return Result.Fail("會員資格尚未確認");
 			}

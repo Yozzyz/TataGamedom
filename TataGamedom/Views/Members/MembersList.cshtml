@@ -1,0 +1,68 @@
+﻿@model IEnumerable<TataGamedom.Models.EFModels.Member>
+
+@{
+    ViewBag.Title = "MembersList";
+}
+
+<h2>會員列表</h2>
+
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Name)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Account)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Birthday)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Email)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Phone)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.RegistrationDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ActiveFlag)
+		</th>
+		<th>
+			會員狀態編輯
+		</th>
+
+	</tr>
+
+@foreach (var item in Model) {
+	<tr>
+		<td>
+			@Html.DisplayFor(modelItem => item.Name)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Account)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Birthday)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Email)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Phone)
+		</td>
+		<th>
+			@Html.DisplayFor(modelItem => item.RegistrationDate)
+		</th>
+		<td>
+			@Html.DisplayFor(modelItem => item.ActiveFlag)
+		</td>
+		<td>
+			@Html.ActionLink("停權會員", "Delete", new { id = item.Id }, new { @class = "btn btn-primary" } )
+		</td>
+	</tr>
+}
+
+</table>
