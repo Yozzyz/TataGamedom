@@ -57,16 +57,61 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.9\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.9\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.9\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -79,8 +124,6 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
@@ -135,8 +178,11 @@
     <Compile Include="App_Start\BundleConfig4.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BackendMembersController.cs" />
     <Compile Include="Controllers\BackendMembersListController.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
+    <Compile Include="Controllers\BoardsApiController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -146,6 +192,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
     <Compile Include="Models\Dtos\Class1.cs" />
     <Compile Include="Models\Dtos\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
@@ -225,6 +272,7 @@
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Services\BackendMemberService.cs" />
+    <Compile Include="Models\Services\BoardService.cs" />
     <Compile Include="Models\Services\Class1.cs" />
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
@@ -267,12 +315,54 @@
     <Content Include="Files\Mails\77_gmail.com 20230628_174620.txt" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap.min.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap4.css" />
+    <Content Include="lib\datatables\css\dataTables.bootstrap4.min.css" />
+    <Content Include="lib\datatables\css\dataTables.foundation.css" />
+    <Content Include="lib\datatables\css\dataTables.foundation.min.css" />
+    <Content Include="lib\datatables\css\dataTables.jqueryui.css" />
+    <Content Include="lib\datatables\css\dataTables.jqueryui.min.css" />
+    <Content Include="lib\datatables\css\dataTables.material.css" />
+    <Content Include="lib\datatables\css\dataTables.material.min.css" />
+    <Content Include="lib\datatables\css\dataTables.semanticui.css" />
+    <Content Include="lib\datatables\css\dataTables.semanticui.min.css" />
+    <Content Include="lib\datatables\css\dataTables.uikit.css" />
+    <Content Include="lib\datatables\css\dataTables.uikit.min.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables.min.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables_themeroller.css" />
+    <Content Include="lib\datatables\css\jquery.dataTables_themeroller.min.css" />
+    <Content Include="lib\datatables\images\sort_asc.png" />
+    <Content Include="lib\datatables\images\sort_asc_disabled.png" />
+    <Content Include="lib\datatables\images\sort_both.png" />
+    <Content Include="lib\datatables\images\sort_desc.png" />
+    <Content Include="lib\datatables\images\sort_desc_disabled.png" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap.js" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap.min.js" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap4.js" />
+    <Content Include="lib\datatables\js\dataTables.bootstrap4.min.js" />
+    <Content Include="lib\datatables\js\dataTables.dataTables.js" />
+    <Content Include="lib\datatables\js\dataTables.dataTables.min.js" />
+    <Content Include="lib\datatables\js\dataTables.foundation.js" />
+    <Content Include="lib\datatables\js\dataTables.foundation.min.js" />
+    <Content Include="lib\datatables\js\dataTables.jqueryui.js" />
+    <Content Include="lib\datatables\js\dataTables.jqueryui.min.js" />
+    <Content Include="lib\datatables\js\dataTables.material.js" />
+    <Content Include="lib\datatables\js\dataTables.material.min.js" />
+    <Content Include="lib\datatables\js\dataTables.semanticui.js" />
+    <Content Include="lib\datatables\js\dataTables.semanticui.min.js" />
+    <Content Include="lib\datatables\js\dataTables.uikit.js" />
+    <Content Include="lib\datatables\js\dataTables.uikit.min.js" />
+    <Content Include="lib\datatables\js\jquery.dataTables.js" />
+    <Content Include="lib\datatables\js\jquery.dataTables.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -330,10 +420,12 @@
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\EditGameCover.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
+    <Content Include="Views\Board\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
