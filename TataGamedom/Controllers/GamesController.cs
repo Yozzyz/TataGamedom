@@ -126,11 +126,10 @@ namespace TataGamedom.Controllers
 			IGameRepository repo = new GameDapperRepository();
 			GameService service = new GameService(repo);
 			var game = service.GetGameById(id);
-
 			GameEditVM model = new GameEditVM
 			{
 				GameClassification = gameClassifications,
-				//Game = game,
+				SelectedGameClassification = game.SelectedGameClassification,
 				Id = game.Id,
 				ChiName = game.ChiName,
 				EngName = game.EngName,
@@ -138,24 +137,44 @@ namespace TataGamedom.Controllers
 				IsRestrict = game.IsRestrict,
 				ModifiedTime = game.ModifiedTime,
 				ModifiedBackendMemberName = game.ModifiedBackendMemberName,
-				ModifiedBackendMemberId = 1
+				//ModifiedBackendMemberId = game.ModifiedBackendMemberId
 			};
 			return View(model);
 		}
 		[HttpPost]
 		public ActionResult Edit(GameEditVM vm)
 		{
-			if (!ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
-				return View();
+				List<int> selectedGameClassifications = vm.SelectedGameClassification;
+				if (selectedGameClassifications.Count > 2)
+				{
+					ModelState.AddModelError("SelectedGameClassification", "最多只能選擇兩個遊戲分類！");
+					List<GameClassificationsCode> gameClassifications = GetGameClassifications();
+					GameEditVM model = new GameEditVM
+					{
+						GameClassification = gameClassifications
+					};
+					return View(model);
+				}
+				Result editResult = UpdateGames(vm);
+				if (editResult.IsSuccess)
+				{
+					//更新遊戲類別
+					UpdateGameClassification(vm);
+					return RedirectToAction("Index");
+				}
+				ModelState.AddModelError(string.Empty, editResult.ErrorMessage);
+				return View(vm);
 			}
-			Result updateResult = UpdateGames(vm);
-			if (updateResult.IsSuccess)
-			{
-				return RedirectToAction("Index");
-			}
-			ModelState.AddModelError(string.Empty, updateResult.ErrorMessage);
 			return View(vm);
+		}
+
+		private void UpdateGameClassification(GameEditVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			service.UpdateClassification(vm);
 		}
 
 		private Result UpdateGames(GameEditVM vm)
