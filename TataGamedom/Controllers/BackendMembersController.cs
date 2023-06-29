@@ -94,12 +94,12 @@ namespace TataGamedom.Controllers
 		{
 			var currentUserAccount = User.Identity.Name;
 
-			var model = GetMemberProfile(currentUserAccount);
+			var model = GetBackendMemberProfile(currentUserAccount);
 
 			return View(model);
 		}
 
-		private EditProfileVM GetMemberProfile(string account)
+		private EditProfileVM GetBackendMemberProfile(string account)
 		{
 			IBackendMemberRepositiry repo = new BackendMemberDapperRepository();
 			BackendMemberService service = new BackendMemberService(repo);
@@ -126,7 +126,7 @@ namespace TataGamedom.Controllers
 			var db = new AppDbContext();
 
 			var currentUserAccount = User.Identity.Name;
-			var memberInDb = db.Members.FirstOrDefault(m => m.Account == currentUserAccount);
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
 			if (memberInDb == null) return Result.Fail("找不到要修改的會員記錄");
 
 			// 更新記錄
@@ -148,7 +148,6 @@ namespace TataGamedom.Controllers
 		[Authorize]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
 		public ActionResult EditPassword(EditPasswordVM vm)
 		{
 			if (ModelState.IsValid == false) return View(vm);

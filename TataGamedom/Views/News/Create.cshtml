@@ -11,40 +11,40 @@
 {
 	@Html.AntiForgeryToken()
 
-	<div class="row">
-		<hr />
-		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-		<div class="mt-3">
-			@Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+<div class="row">
+	<hr />
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+	<div class="mt-3">
+		@Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
 
-			@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+		@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
 
-		</div>
+	</div>
 
-		<div class="mt-3">
-			@Html.LabelFor(model => model.GamesId, htmlAttributes: new { @class = "control-label col-md-2" })
+	<div class="mt-3">
+		@Html.LabelFor(model => model.GamesId, htmlAttributes: new { @class = "control-label col-md-2" })
 
-			@Html.DropDownList("GamesId", null, "", htmlAttributes: new { @class = "form-select" })
-			@Html.ValidationMessageFor(model => model.GamesId, "", new { @class = "text-danger" })
-		</div>
+		@Html.DropDownList("GamesId", null, "", htmlAttributes: new { @class = "form-select" })
+		@Html.ValidationMessageFor(model => model.GamesId, "", new { @class = "text-danger" })
+	</div>
 
-		<div class="mt-3">
-			@Html.LabelFor(model => model.NewsCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+	<div class="mt-3">
+		@Html.LabelFor(model => model.NewsCategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
 
-			@Html.DropDownList("NewsCategoryId", null, "", htmlAttributes: new { @class = "form-select" })
-			@Html.ValidationMessageFor(model => model.NewsCategoryId, "", new { @class = "text-danger" })
+		@Html.DropDownList("NewsCategoryId", null, "", htmlAttributes: new { @class = "form-select" })
+		@Html.ValidationMessageFor(model => model.NewsCategoryId, "", new { @class = "text-danger" })
 
-		</div>
+	</div>
 
 
-		<div class="mt-3">
-			@Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+	<div class="mt-3">
+		@Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
 
-			@Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-			@Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+		@Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
+		@Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
 
-		</div>
+	</div>
 
 		<div class="mt-3">
 			@Html.LabelFor(model => model.BackendMemberId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -71,18 +71,18 @@
 
 		</div>
 
-		<div class="mt-3">
-			@Html.LabelFor(model => model.ActiveFlag, htmlAttributes: new { @class = "control-label col-md-2" })
+		@*<div class="mt-3">
+				@Html.LabelFor(model => model.ActiveFlag, htmlAttributes: new { @class = "control-label col-md-2" })
 
-			<div>
-				@Html.DropDownListFor(model => model.ActiveFlag, new SelectList(new List<SelectListItem>
-				{
-					new SelectListItem { Text = "上線", Value = "true" },
-					new SelectListItem { Text = "隱藏", Value = "false" }
-				}, "Value", "Text"), "", new { @class = "form-select" })
-				@Html.ValidationMessageFor(model => model.ActiveFlag, "", new { @class = "text-danger" })
-			</div>
-		</div>
+				<div>
+					@Html.DropDownListFor(model => model.ActiveFlag, new SelectList(new List<SelectListItem>
+					{
+						new SelectListItem { Text = "上線", Value = "true" },
+						new SelectListItem { Text = "隱藏", Value = "false" }
+					}, "Value", "Text"), "", new { @class = "form-select" })
+					@Html.ValidationMessageFor(model => model.ActiveFlag, "", new { @class = "text-danger" })
+				</div>
+			</div>*@
 		<div class="mt-3">
 			<div class="col-md-offset-2 col-md-10">
 				<input type="submit" value="新增" class="btn btn-primary" />
@@ -90,8 +90,8 @@
 			</div>
 		</div>
 	</div>
-}
+	}
 
-@section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
-}
+	@section Scripts {
+		@Scripts.Render("~/bundles/jqueryval")
+	}
