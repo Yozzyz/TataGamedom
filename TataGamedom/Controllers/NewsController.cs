@@ -37,24 +37,21 @@ namespace TataGamedom.Controllers
 			GROUP BY n.Id,n.Title,n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
 			ORDER BY N.ActiveFlag DESC";
 
-				var gameOptions = db.GameClassificationsCodes
-	.Select(g => new SelectListItem { Value = g.Id.ToString(), Text = g.Name })
-	.ToList();
-
-				// 將遊戲類別選項清單傳遞到視圖
-				ViewBag.GameOptions = gameOptions;
-
 				var news = con.Query<NewsIndexVM>(sql);
+
+				ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
 
 				return View(news);
 			}
+
 		}
+
+
 
 		public ActionResult Create()
 		{
 			ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
 			//ViewBag.DeleteBackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
-			// ViewBag.GamesId = new SelectList(db.Games, "Id", "ChiName");
 			ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
 			ViewBag.NewsCategoryId = new SelectList(db.NewsCategoryCodes, "Id", "Name");
 			return View();
@@ -79,17 +76,26 @@ namespace TataGamedom.Controllers
 					newsCreateVM.ActiveFlag = false;
 				}
 
-				using (var con = new SqlConnection(_connstr))
+				// 取得管理者的BackendMember ID
+				var currentUserAccount = User.Identity.Name;
+				var backendMember = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+
+				if (backendMember != null)
 				{
-					string sql = @"INSERT INTO News (Title, Content, BackendMemberId, NewsCategoryId, GamesId, CoverImg, ScheduleDate, ActiveFlag)
-		                         VALUES (@Title, @Content, @BackendMemberId, @NewsCategoryId, @GamesId, @CoverImg, @ScheduleDate, @ActiveFlag);
-		                         SELECT CAST(SCOPE_IDENTITY() AS INT)";
+					newsCreateVM.BackendMemberId = backendMember.Id;
 
-					var id = con.Query<int>(sql, newsCreateVM).Single();
-					newsCreateVM.Id = id;
+					using (var con = new SqlConnection(_connstr))
+					{
+						string sql = @"INSERT INTO News (Title, Content, BackendMemberId, NewsCategoryId, GamesId, CoverImg, ScheduleDate, ActiveFlag)
+                               VALUES (@Title, @Content, @BackendMemberId, @NewsCategoryId, @GamesId, @CoverImg, @ScheduleDate, @ActiveFlag);
+                               SELECT CAST(SCOPE_IDENTITY() AS INT)";
+
+						var id = con.Query<int>(sql, newsCreateVM).Single();
+						newsCreateVM.Id = id;
+					}
+
+					return RedirectToAction("Index");
 				}
-
-				return RedirectToAction("Index");
 			}
 
 			ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
@@ -109,7 +115,9 @@ namespace TataGamedom.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 
-			string sql = @"SELECT n.Id, n.Title, n.Content, n.BackendMemberId, n.NewsCategoryId, n.GamesId, n.CoverImg, 
+			using (var con = new SqlConnection(_connstr))
+			{
+				string sql = @"SELECT n.Id, n.Title, n.Content, n.BackendMemberId, n.NewsCategoryId, n.GamesId, n.CoverImg, 
                    n.ScheduleDate, n.ActiveFlag, n.DeleteDatetime, n.DeleteBackendMemberId,
                    b.Name AS BackendMemberName, gc.Name AS GameClassificationName
                    FROM News AS n
@@ -117,8 +125,6 @@ namespace TataGamedom.Controllers
                    LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
                    WHERE n.Id = @Id";
 
-			using (var con = new SqlConnection(_connstr))
-			{
 				var news = con.Query<NewsEditVM>(sql, new { Id = id }).SingleOrDefault();
 
 				if (news == null)
@@ -142,23 +148,32 @@ namespace TataGamedom.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				string sql = @"UPDATE News SET Title = @Title, Content = @Content, BackendMemberId = @BackendMemberId,
+
+				// 取得管理者的BackendMember ID
+				var currentUserAccount = User.Identity.Name;
+				var backendMember = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+
+				if (backendMember != null)
+				{
+					news.BackendMemberId = backendMember.Id;
+					using (var con = new SqlConnection(_connstr))
+					{
+						string sql = @"UPDATE News SET Title = @Title, Content = @Content, BackendMemberId = @BackendMemberId,
                 NewsCategoryId = @NewsCategoryId, GamesId = @GamesId, CoverImg = @CoverImg,
                 ScheduleDate = @ScheduleDate, ActiveFlag = @ActiveFlag, DeleteDatetime = @DeleteDatetime,
                 DeleteBackendMemberId = @DeleteBackendMemberId
                 WHERE Id = @Id";
 
-				using (var con = new SqlConnection(_connstr))
-				{
-					con.Execute(sql, news);
+						con.Execute(sql, news);
 
-					return RedirectToAction("Index");
+						return RedirectToAction("Index");
+					}
 				}
 			}
 
 			ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name", news.BackendMemberId);
 			ViewBag.DeleteBackendMemberId = new SelectList(db.BackendMembers, "Id", "Name", news.DeleteBackendMemberId);
-			ViewBag.GamesId = new SelectList(db.Games, "Id", "ChiName", news.GamesId);
+			//ViewBag.GamesId = new SelectList(db.Games, "Id", "ChiName", news.GamesId);
 			ViewBag.NewsCategoryId = new SelectList(db.NewsCategoryCodes, "Id", "Name", news.NewsCategoryId);
 
 			return View(news);
@@ -179,18 +194,57 @@ namespace TataGamedom.Controllers
 			return View(news);
 		}
 
-		// POST: News/Delete/5
+
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			using (var con = new SqlConnection(_connstr))
+			var currentUserAccount = User.Identity.Name;
+			var backendMember = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+
+			if (backendMember != null)
 			{
-				string sql = @"UPDATE News SET ActiveFlag = 0 WHERE Id = @Id";
+				using (var con = new SqlConnection(_connstr))
+				{
+					string sql = @"UPDATE News SET ActiveFlag = 0, DeleteDatetime = GETDATE(), DeleteBackendMemberId = @BackendMemberId WHERE Id = @Id";
 
-				con.Execute(sql, new { Id = id });
+					con.Execute(sql, new { BackendMemberId = backendMember.Id, Id = id });
+				}
 			}
+			return RedirectToAction("Index");
+		}
 
+
+		public ActionResult Reduction(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			News news = db.News.Find(id);
+			if (news == null)
+			{
+				return HttpNotFound();
+			}
+			return View(news);
+		}
+
+		[HttpPost, ActionName("Reduction")]
+		[ValidateAntiForgeryToken]
+		public ActionResult reductionConfirmed(int id)
+		{
+			var currentUserAccount = User.Identity.Name;
+			var backendMember = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+
+			if (backendMember != null)
+			{
+				using (var con = new SqlConnection(_connstr))
+				{
+					string sql = @"UPDATE News SET ActiveFlag = 1, DeleteDatetime = NULL, DeleteBackendMemberId = NULL WHERE Id = @Id";
+
+					con.Execute(sql, new { BackendMemberId = backendMember.Id, Id = id });
+				}
+			}
 			return RedirectToAction("Index");
 		}
 	}

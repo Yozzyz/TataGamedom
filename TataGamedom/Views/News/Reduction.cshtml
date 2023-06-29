@@ -1,10 +1,10 @@
 ﻿@model TataGamedom.Models.EFModels.News
 
 @{
-	ViewBag.Title = "Delete";
+	ViewBag.Title = "Reduction";
 }
 
-<h2>您是否要刪除新聞呢?</h2>
+<h2>您是否要還原新聞呢?</h2>
 
 <div>
 @using (Html.BeginForm())
@@ -12,7 +12,7 @@
 	@Html.AntiForgeryToken()
 
 	<div class="form-actions no-color">
-		<input type="submit" value="確認刪除" class="btn btn-danger mt-5" />
+		<input type="submit" value="確認還原" class="btn btn-danger mt-5" />
 		@Html.ActionLink("取消", "Index", null, new { @class = "btn btn-primary mt-5" })
 	</div>
 }
