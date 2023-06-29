@@ -1,0 +1,105 @@
+﻿@model TataGamedom.Models.ViewModels.Games.GameEditVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>編輯遊戲資訊</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4></h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.ChiName, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ChiName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ChiName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.EngName, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EngName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EngName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Classification, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Classification, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Classification, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="mb-3">
+            @Html.LabelFor(model => model.GameClassification, htmlAttributes: new { @class = "form-label" })
+            <br />
+            @foreach (var category in Model.GameClassification.Skip(1))
+            {
+                bool isChecked = Model.SelectedGameClassification != null && Model.SelectedGameClassification.Contains(category.Id);
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="SelectedGameClassification" value="@category.Id" @(isChecked ? "checked" : "") /> @category.Name
+                </label>
+            }
+            @Html.ValidationMessageFor(model => model.SelectedGameClassification, "", new { @class = "text-danger" })
+        </div>*@
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.IsRestrict, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.IsRestrict)
+                @Html.ValidationMessageFor(model => model.IsRestrict, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.ModifiedTime, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ModifiedTime, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ModifiedTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(model => model.ModifiedBackendMemberName, htmlAttributes: new { @class = "form-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ModifiedBackendMemberName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ModifiedBackendMemberName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-secondary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
