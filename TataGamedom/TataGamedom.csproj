@@ -181,8 +181,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BackendMembersController.cs" />
     <Compile Include="Controllers\BackendMembersListController.cs" />
-    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\BoardsApiController.cs" />
+    <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -420,8 +420,8 @@
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\EditGameCover.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
-    <Content Include="Views\Board\Index.cshtml" />
     <Content Include="Views\News\Reduction.cshtml" />
+    <Content Include="Views\Boards\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

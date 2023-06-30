@@ -6,25 +6,25 @@ using System.Web.Mvc;
 
 namespace TataGamedom.Controllers
 {
-    public class BoardsController : Controller
-    {
-        // GET: Boards
-        public ActionResult Index()
-        {
-            return View();
-        }
+	public class BoardsController : Controller
+	{
+		// GET: Boards
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-        public ActionResult ModeratorApplicationsList()
-        {
+		public ActionResult ModeratorApplicationsList()
+		{
 			return View();
 
 		}
 
-        public ActionResult ModeratorApplicationDetail()
-        {
+		public ActionResult ModeratorApplicationDetail()
+		{
 			return View();
 
 		}
 
-    }
+	}
 }

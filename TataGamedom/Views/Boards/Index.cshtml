@@ -24,10 +24,28 @@
     </thead>
 </table>
 
+<div class="modal" id="myModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
     <script>
-        //const baseAddress = 'https://localhost:44398';
+        const baseAddress = 'https://localhost:44398';
         //function getBoards() {
         //    $.ajax({
         //        type: 'Get',
@@ -46,17 +64,29 @@
         $(document).ready(function () {
             $('#boardtable').dataTable
                 ({
+                    "theme": "bootstrap" ,
                     ajax: {
                         type: 'GET',
                         url: `${baseAddress}/api/BoardsApi`,
                         dataSrc: function (data) { return data; }
                     },
                     columns: [
-                        { "data": "Name", "width": "50%" },
-                        { "data": "BoardAboud", "width": "50%" },
+                        { "data": "Name", "width": "20%" },
+                        { "data": "BoardAboud", "width": "40%" },
                     ],
+                    "rowCallback": function (row, data) {
+                        $(row).on("click", function () {
+                            // 彈出 Bootstrap 模態框
+                            $('#myModal').modal('show');
+
+                            // 在模態框中填充相應的資料
+                            $('#myModal .modal-body').html('資料內容');
+                        });
+                    }
                 })
         })
+
+
     </script>
 }
 
