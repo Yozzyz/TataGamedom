@@ -183,6 +183,7 @@
     <Compile Include="Controllers\BackendMembersListController.cs" />
     <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\BoardsApiController.cs" />
+    <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -277,6 +278,8 @@
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\ViewModels\Class1.cs" />
+    <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
+    <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\Members\ForgetPasswordVM.cs" />
@@ -356,7 +359,6 @@
     <Content Include="lib\datatables\js\dataTables.uikit.min.js" />
     <Content Include="lib\datatables\js\jquery.dataTables.js" />
     <Content Include="lib\datatables\js\jquery.dataTables.min.js" />
-    <Content Include="ReadMe%28mao%29.txt" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -423,6 +425,11 @@
     <Content Include="Views\Games\Index.cshtml" />
     <Content Include="Views\Board\Index.cshtml" />
     <Content Include="Views\News\Reduction.cshtml" />
+    <Content Include="Views\FAQ\Create.cshtml" />
+    <Content Include="Views\FAQ\Delete.cshtml" />
+    <Content Include="Views\FAQ\Details.cshtml" />
+    <Content Include="Views\FAQ\Edit.cshtml" />
+    <Content Include="Views\FAQ\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
