@@ -424,6 +424,7 @@
     <Content Include="Views\Board\Index.cshtml" />
     <Content Include="Views\News\Reduction.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

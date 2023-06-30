@@ -66,7 +66,7 @@ namespace TataGamedom.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Index,MemberId,OrderStatusId,ShipmentStatusId,PaymentStatusId,CreatedAt,CompletedAt,ShipmemtMethodId,RecipientName,ToAddress,SentAt,DeliveredAt,TrackingNum")] Order order)
+		public ActionResult Create(Order order)
 		{
 			if (ModelState.IsValid)
 			{
