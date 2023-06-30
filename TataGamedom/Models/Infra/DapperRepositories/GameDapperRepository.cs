@@ -162,12 +162,21 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 			}
 		}
 
-		public bool RemoveClassification(GameEditVM game, int selectedGameClassification)
+		public IEnumerable<GameEditVM> GetGameClassificationGames(int id)
 		{
-			using (var conn = new SqlConnection(_connStr))
+			using(var conn = new SqlConnection(_connStr))
 			{
-				string sql = @"DELETE FROM GameClassificationGames WHERE GameId = @GameId AND GameClassificationId = @GameClassificationId;";
-				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
+				string sql = @"SELECT * FROM GameClassificationGames WHERE GameId = @Id";
+				return conn.Query<GameEditVM>(sql, new { Id = id });
+			}
+		}
+
+		public bool DeleteGameClassificationGames(int id)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"DELETE GameClassificationGames WHERE GameId= @Id";
+				var rowAffected = conn.Execute(sql, new { Id = id });
 				return rowAffected > 0;
 			}
 		}
