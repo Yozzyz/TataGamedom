@@ -1,5 +1,6 @@
 Working On
-[]·s¼W­q³æ
+[v]Order Create IRepo repo Service []¥\¯à => Index½s½X
+[]View Controller 
 
 
 To Do
@@ -40,3 +41,6 @@ note: ¥ÎDapper´N¤£»İ­n¥ıÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Ş§@? XX  Â²³æªº¾
 	       PageItemPrevNumber­º­¶btn¹ïÀ³­¶¼Æ
 	       PageItemNextNumberµ²§Àbtn¹ïÀ³­¶¼Æ
 	       PageBarItemCount(¹w³]button¼Æ)
+
+06/30
+[v] Add Order Create() VM,Dto

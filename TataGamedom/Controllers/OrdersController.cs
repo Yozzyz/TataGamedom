@@ -12,6 +12,7 @@ using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
 using TataGamedom.Models.Dtos.Orders;
+using TataGamedom.Models.ViewModels.Orders;
 
 namespace TataGamedom.Controllers
 {
@@ -66,21 +67,24 @@ namespace TataGamedom.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Index,MemberId,OrderStatusId,ShipmentStatusId,PaymentStatusId,CreatedAt,CompletedAt,ShipmemtMethodId,RecipientName,ToAddress,SentAt,DeliveredAt,TrackingNum")] Order order)
+		public ActionResult Create(OrderCreateVM vm)
 		{
 			if (ModelState.IsValid)
 			{
-				db.Orders.Add(order);
-				db.SaveChanges();
-				return RedirectToAction("Index");
+				_service.Create(vm.ToDto());
+				
+
+				//db.Orders.Add(vm.ToDto());
+				//db.SaveChanges();
+				//return RedirectToAction("Index");
 			}
 
-			ViewBag.MemberId = new SelectList(db.Members, "Id", "Name", order.MemberId);
-			ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes, "Id", "Name", order.OrderStatusId);
-			ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes, "Id", "Name", order.PaymentStatusId);
-			ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods, "Id", "Name", order.ShipmemtMethodId);
-			ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes, "Id", "Name", order.ShipmentStatusId);
-			return View(order);
+			ViewBag.MemberId = new SelectList(db.Members, "Id", "Name", vm.MemberId);
+			ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes, "Id", "Name", vm.OrderStatusId);
+			ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes, "Id", "Name", vm.PaymentStatusId);
+			ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods, "Id", "Name", vm.ShipmemtMethodId);
+			ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes, "Id", "Name", vm.ShipmentStatusId);
+			return View(vm);
 		}
 
 	}
