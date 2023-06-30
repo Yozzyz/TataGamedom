@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Dapper;
+using System;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
-using Dapper;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.News;
 
@@ -22,29 +19,70 @@ namespace TataGamedom.Controllers
 
 		// GET: News
 		[Authorize]
-		public ActionResult Index()
+		public ActionResult Index(NewsCriteria newsCriteria)
 		{
+			PrepareNewsDataSource(newsCriteria.GamesId);
+			ViewBag.NewsCriteria = newsCriteria;
+
 			using (var con = new SqlConnection(_connstr))
 			{
+				string sql = @"SELECT n.Id, n.Title, n.ScheduleDate, b.Name AS BackendMemberName, gc.Name AS GameClassificationName,
+COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
+FROM news AS n
+JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
+LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
+LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
+WHERE 1 = 1";
 
-				string sql = @"SELECT n.Id,n.Title,n.ScheduleDate, b.Name AS BackendMemberName, gc.Name AS GameClassificationName,
-			COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
-			FROM news AS n
-			JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
-			LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
-			LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
-			LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
-			GROUP BY n.Id,n.Title,n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
-			ORDER BY N.ActiveFlag DESC";
+				// 動態建立條件參數
+				DynamicParameters parameters = new DynamicParameters();
 
-				var news = con.Query<NewsIndexVM>(sql);
+				if (newsCriteria.GamesId.HasValue && newsCriteria.GamesId.Value != 0)
+				{
+					sql += " AND n.GamesId = @GamesId";
+					parameters.Add("@GamesId", newsCriteria.GamesId.Value);
+				}
 
-				ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
+					// 如果有其他搜尋條件，請繼續在此處新增條件
+
+					sql += @" GROUP BY n.Id, n.Title, n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
+            ORDER BY n.Id DESC";
+
+				var news = con.Query<NewsIndexVM>(sql, parameters);
+
+				//ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
 
 				return View(news);
 			}
-
 		}
+
+
+		//public ActionResult Index(NewsCriteria newsCriteria)
+		//{
+		//	PrepareNewsDataSource(newsCriteria.GamesId);
+		//	ViewBag.NewsCriteria = newsCriteria;
+
+		//	using (var con = new SqlConnection(_connstr))
+		//	{
+		//		string sql = @"SELECT n.Id,n.Title,n.ScheduleDate, b.Name AS BackendMemberName, gc.Name AS GameClassificationName,
+		//	COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
+		//	FROM news AS n
+		//	JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
+		//	LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+		//	LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
+		//	LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
+		//	GROUP BY n.Id,n.Title,n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
+		//	ORDER BY N.id DESC";
+
+		//		var news = con.Query<NewsIndexVM>(sql);
+
+		//		ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
+
+		//		return View(news);
+		//	}
+
+		//}
 
 
 
@@ -246,6 +284,18 @@ namespace TataGamedom.Controllers
 				}
 			}
 			return RedirectToAction("Index");
+		}
+
+		private void PrepareNewsDataSource(int? gamesId)
+		{
+
+			var categories = db.GameClassificationsCodes.ToList().Prepend(new GameClassificationsCode());
+			ViewBag.GamesId = new SelectList(categories, "Id", "Name", gamesId);
+			//ViewBag.GamesId = new SelectList(
+			//	db.GameClassificationsCodes
+			//	.ToList()
+			//	.Prepend(new GameClassificationsCode { Id = 0, Name=""  }), "Id", "Name", gamesId
+			//	);
 		}
 	}
 }
