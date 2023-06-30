@@ -10,12 +10,11 @@ namespace TataGamedom.Models.Dtos.Orders
 	public class OrderDto
 	{
 		public int Id { get; set; }
-		public string Index { get; set; }
 
 		/// <summary>
 		/// 自動產生的Index
 		/// </summary>
-		public string IndexOutput { get; set; }  //todo
+		public string Index { get; set; }
 
 		public int MemberId { get; set; }
 
@@ -44,7 +43,7 @@ namespace TataGamedom.Models.Dtos.Orders
 
 	public static class OrderDtoExts 
 	{
-		public static OrderDto ToDto(OrderCreateVM vm)
+		public static OrderDto ToDto(this OrderCreateVM vm)
 		{
 			return new OrderDto
 			{

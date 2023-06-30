@@ -11,16 +11,16 @@ namespace TataGamedom.Models.ViewModels.Orders
 		public int Id { get; set; }
 
 		[Display(Name = "會員")]
-		public string MemberName { get; set; }
+		public int MemberId { get; set; }
 
 		[Display(Name = "訂單狀態")]
-		public string OrderStatusCodeName { get; set; }
+		public int OrderStatusId { get; set; }
 
 		[Display(Name = "物流狀態")]
-		public string ShipmentStatusCodeName { get; set; }
+		public int ShipmentStatusId { get; set; }
 
 		[Display(Name = "付款狀態")]
-		public string PaymentStatusCodeName { get; set; }
+		public int PaymentStatusId { get; set; }
 
 		[Display(Name = "訂單日期")]
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -28,6 +28,9 @@ namespace TataGamedom.Models.ViewModels.Orders
 		[Display(Name = "訂單完成日期")]
 		[Compare("CreatedAt", ErrorMessage ="應填入相對於'訂單日期'近的日期")] //if<0, error
 		public DateTime? CompletedAt { get; set; }
+
+		[Display(Name = "寄送方式")]
+		public int ShipmemtMethodId { get; set; }
 
 		[Required]
 		[StringLength(20)]
