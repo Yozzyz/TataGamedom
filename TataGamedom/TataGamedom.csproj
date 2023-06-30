@@ -56,6 +56,9 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -157,6 +160,9 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -178,22 +184,23 @@
     <Compile Include="App_Start\BundleConfig4.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BackendMembersController.cs" />
     <Compile Include="Controllers\BackendMembersListController.cs" />
-    <Compile Include="Controllers\BoardController.cs" />
     <Compile Include="Controllers\BoardsApiController.cs" />
+    <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Files\Mails\Class1.cs" />
     <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
-    <Compile Include="Models\Dtos\Class1.cs" />
     <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
     <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
@@ -201,6 +208,7 @@
     <Compile Include="Models\Dtos\Games\GameIndexDto.cs" />
     <Compile Include="Models\Dtos\Members\LoginDto.cs" />
     <Compile Include="Models\Dtos\Members\RegisterDto.cs" />
+    <Compile Include="Models\Dtos\Orders\OrderIndexDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
@@ -259,24 +267,23 @@
     <Compile Include="Models\EFModels\StockInStatusCode.cs" />
     <Compile Include="Models\EFModels\Supplier.cs" />
     <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
-    <Compile Include="Models\Infra\DapperRepositories\Class1.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
-    <Compile Include="Models\Interfaces\Class1.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
+    <Compile Include="Models\Interfaces\IOrderRepository.cs" />
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
-    <Compile Include="Models\Services\Class1.cs" />
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
-    <Compile Include="Models\ViewModels\Class1.cs" />
+    <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\Members\ForgetPasswordVM.cs" />
@@ -290,6 +297,7 @@
     <Compile Include="Models\ViewModels\News\NewsIndexVM.cs" />
     <Compile Include="Models\ViewModels\Members\RegisterVM.cs" />
     <Compile Include="Models\ViewModels\Members\ResetPasswordVM.cs" />
+    <Compile Include="Models\ViewModels\Orders\OrderIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +321,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Files\Images\otter.png" />
     <Content Include="Files\Mails\77_gmail.com 20230628_174620.txt" />
+    <Content Include="Files\Uploads\zelda.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="lib\datatables\css\dataTables.bootstrap.css" />
@@ -420,8 +429,9 @@
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\EditGameCover.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
-    <Content Include="Views\Board\Index.cshtml" />
     <Content Include="Views\News\Reduction.cshtml" />
+    <Content Include="Views\Boards\Index.cshtml" />
+    <Content Include="Views\Orders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
