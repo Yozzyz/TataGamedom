@@ -1,0 +1,98 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.Products.ProductIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>商品管理列表</h2>
+
+<p>
+
+</p>
+<div class="text-center">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Index)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GamePlatformName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsVirtual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SaleDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+            <th>
+                編輯
+            </th>
+            <th>
+                商品圖片
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Index)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GamePlatformName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsVirtual)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @item.SaleDate.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
+                </td>
+                <td>
+                    <span>@item.CreatedTime.ToShortDateString()</span>
+                    <br />
+                    <span>@item.CreatedTime.ToShortTimeString()</span>
+                </td>
+                <td>
+                    <a href="@Url.Action("EditProduct", new { id = item.Id })" class="icon-link">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("EditProducImg", new { id = item.Id })" class="icon-link">
+                        <i class="fa-regular fa-image"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
