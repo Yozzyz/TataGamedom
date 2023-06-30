@@ -1,0 +1,130 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.Orders.OrderIndexVM>
+
+@{
+    ViewBag.Title = "訂單列表";
+    var criteria = ViewBag.Criteria as TataGamedom.Models.Services.OrderService.Criteria;
+    var orderStatusId = ViewBag.OrderStatusId as SelectList;
+    string orderStatusName = criteria.OrderStatusId.HasValue ? criteria.OrderStatusId.Value.ToString() : "";
+    var sortInfo = ViewBag.SortInfo;
+    var pageInfo = ViewBag.PageInfo;
+}
+
+<h2>訂單列表</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<section class="container">
+    <form method="get">
+        <div class="row">
+            <div class="mb-3 col-md-3">
+                <label for="orderIndex">訂單編號</label>
+                <input type="text" class="form-control" name="Index" id="orderIndex" value="@criteria.Index">
+            </div>
+            <div class="mb-3 col-md-3">
+                <label for="orderStatusName">訂單狀態</label>
+                <select name="orderStatusId" id="orderStatusName" class="form-select">
+                    @foreach (var item in orderStatusId)
+                    {
+                        <option value="@item.Value" @(orderStatusName == item.Value ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+
+            </div>
+            <div class="mb-3 col-md-2 align-self-end">
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Index)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.Index)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MemberName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.MemberName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.OrderStatusCodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipmentStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.ShipmentStatusCodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.PaymentStatusCodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreateAtText)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.Total)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Index)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatusCodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShipmentStatusCodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentStatusCodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateAtText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        @if (pageInfo.PageNum >= 1)
+        {
+            <li>
+                <a href="@(pageInfo.GetUrl(pageInfo.PageItemPrevNumber))" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        }
+        @for (int i = 0; i < pageInfo.PageBarItemCount; i++)
+        {
+            <li class="@(pageInfo.PageBarStartNumber + i == pageInfo.PageNum ? "active" : "")">
+                <a href="@(pageInfo.GetUrl(pageInfo.PageBarStartNumber + i)+ "&" + sortInfo.GetQueryString())">@(pageInfo.PageBarStartNumber + i)</a>
+            </li>
+        }
+
+        @if (pageInfo.PageNum < pageInfo.Pages)
+        {
+            <li>
+                <a href="@pageInfo.GetUrl(pageInfo.PageItemNextNumber)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        }
+    </ul>
+</nav>
