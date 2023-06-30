@@ -200,7 +200,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
+    <Compile Include="Models\Dtos\Boards\BoardAddDto.cs" />
+    <Compile Include="Models\ViewModels\Boards\BoardAddVM.cs" />
+    <Compile Include="Models\ViewModels\Boards\BoardListVM.cs" />
     <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
     <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
@@ -436,7 +438,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

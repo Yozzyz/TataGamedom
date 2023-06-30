@@ -20,36 +20,57 @@ namespace TataGamedom.Controllers
 		private AppDbContext db = new AppDbContext();
 
 		// GET: api/BoardsApi
-		public async Task<IEnumerable<BoardListDto>> GetBoards()
+		public async Task<IEnumerable<BoardListVM>> GetBoards()
 		{
 			if (db.Boards == null)
 			{
 				return null;
 			}
-			return db.Boards.Select(bd => new BoardListDto
+			return db.Boards.Select(board=> new BoardListVM
 			{
-				Cover = "/Files/Uploads/"+bd.BoardHeaderCoverImg,
-				BoardName = bd.Name,
-				GameName = bd.Game.ChiName+"|"+bd.Game.EngName,
-				BoardAboud = bd.BoardAbout
+				Id= board.Id,
+				Cover = "/Files/Uploads/" + board.BoardHeaderCoverImg,
+				BoardName = board.Name,
+				GameName = board.Game.ChiName + "|" + board.Game.EngName,
+				BoardAboud = board.BoardAbout,
+				FollowersCount = db.MembersBoards.Count(mb => mb.BoardId == board.Id),
+				LastPostedAt = db.Posts.Where(p => p.BoardId == board.Id)
+					  .OrderByDescending(p => p.Datetime)
+					  .Select(p => p.Datetime)
+					  .DefaultIfEmpty(DateTime.MinValue)
+					  .FirstOrDefault()
 			});
 		}
 
-		// GET: api/BoardsApi/
-		[ResponseType(typeof(Board))]
-		public IHttpActionResult GetBoard(int id)
+		// GET: api/BoardsApi/5
+		[ResponseType(typeof(BoardListVM))]
+		public IHttpActionResult GetBoard(string boardName)
 		{
-			Board board = db.Boards.Find(id);
+			Board board = db.Boards.Find(boardName);
 			if (board == null)
 			{
 				return NotFound();
 			}
+			var boardListDto = new BoardListVM
+			{
+				Id = board.Id,
+				Cover = "/Files/Uploads/" + board.BoardHeaderCoverImg,
+				BoardName = board.Name,
+				GameName = board.Game.ChiName + "|" + board.Game.EngName,
+				BoardAboud = board.BoardAbout,
+				FollowersCount = db.MembersBoards.Count(mb => mb.BoardId == board.Id),
+				LastPostedAt = db.Posts.Where(p => p.BoardId == board.Id)
+						  .OrderByDescending(p => p.Datetime)
+						  .Select(p => p.Datetime)
+						  .DefaultIfEmpty(DateTime.MinValue)
+						  .FirstOrDefault()
+			};
 
-			return Ok(board);
+			return Ok(boardListDto);
 		}
 
 		// PUT: api/BoardsApi/5
-		[ResponseType(typeof(void))]
+		[ResponseType(typeof(string))]
 		public IHttpActionResult PutBoard(int id, Board board)
 		{
 			if (!ModelState.IsValid)
@@ -83,15 +104,18 @@ namespace TataGamedom.Controllers
 			return StatusCode(HttpStatusCode.NoContent);
 		}
 
+
+		//TODO
 		// POST: api/BoardsApi
-		[ResponseType(typeof(Board))]
-		public IHttpActionResult PostBoard(Board board)
+		[ResponseType(typeof(string))]
+		public IHttpActionResult PostBoard(BoardAddVm boardAddVm)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
+			
 			db.Boards.Add(board);
 			db.SaveChanges();
 
