@@ -24,9 +24,6 @@ namespace TataGamedom.Models.Dtos.Orders
 	}
 	public static class OrderIndexExts
 	{
-		//public static OrderIndexDto ToDto(this Order entity)
-		//{
-		//}
 		public static OrderIndexVM ToIndexVM(this OrderIndexDto dto)
 		{
 			return new OrderIndexVM
