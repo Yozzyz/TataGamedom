@@ -190,11 +190,13 @@
     <Compile Include="Controllers\BackendMembersListController.cs" />
     <Compile Include="Controllers\BoardsApiController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
+    <Compile Include="Controllers\CouponsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Files\Mails\Class1.cs" />
     <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Global.asax.cs">
@@ -267,23 +269,30 @@
     <Compile Include="Models\EFModels\StockInStatusCode.cs" />
     <Compile Include="Models\EFModels\Supplier.cs" />
     <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
     <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
+    <Compile Include="Models\Interfaces\ICouponsRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IOrderRepository.cs" />
+    <Compile Include="Models\Interfaces\IProductRepository.cs" />
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
+    <Compile Include="Models\Services\CouponService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
+    <Compile Include="Models\Services\ProductService.cs" />
+    <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\Members\ForgetPasswordVM.cs" />
@@ -298,6 +307,7 @@
     <Compile Include="Models\ViewModels\Members\RegisterVM.cs" />
     <Compile Include="Models\ViewModels\Members\ResetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Orders\OrderIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Products\ProductIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -432,6 +442,8 @@
     <Content Include="Views\News\Reduction.cshtml" />
     <Content Include="Views\Boards\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Coupons\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
