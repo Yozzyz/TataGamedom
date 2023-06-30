@@ -47,7 +47,7 @@ namespace TataGamedom.Models.Dtos.Games
 				IsRestrict = vm.IsRestrict,
 				GameCoverImg = vm.GameCoverImg,
 				CreatedTime = DateTime.Now,
-				CreatedBackendMemberId = 1//待Member做好再改
+				CreatedBackendMemberId = vm.CreatedBackendMemberId
 			};
 		}
 	}

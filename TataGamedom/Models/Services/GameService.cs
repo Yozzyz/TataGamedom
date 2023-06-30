@@ -151,7 +151,37 @@ namespace TataGamedom.Models.Services
 		public Result UpdateClassification(GameEditVM vm)
 		{
 			//將該遊戲已存在的類別全部刪除
+			var games = _repo.GetGameClassificationGames(vm.Id);
+			if (games != null)
+			{
+				var deleteResult = _repo.DeleteGameClassificationGames(vm.Id);
+				if (!deleteResult)
+				{
+					return Result.Fail("更新失敗");
+				}
+			}
 			//直接把新取得的遊戲類別值新增到TABLE中
+			return Result.Success();
+		}
+
+		public Result CreateClassification(GameEditVM vm)
+		{
+			//用VM.chiname去搜尋遊戲
+			//找到的話取得該遊戲ID
+			//代入該遊戲資訊新增1/2筆資料至[GameClassificationGames]TABLE中
+			var result = _repo.GetGameByName2(vm.ChiName);
+			if (result == null)
+			{
+				return Result.Fail("遊戲類別新增失敗");
+			}
+			foreach (var classificationId in vm.SelectedGameClassification)
+			{
+				var createClassification = _repo.CreateClassification(result, classificationId);
+				if (!createClassification)
+				{
+					return Result.Fail("遊戲類別新增失敗");
+				}
+			}
 			return Result.Success();
 		}
 	}

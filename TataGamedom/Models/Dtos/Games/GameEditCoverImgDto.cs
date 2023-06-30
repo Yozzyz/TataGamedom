@@ -29,7 +29,7 @@ namespace TataGamedom.Models.Dtos.Games
 				GameCoverImg = vm.GameCoverImg,
 				Id = vm.Id,
 				ModifiedTime = DateTime.Now,
-				ModifiedBackendMemberId = 1 //待Member寫好後修改
+				ModifiedBackendMemberId = vm.ModifiedBackendMemberId
 			};
 		}
 		public static GameEditCoverImgVM ToViewModel(this GameEditCoverImgDto dto)
