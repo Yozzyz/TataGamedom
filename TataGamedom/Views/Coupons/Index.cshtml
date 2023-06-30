@@ -1,0 +1,106 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.Coupons.CouponIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>優惠券管理列表</h2>
+
+<div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-secondary">
+            @Html.ActionLink("新增優惠券", "Create")
+        </button>
+    </div>
+</div>
+<div class="text-center">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CouponId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Threshold)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActiveFlag)
+            </th>
+            <th>編輯</th>
+            <th>適用商品</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CouponId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Threshold)
+                </td>
+                <td>
+                    <span>@item.StartTime.ToShortDateString()</span>
+                    <br />
+                    <span>@item.StartTime.ToLongTimeString()</span>
+                </td>
+                <td>
+                    <span>@item.EndTime.ToShortDateString()</span>
+                    <br />
+                    <span>@item.EndTime.ToLongTimeString()</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
+                </td>
+                <td>
+                    @item.CreatedTime.ToString("yyyy-MM-dd")
+                </td>
+                <td>
+                    @if (item.ActiveFlag == false)
+                    {
+                        <text>刪除</text>
+                    }
+                    else if (item.ActiveFlag == true)
+                    {
+                        <text>公開</text>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("EditCoupon", new { id = item.CouponId })" class="icon-link">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="@Url.Action("EditCouponProducts", new { id = item.CouponId })" class="icon-link">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
