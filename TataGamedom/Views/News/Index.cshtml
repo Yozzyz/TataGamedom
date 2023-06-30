@@ -2,6 +2,9 @@
 
 @{
 	ViewBag.Title = "Index";
+	var gamesId = ViewBag.GamesId as SelectList ;
+	var newsCriteria = ViewBag.NewsCriteria as TataGamedom.Models.ViewModels.News.NewsCriteria;
+	string s_gameId = newsCriteria.GamesId.HasValue ? newsCriteria.GamesId.Value.ToString() : "";
 }
 
 <h2>新聞頁面</h2>
@@ -11,26 +14,31 @@
 </div>
 
 
-@*<section class="container">
+<section class="container">
 		<form method="get">
 			<div class="row">
+
 				<div class="mb-3 col-md-3">
-					<label for="s_gameId">新聞分類</label>
+					<label for="s_gameId">遊戲分類</label>
 					<select name="GamesId" id="s_gameId" class="form-select">
-						
+						@foreach (var item in gamesId)
+						{
+							<option value="@item.Value" @(s_gameId == item.Value ? "selected" : "") )>@item.Text</option>
+						}
 					</select>
 				</div>
 
 				<div class="mb-3 col-md-3">
 					<label for="s_name">名稱</label>
-					<input type="text" class="form-control" name="name" id="s_name">
+					<input type="text" class="form-control" name="title" id="s_name" value="@newsCriteria.Title">
 				</div>
 
 				<div style="text-align: right" class="mb-3 col-md-3 align-self-end">
 					<button class="btn btn-primary" onclick="performSearch()">查詢</button>
 				</div>
+			</div>
 		</form>
-	</section>*@
+	</section>
 
 
 <table class="table ">
