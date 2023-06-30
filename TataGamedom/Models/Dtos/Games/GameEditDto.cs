@@ -56,7 +56,7 @@ namespace TataGamedom.Models.Dtos.Games
 				Description = vm.Description,
 				IsRestrict = vm.IsRestrict,
 				ModifiedTime = DateTime.Now,
-				ModifiedBackendMemberId = 1 //待member功能做好再修改
+				ModifiedBackendMemberId = vm.ModifiedBackendMemberId
 			};
 		}
 

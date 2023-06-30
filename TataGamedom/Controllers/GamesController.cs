@@ -14,7 +14,9 @@ namespace TataGamedom.Controllers
 {
 	public class GamesController : Controller
 	{
+		private AppDbContext db = new AppDbContext();
 		// GET: Games
+		[Authorize]
 		public ActionResult Index()
 		{
 			IEnumerable<GameIndexVM> games = GetGames();
@@ -27,6 +29,7 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.Search();
 		}
+		[Authorize]
 		public ActionResult Create()
 		{
 			var gameClassifications = GetGameClassifications();
@@ -43,10 +46,12 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.GetGameClassifications();
 		}
-
+		
 		[HttpPost]
 		public ActionResult Create(GameCreateVM vm, HttpPostedFileBase file1)
 		{
+			var currentUserAccount = User.Identity.Name;
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
 
 			var savedFileName = SaveFile(file1);
 			if (savedFileName == null)
@@ -55,6 +60,7 @@ namespace TataGamedom.Controllers
 				return View(vm);
 			}
 			vm.GameCoverImg = savedFileName;
+			vm.CreatedBackendMemberId = memberInDb.Id;
 			if (ModelState.IsValid)
 			{
 				List<int> selectedGameClassifications = vm.SelectedGameClassification;
@@ -119,7 +125,7 @@ namespace TataGamedom.Controllers
 
 			return fileName ?? string.Empty;
 		}
-
+		[Authorize]
 		public ActionResult Edit(int id)
 		{
 			var gameClassifications = GetGameClassifications();
@@ -137,7 +143,7 @@ namespace TataGamedom.Controllers
 				IsRestrict = game.IsRestrict,
 				ModifiedTime = game.ModifiedTime,
 				ModifiedBackendMemberName = game.ModifiedBackendMemberName,
-				//ModifiedBackendMemberId = game.ModifiedBackendMemberId
+				ModifiedBackendMemberId = game.ModifiedBackendMemberId
 			};
 			return View(model);
 		}
@@ -146,6 +152,9 @@ namespace TataGamedom.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				var currentUserAccount = User.Identity.Name;
+				var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+
 				List<int> selectedGameClassifications = vm.SelectedGameClassification;
 				if (selectedGameClassifications.Count > 2)
 				{
@@ -157,11 +166,15 @@ namespace TataGamedom.Controllers
 					};
 					return View(model);
 				}
+				vm.ModifiedBackendMemberId =memberInDb.Id;
 				Result editResult = UpdateGames(vm);
 				if (editResult.IsSuccess)
 				{
 					//更新遊戲類別
 					UpdateGameClassification(vm);
+					CreateGameClassification(vm);
+
+
 					return RedirectToAction("Index");
 				}
 				ModelState.AddModelError(string.Empty, editResult.ErrorMessage);
@@ -169,7 +182,12 @@ namespace TataGamedom.Controllers
 			}
 			return View(vm);
 		}
-
+		private void CreateGameClassification(GameEditVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			service.CreateClassification(vm);
+		}
 		private void UpdateGameClassification(GameEditVM vm)
 		{
 			IGameRepository repo = new GameDapperRepository();
@@ -183,7 +201,7 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.UpdateGame(vm);
 		}
-
+		[Authorize]
 		public ActionResult EditGameCover(int id)
 		{
 			IGameRepository repo = new GameDapperRepository();
@@ -207,6 +225,9 @@ namespace TataGamedom.Controllers
 			}
 			if (ModelState.IsValid)
 			{
+				var currentUserAccount = User.Identity.Name;
+				var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+				vm.ModifiedBackendMemberId= memberInDb.Id;
 				IGameRepository repo = new GameDapperRepository();
 				GameService service = new GameService(repo);
 				service.EditGameCover(vm);
