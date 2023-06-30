@@ -14,7 +14,9 @@ namespace TataGamedom.Controllers
 {
 	public class GamesController : Controller
 	{
+		private AppDbContext db = new AppDbContext();
 		// GET: Games
+		[Authorize]
 		public ActionResult Index()
 		{
 			IEnumerable<GameIndexVM> games = GetGames();
@@ -27,6 +29,7 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.Search();
 		}
+		[Authorize]
 		public ActionResult Create()
 		{
 			var gameClassifications = GetGameClassifications();
@@ -43,10 +46,12 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.GetGameClassifications();
 		}
-
+		
 		[HttpPost]
 		public ActionResult Create(GameCreateVM vm, HttpPostedFileBase file1)
 		{
+			var currentUserAccount = User.Identity.Name;
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
 
 			var savedFileName = SaveFile(file1);
 			if (savedFileName == null)
@@ -55,6 +60,7 @@ namespace TataGamedom.Controllers
 				return View(vm);
 			}
 			vm.GameCoverImg = savedFileName;
+			vm.CreatedBackendMemberId = memberInDb.Id;
 			if (ModelState.IsValid)
 			{
 				List<int> selectedGameClassifications = vm.SelectedGameClassification;
@@ -119,18 +125,17 @@ namespace TataGamedom.Controllers
 
 			return fileName ?? string.Empty;
 		}
-
+		[Authorize]
 		public ActionResult Edit(int id)
 		{
 			var gameClassifications = GetGameClassifications();
 			IGameRepository repo = new GameDapperRepository();
 			GameService service = new GameService(repo);
 			var game = service.GetGameById(id);
-
 			GameEditVM model = new GameEditVM
 			{
 				GameClassification = gameClassifications,
-				//Game = game,
+				SelectedGameClassification = game.SelectedGameClassification,
 				Id = game.Id,
 				ChiName = game.ChiName,
 				EngName = game.EngName,
@@ -138,24 +143,56 @@ namespace TataGamedom.Controllers
 				IsRestrict = game.IsRestrict,
 				ModifiedTime = game.ModifiedTime,
 				ModifiedBackendMemberName = game.ModifiedBackendMemberName,
-				ModifiedBackendMemberId = 1
+				ModifiedBackendMemberId = game.ModifiedBackendMemberId
 			};
 			return View(model);
 		}
 		[HttpPost]
 		public ActionResult Edit(GameEditVM vm)
 		{
-			if (!ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
-				return View();
+				var currentUserAccount = User.Identity.Name;
+				var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+
+				List<int> selectedGameClassifications = vm.SelectedGameClassification;
+				if (selectedGameClassifications.Count > 2)
+				{
+					ModelState.AddModelError("SelectedGameClassification", "最多只能選擇兩個遊戲分類！");
+					List<GameClassificationsCode> gameClassifications = GetGameClassifications();
+					GameEditVM model = new GameEditVM
+					{
+						GameClassification = gameClassifications
+					};
+					return View(model);
+				}
+				vm.ModifiedBackendMemberId =memberInDb.Id;
+				Result editResult = UpdateGames(vm);
+				if (editResult.IsSuccess)
+				{
+					//更新遊戲類別
+					UpdateGameClassification(vm);
+					CreateGameClassification(vm);
+
+
+					return RedirectToAction("Index");
+				}
+				ModelState.AddModelError(string.Empty, editResult.ErrorMessage);
+				return View(vm);
 			}
-			Result updateResult = UpdateGames(vm);
-			if (updateResult.IsSuccess)
-			{
-				return RedirectToAction("Index");
-			}
-			ModelState.AddModelError(string.Empty, updateResult.ErrorMessage);
 			return View(vm);
+		}
+		private void CreateGameClassification(GameEditVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			service.CreateClassification(vm);
+		}
+		private void UpdateGameClassification(GameEditVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			service.UpdateClassification(vm);
 		}
 
 		private Result UpdateGames(GameEditVM vm)
@@ -164,7 +201,7 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.UpdateGame(vm);
 		}
-
+		[Authorize]
 		public ActionResult EditGameCover(int id)
 		{
 			IGameRepository repo = new GameDapperRepository();
@@ -188,6 +225,9 @@ namespace TataGamedom.Controllers
 			}
 			if (ModelState.IsValid)
 			{
+				var currentUserAccount = User.Identity.Name;
+				var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+				vm.ModifiedBackendMemberId= memberInDb.Id;
 				IGameRepository repo = new GameDapperRepository();
 				GameService service = new GameService(repo);
 				service.EditGameCover(vm);

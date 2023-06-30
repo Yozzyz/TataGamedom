@@ -7,7 +7,9 @@ namespace TataGamedom.Models.Dtos.Boards
 {
 	public class BoardListDto
 	{
-		public string Name { get; set; }
+		public string BoardName { get; set; }
 		public string BoardAboud { get; set; }
-	}
+		public string GameName { get; set; }
+		public string Cover { get; set; }
+    }
 }

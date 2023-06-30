@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.Games;
 
 namespace TataGamedom.Models.Dtos.Games
@@ -18,11 +19,13 @@ namespace TataGamedom.Models.Dtos.Games
 		[Display(Name = "英文名稱")]
 
 		public string EngName { get; set; }
-		public string Classification { get; set; }
-		//public List<GameClassificationsCode> GameClassification { get; set; }
+		public List<GameClassificationsCode> GameClassification { get; set; }
 
-		//[Required]
-		//public List<int> SelectedGameClassification { get; set; }
+		//輔助List<int> SelectedGameClassification用，先將DB中的資料用string接出來，再轉成int
+		public string SelectedGameClassificationString { get; set; }
+		[Display(Name = "遊戲類別（複選最多兩項）")]
+		[Required(ErrorMessage = "請選擇遊戲分類")]
+		public List<int> SelectedGameClassification { get; set; }
 
 		[Display(Name = "遊戲介紹")]
 		public string Description { get; set; }
@@ -49,12 +52,11 @@ namespace TataGamedom.Models.Dtos.Games
 				Id = vm.Id,
 				ChiName = vm.ChiName,
 				EngName = vm.EngName,
-				Classification = vm.Classification,
-				//SelectedGameClassification = vm.SelectedGameClassification,
+				SelectedGameClassification = vm.SelectedGameClassification,
 				Description = vm.Description,
 				IsRestrict = vm.IsRestrict,
 				ModifiedTime = DateTime.Now,
-				ModifiedBackendMemberId = 1 //待member功能做好再修改
+				ModifiedBackendMemberId = vm.ModifiedBackendMemberId
 			};
 		}
 
@@ -65,7 +67,7 @@ namespace TataGamedom.Models.Dtos.Games
 				Id = dto.Id,
 				ChiName = dto.ChiName,
 				EngName = dto.EngName,
-				//SelectedGameClassification = dto.SelectedGameClassification,
+				SelectedGameClassification = dto.SelectedGameClassification,
 				Description = dto.Description,
 				IsRestrict = dto.IsRestrict,
 				ModifiedTime = dto.ModifiedTime,

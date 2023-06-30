@@ -15,7 +15,7 @@ namespace TataGamedom.Models.EFModels
 
         public string Answer { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public int? IssueTypeId { get; set; }
 

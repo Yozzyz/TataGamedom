@@ -30,7 +30,14 @@ namespace TataGamedom.Models.Interfaces
 
 		bool CreateBoard(Game game);
 
+		bool UpdateClassification(GameEditVM game, int selectedGameClassification);
+
 		bool CreateClassification(Game game, int gameClassificationId);
 
+		List<int> GetGameClassificationsByGameId(int gameId);
+
+		IEnumerable<GameEditVM> GetGameClassificationGames(int id);
+
+		bool DeleteGameClassificationGames(int id);
 	}
 }

@@ -51,7 +51,7 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 				//LEFT JOIN BackendMembers AS BM ON BM.Id=G.ModifiedBackendMemberId
 				//WHERE G.Id = @Id";
 
-				string sql = @"SELECT ChiName, EngName, STRING_AGG(GCC.Name, ' , ') AS Classification,Description, G.IsRestrict AS IsRestrict,BM.Name AS ModifiedBackendMemberName, G.ModifiedTime AS ModifiedTime
+				string sql = @"SELECT ChiName, EngName, STRING_AGG(GCC.Id, ',') AS SelectedGameClassificationString,Description, G.IsRestrict AS IsRestrict,BM.Name AS ModifiedBackendMemberName, G.ModifiedTime AS ModifiedTime
 FROM Games AS G
 LEFT JOIN GameClassificationGames AS GCG ON GCG.GameId = G.Id
 LEFT JOIN GameClassificationsCodes AS GCC ON GCC.Id = GCG.GameClassificationId
@@ -141,6 +141,42 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 			{
 				string sql = @"INSERT INTO GameClassificationGames(GameId, GameClassificationId) VALUES(@GameId, @GameClassificationId);";
 				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
+				return rowAffected > 0;
+			}
+		}
+		public bool UpdateClassification(GameEditVM game, int selectedGameClassification)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"INSERT INTO GameClassificationGames(GameId, GameClassificationId) VALUES(@GameId, @GameClassificationId);";
+				var rowAffected = conn.Execute(sql, new { GameId = game.Id, GameClassificationId = selectedGameClassification });
+				return rowAffected > 0;
+			}
+		}
+		public List<int> GetGameClassificationsByGameId(int gameId)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"SELECT GameClassificationId FROM GameClassificationGames WHERE GameId = @GameId;";
+				return conn.Query<int>(sql, new { GameId = gameId }).ToList();
+			}
+		}
+
+		public IEnumerable<GameEditVM> GetGameClassificationGames(int id)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"SELECT * FROM GameClassificationGames WHERE GameId = @Id";
+				return conn.Query<GameEditVM>(sql, new { Id = id });
+			}
+		}
+
+		public bool DeleteGameClassificationGames(int id)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"DELETE GameClassificationGames WHERE GameId= @Id";
+				var rowAffected = conn.Execute(sql, new { Id = id });
 				return rowAffected > 0;
 			}
 		}
