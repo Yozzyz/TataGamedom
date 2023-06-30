@@ -15,7 +15,7 @@ namespace TataGamedom.Models.Interfaces
 
 		IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo, string sqlAddPage);
 
-		string Create(OrderDto dto);
+		void Create(OrderDto dto);
 
 		int GetMaxIdInDb();
 

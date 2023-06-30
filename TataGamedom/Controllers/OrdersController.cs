@@ -46,22 +46,17 @@ namespace TataGamedom.Controllers
 		private void PrepareOrderStatusDataSource(int? orderStatusId)
 		{
 			ViewBag.OrderStatusId = new SelectList(
-				db.OrderStatusCodes
-				.ToList()
-				.Prepend(new OrderStatusCode { Id = 0, Name = "" }), "Id", "Name", orderStatusId
-				);
+									 db.OrderStatusCodes
+									.ToList()
+									.Prepend(new OrderStatusCode { Id = 0, Name = "" }), "Id", "Name", orderStatusId
+									);
 		}
-
 
 
 		public ActionResult Create()
 		{
-			ViewBag.MemberId = new SelectList(db.Members, "Id", "Name");
-			ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes, "Id", "Name");
-			ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes, "Id", "Name");
-			ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods, "Id", "Name");
-			ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes, "Id", "Name");
-			return View();
+			PrepareCreateOrderDataSource(null, null, null, null, null);
+            return View();
 		}
 
 
@@ -71,21 +66,21 @@ namespace TataGamedom.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				_service.Create(vm.ToDto());
-				
-
-				//db.Orders.Add(vm.ToDto());
-				//db.SaveChanges();
-				//return RedirectToAction("Index");
+				PrepareCreateOrderDataSource(vm.MemberId, vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
+                _service.Create(vm.ToDto());
+				return RedirectToAction("Index");
 			}
 
-			ViewBag.MemberId = new SelectList(db.Members, "Id", "Name", vm.MemberId);
-			ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes, "Id", "Name", vm.OrderStatusId);
-			ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes, "Id", "Name", vm.PaymentStatusId);
-			ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods, "Id", "Name", vm.ShipmemtMethodId);
-			ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes, "Id", "Name", vm.ShipmentStatusId);
 			return View(vm);
 		}
+        private void PrepareCreateOrderDataSource(int? memberId, int? orderStatusId, int? paymentStatusId, int? shipmemtMethodId, int? shipmentStatusId)
+        {
+            ViewBag.MemberId = new SelectList(db.Members.ToList().Prepend(new Member {Id = 0, Name = ""}), "Id", "Name", memberId);
+            ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes.ToList().Prepend(new OrderStatusCode { Id = 0, Name = ""}), "Id", "Name", orderStatusId);
+            ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes.ToList().Prepend(new PaymentStatusCode { Id = 0, Name = "" }), "Id", "Name", paymentStatusId);
+            ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods.ToList().Prepend(new ShipmemtMethod { Id = 0, Name = "" }), "Id", "Name", shipmemtMethodId);
+            ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes.ToList().Prepend(new ShipmentStatusesCode { Id = 0, Name = "" }), "Id", "Name", shipmentStatusId);
+        }
 
-	}
+    }
 }

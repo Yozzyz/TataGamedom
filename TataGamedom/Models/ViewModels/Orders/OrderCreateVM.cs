@@ -26,7 +26,6 @@ namespace TataGamedom.Models.ViewModels.Orders
 		public DateTime CreatedAt { get; set; } = DateTime.Now;
 
 		[Display(Name = "訂單完成日期")]
-		[Compare("CreatedAt", ErrorMessage ="應填入相對於'訂單日期'近的日期")] //if<0, error
 		public DateTime? CompletedAt { get; set; }
 
 		[Display(Name = "寄送方式")]
@@ -46,7 +45,6 @@ namespace TataGamedom.Models.ViewModels.Orders
 		public DateTime? SentAt { get; set; }
 		
 		[Display(Name = "抵達日期")]
-		[Compare("CreatedAt", ErrorMessage = "應填入相對於'寄送日期'近的日期")]
 		public DateTime? DeliveredAt { get; set; }
 
 		[StringLength(20)]

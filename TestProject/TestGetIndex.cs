@@ -14,7 +14,7 @@ namespace TestProject
 			string expectedIndex = "2023063011301";
 			string actualIndex = orderIndexGenerator.GetIndex(dto);
 
-			Assert.AreEqual(expectedIndex, actualIndex);
+			Assert.That(actualIndex, Is.EqualTo(expectedIndex));
 		}
 
 

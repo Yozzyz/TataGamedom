@@ -18,7 +18,7 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 		private string _connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
 
 		//
-		public string Create(OrderDto dto)
+		public void Create(OrderDto dto)
 		{
 			using (var connection = new SqlConnection(_connstr))
 			{
@@ -29,11 +29,10 @@ INSERT INTO Orders
 [SentAt],[DeliveredAt],[TrackingNum])
 VALUES
 (@Index,@MemberId,@OrderStatusId,@ShipmentStatusId,@PaymentStatusId,
-@CreatedAt,@CompletedAt,@ShipmemtMethodId,@RecipientName,@ToAddress)";
+@CreatedAt,@CompletedAt,@ShipmemtMethodId,@RecipientName,@ToAddress,
+@SentAt,@DeliveredAt,@TrackingNum)";
 
-				var entity = connection.QuerySingle<Order>(sql, dto);
-				return entity.Index;
-				
+				connection.Execute(sql, dto);
 			}
 		}
 
