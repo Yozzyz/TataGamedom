@@ -1,5 +1,5 @@
 Working On
-[]Order Create View Controller 
+
 
 
 To Do
@@ -42,5 +42,6 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 	       PageBarItemCount(¹w³]button¼Æ)
 
 06/30
-[v] Add Order Create() VM,Dto
+[v]Add Order Create() VM,Dto
 [v]Order Create IRepo repo Service []¥\¯à => Index½s½X
+[v]Order Create View Controller 
