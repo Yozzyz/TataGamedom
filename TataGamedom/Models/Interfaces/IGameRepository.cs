@@ -36,7 +36,8 @@ namespace TataGamedom.Models.Interfaces
 
 		List<int> GetGameClassificationsByGameId(int gameId);
 
-		bool RemoveClassification(GameEditVM game, int selectedGameClassification);
+		IEnumerable<GameEditVM> GetGameClassificationGames(int id);
 
+		bool DeleteGameClassificationGames(int id);
 	}
 }
