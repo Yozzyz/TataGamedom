@@ -156,14 +156,14 @@
 					<i class="fa fa-circle-info"></i>
 					<span>獺獺客服</span>
 				</a>
-				<ul>
-					@if (User.Identity.IsAuthenticated)
-					{
-						<li><a href="#">FAQ管理</a></li>
-						<li><a href="#">公告管理</a></li>
-						<li><a href="#">客服管理</a></li>
-					}
-				</ul>
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("FAQ管理", "Index", "FAQ", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li><a href="#">公告管理</a></li>
+                        <li><a href="#">客服管理</a></li>
+                    }
+                </ul>
 			</li>
 		</ul>
 		<a id="toggle">
