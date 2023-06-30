@@ -574,5 +574,7 @@ namespace TataGamedom.Models.EFModels
 				.WithRequired(e => e.Supplier)
 				.WillCascadeOnDelete(false);
 		}
-	}
+
+        public System.Data.Entity.DbSet<TataGamedom.Models.ViewModels.Orders.OrderCreateVM> OrderCreateVMs { get; set; }
+    }
 }

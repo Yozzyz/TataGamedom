@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using TataGamedom.Models.Dtos.Orders;
-using static TataGamedom.Models.Services.OrderService;
+using TataGamedom.Models.Services;
 
 namespace TataGamedom.Models.Interfaces
 {
@@ -14,5 +14,10 @@ namespace TataGamedom.Models.Interfaces
 		IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo);
 
 		IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo, string sqlAddPage);
+
+		void Create(OrderDto dto);
+
+		int GetMaxIdInDb();
+
 	}
 }
