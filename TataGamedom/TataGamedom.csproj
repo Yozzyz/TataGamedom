@@ -192,6 +192,7 @@
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\CouponsController.cs" />
+    <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="Models\EFModels\Supplier.cs" />
     <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\GameCommentRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
@@ -282,7 +284,8 @@
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
-    <Compile Include="Models\Interfaces\ICouponsRepository.cs" />
+    <Compile Include="Models\Interfaces\ICouponRepository.cs" />
+    <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
@@ -291,14 +294,15 @@
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
     <Compile Include="Models\Services\CouponService.cs" />
+    <Compile Include="Models\Services\GameCommentService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
     <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
-    <Compile Include="Models\ViewModels\Class1.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\GameComments\GameCommentIndexVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\Members\ForgetPasswordVM.cs" />
@@ -458,6 +462,11 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Coupons\Index.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\GameComments\Create.cshtml" />
+    <Content Include="Views\GameComments\Delete.cshtml" />
+    <Content Include="Views\GameComments\Details.cshtml" />
+    <Content Include="Views\GameComments\Edit.cshtml" />
+    <Content Include="Views\GameComments\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
