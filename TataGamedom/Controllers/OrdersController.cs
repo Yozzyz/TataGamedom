@@ -66,7 +66,7 @@ namespace TataGamedom.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(OrderCreateVM vm)
 		{
-            if (ModelState.IsValid == false) return View(vm);
+            if (!ModelState.IsValid) return View(vm);
 
 			PrepareCreateOrderDataSource(vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
             Result result = _service.Create(vm.ToDto());	
@@ -106,8 +106,58 @@ namespace TataGamedom.Controllers
 		{
 			if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			var orderInfo = _service.GetById(index).Select(x => x.ToVM());
+			var orderInfo = _service.GetOrderItemsInfo(index).Select(x => x.ToVM());
 			return View(orderInfo);
 		}
-	}
+
+		public ActionResult Edit(string index) 
+		{
+            PrepareCreateOrderDataSource(null, null, null, null);
+
+            if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			var order = _service.GetByIndex(index).ToEditVM();
+			return View(order);
+        }
+
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(OrderEditVM vm)
+        {
+            if (!ModelState.IsValid) return View(vm);
+            PrepareCreateOrderDataSource(vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
+
+            Result result = _service.Update(vm.ToDto());
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+        }
+        public ActionResult Delete(string index)
+        {
+            if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			var order = db.Orders.SingleOrDefault(x => x.Index == index);
+            if (order == null) return HttpNotFound();
+            return View(order);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string index)
+        {
+			_service.Delete(index);
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) db.Dispose();
+            base.Dispose(disposing);
+        }
+    }
 }

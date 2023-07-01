@@ -92,7 +92,17 @@ M.[Name], O.OrderStatusId, O.ShipmentStatusId, O.PaymentStatusId,O.Id
 			return Result.Success();
 		}
 
-        public IEnumerable<OrderInfoDto> GetById(string index) => _repo.GetById(index);
+        public IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index) => _repo.GetOrderItemsInfo(index);
+
+		public OrderDto GetByIndex(string index) => _repo.GetByIndex(index);
+
+		public Result Update(OrderDto dto)
+		{
+			_repo.Update(dto);
+			return Result.Success();
+		}
+
+		public void Delete(string index) => _repo.Delete(index);
     }
 
 	/// <summary>

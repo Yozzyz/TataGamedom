@@ -10,6 +10,8 @@ namespace TataGamedom.Models.ViewModels.Orders
     {
         public int Id { get; set; }
 
+        public string Index{ get; set; }
+
         [Required(ErrorMessage = "{0} 必填")]
         [Display(Name = "會員編號")]
         [Range(1, 99999999, ErrorMessage = "{0}不得小於1")]

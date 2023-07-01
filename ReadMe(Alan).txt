@@ -1,11 +1,11 @@
 Working On
-[v]Add Order Info()
-Edit Delete
 
-[]Create Order ­nÀË¬did¬O§_¦s¦b
+
 
 To Do
 []­q³æ°µ§¹Àu¥ı°µ®w¦s
+[]Create Order ­nÀË¬dMember id¬O§_¦s¦b
+
 
 []¨Ï¯à¿ï¾Ü¿é¤JÄæ¦ì­n¿z¤°»ò
 []¨Ï¯à¿ï¾Ü
@@ -51,3 +51,5 @@ note: ¥ÎDapper´N¤£»İ­n¥ıÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Ş§@? XX  Â²³æªº¾
 [v]Order Create View Controller 
 [v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
 [v] debug Index Sql
+[v] Add Order Info()
+[v] Order Edit Delete

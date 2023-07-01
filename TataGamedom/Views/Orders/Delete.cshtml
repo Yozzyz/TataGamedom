@@ -1,0 +1,132 @@
+﻿@model TataGamedom.Models.EFModels.Order
+
+@{
+    ViewBag.Title = "刪除訂單";
+}
+
+<h2>刪除訂單</h2>
+
+<p class="text-danger">您確定要刪除此記錄?</p>
+<div>
+    <hr />
+    @*<div class="col-md-4">
+        <img src="/Uploads/@Model.ProductImage" style="width: 100%" />
+    </div>*@
+    @*<div class="col-md-8">*@
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Member.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Member.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatusCode.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatusCode.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentStatusCode.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentStatusCode.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmemtMethod.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmemtMethod.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentStatusesCode.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentStatusesCode.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Index)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Index)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompletedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompletedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecipientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecipientName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SentAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SentAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliveredAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeliveredAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrackingNum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrackingNum)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger mt-3" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

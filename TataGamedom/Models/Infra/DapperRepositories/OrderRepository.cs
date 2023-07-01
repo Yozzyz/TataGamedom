@@ -36,7 +36,7 @@ VALUES
 			}
 		}
 
-        public IEnumerable<OrderInfoDto> GetById(string index)
+        public IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index)
         {
 			using (var connection = new SqlConnection(_connstr)) 
 			{
@@ -103,5 +103,36 @@ WHERE O.[Index] = @Index
 			}
 		}
 
-	}
+        public OrderDto GetByIndex(string index)
+        {
+			using (var connection = new SqlConnection(_connstr)) 
+			{
+				string sql = "SELECT * FROM Orders WHERE [Index] = @Index";
+                var order = connection.QuerySingleOrDefault<Order>(sql, new { Index = index });
+				return order.ToDto();
+			}
+        }
+
+        public void Update(OrderDto dto)
+        {
+			using (var connection = new SqlConnection(_connstr)) 
+			{
+				string sql = @"UPDATE Orders SET 
+MemberId = @MemberId , OrderStatusId = @OrderStatusId, ShipmentStatusId = @ShipmentStatusId , CreatedAt = @CreatedAt, CompletedAt = @CompletedAt,
+ShipmemtMethodId = @ShipmemtMethodId, RecipientName = @RecipientName, ToAddress = @ToAddress, SentAt= @SentAt, DeliveredAt = @DeliveredAt, 
+TrackingNum = @TrackingNum
+WHERE [Index] = @Index";
+				connection.ExecuteScalar(sql,dto);
+			}
+        }
+
+        public void Delete(string index)
+        {
+            var dbContext = new AppDbContext();
+			var order = dbContext.Orders.SingleOrDefault(o => o.Index == index);
+			if (order == null) { return;}
+			dbContext.Orders.Remove(order);
+			dbContext.SaveChanges();
+        }
+    }
 }

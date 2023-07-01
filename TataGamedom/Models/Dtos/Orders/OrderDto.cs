@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.Orders;
@@ -63,12 +64,13 @@ namespace TataGamedom.Models.Dtos.Orders
 				TrackingNum = vm.TrackingNum,
 			};
 		}
-		public static OrderDto ToEditDto(this Order entity) 
+		public static OrderDto ToDto(this Order entity) 
 		{
 			return new OrderDto
 			{
 				Id = entity.Id,
-				MemberId = entity.MemberId,
+                Index = entity.Index,
+                MemberId = entity.MemberId,
 				OrderStatusId = entity.OrderStatusId,
 				ShipmentStatusId = entity.ShipmentStatusId,
 				PaymentStatusId = entity.PaymentStatusId,
@@ -82,12 +84,12 @@ namespace TataGamedom.Models.Dtos.Orders
 				TrackingNum = entity.TrackingNum
 			};
 		}
-
-        public static OrderEditVM ToEditVM(this Order dto)
+        public static OrderEditVM ToEditVM(this OrderDto dto)
         {
             return new OrderEditVM
             {
                 Id = dto.Id,
+                Index = dto.Index,
                 MemberId = dto.MemberId,
                 OrderStatusId = dto.OrderStatusId,
                 ShipmentStatusId = dto.ShipmentStatusId,
@@ -102,6 +104,26 @@ namespace TataGamedom.Models.Dtos.Orders
                 TrackingNum = dto.TrackingNum
             };
         }
+		public static OrderDto ToDto(this OrderEditVM vm) 
+		{
+			return new OrderDto
+			{
+                Id = vm.Id,
+                MemberId = vm.MemberId,
+                OrderStatusId = vm.OrderStatusId,
+                ShipmentStatusId = vm.ShipmentStatusId,
+                PaymentStatusId = vm.PaymentStatusId,
+                CreatedAt = vm.CreatedAt,
+                CompletedAt = vm.CompletedAt,
+                ShipmemtMethodId = vm.ShipmemtMethodId,
+                RecipientName = vm.RecipientName,
+                ToAddress = vm.ToAddress,
+                SentAt = vm.SentAt,
+                DeliveredAt = vm.DeliveredAt,
+                TrackingNum = vm.TrackingNum,
+            };
+		}
+
     }
 
 }
