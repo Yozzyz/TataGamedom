@@ -17,25 +17,26 @@
 
 <section class="container">
     <form method="get">
-        <div class="row">
-            <div class="mb-3 col-md-3">
-                <label for="orderIndex">訂單編號</label>
-                <input type="text" class="form-control" name="Index" id="orderIndex" value="@criteria.Index">
-            </div>
-            <div class="mb-3 col-md-3">
-                <label for="orderStatusName">訂單狀態</label>
-                <select name="orderStatusId" id="orderStatusName" class="form-select">
-                    @foreach (var item in orderStatusId)
-                    {
-                        <option value="@item.Value" @(orderStatusName == item.Value ? "selected" : "")>@item.Text</option>
-                    }
-                </select>
+		<div class="row">
 
-            </div>
-            <div class="mb-3 col-md-2 align-self-end">
-                <button class="btn btn-primary">Search</button>
-            </div>
-        </div>
+			<div class="mb-3 col-md-3">
+				<label for="orderIndex">訂單編號</label>
+				<input type="text" class="form-control" name="Index" id="orderIndex" value="@criteria.Index">
+			</div>
+			<div class="mb-3 col-md-3">
+				<label for="orderStatusName">訂單狀態</label>
+				<select name="orderStatusId" id="orderStatusName" class="form-select">
+					@foreach (var item in orderStatusId)
+					{
+						<option value="@item.Value" @(orderStatusName == item.Value ? "selected" : "")>@item.Text</option>
+					}
+				</select>
+
+			</div>
+			<div style="text-align: right" class="mb-3 col-md-3 align-self-end">
+				<button class="btn btn-primary">查詢</button>
+			</div>
+		</div>
     </form>
 </section>
 
