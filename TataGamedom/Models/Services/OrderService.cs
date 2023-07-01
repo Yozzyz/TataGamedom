@@ -36,7 +36,7 @@ JOIN OrderStatusCodes AS OSC ON O.OrderStatusId = OSC.Id
 JOIN PaymentStatusCodes AS PSC ON O.PaymentStatusId = PSC.Id
 JOIN ShipmentStatusesCodes AS SSC ON O.ShipmentStatusId= SSC.Id
 JOIN Members AS M ON O.MemberId = M.Id
-RIGHT JOIN OrderItems AS OI ON O.Id = OI.OrderId";
+LEFT JOIN OrderItems AS OI ON O.Id = OI.OrderId";
 
 			string sqlSort = sortInfo.sqlSort();
 

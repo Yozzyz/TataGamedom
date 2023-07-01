@@ -1,5 +1,5 @@
 Working On
-[v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
+[] debug ¿z¿ï¥X·s²£¥Íªº½s¸¹ 
 
 
 To Do
@@ -45,3 +45,4 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 [v]Add Order Create() VM,Dto
 [v]Order Create IRepo repo Service []¥\¯à => Index½s½X
 [v]Order Create View Controller 
+[v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
