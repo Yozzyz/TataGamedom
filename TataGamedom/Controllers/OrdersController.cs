@@ -13,6 +13,8 @@ using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
 using TataGamedom.Models.Dtos.Orders;
 using TataGamedom.Models.ViewModels.Orders;
+using TataGamedom.Models.Infra;
+using System.Web.Http.Results;
 
 namespace TataGamedom.Controllers
 {
@@ -55,32 +57,54 @@ namespace TataGamedom.Controllers
 
 		public ActionResult Create()
 		{
-			PrepareCreateOrderDataSource(null, null, null, null, null);
+			PrepareCreateOrderDataSource(null, null, null, null);
             return View();
 		}
-
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(OrderCreateVM vm)
 		{
-			if (ModelState.IsValid)
+            if (ModelState.IsValid == false) return View(vm);
+
+			PrepareCreateOrderDataSource(vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
+            Result result = _service.Create(vm.ToDto());	
+			if (result.IsSuccess)
 			{
-				PrepareCreateOrderDataSource(vm.MemberId, vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
-                _service.Create(vm.ToDto());
 				return RedirectToAction("Index");
 			}
+			else 
+			{
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
 
-			return View(vm);
 		}
-        private void PrepareCreateOrderDataSource(int? memberId, int? orderStatusId, int? paymentStatusId, int? shipmemtMethodId, int? shipmentStatusId)
-        {
-            ViewBag.MemberId = new SelectList(db.Members.ToList().Prepend(new Member {Id = 0, Name = ""}), "Id", "Name", memberId);
-            ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes.ToList().Prepend(new OrderStatusCode { Id = 0, Name = ""}), "Id", "Name", orderStatusId);
-            ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes.ToList().Prepend(new PaymentStatusCode { Id = 0, Name = "" }), "Id", "Name", paymentStatusId);
-            ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods.ToList().Prepend(new ShipmemtMethod { Id = 0, Name = "" }), "Id", "Name", shipmemtMethodId);
-            ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes.ToList().Prepend(new ShipmentStatusesCode { Id = 0, Name = "" }), "Id", "Name", shipmentStatusId);
-        }
+		private void PrepareCreateOrderDataSource(int? orderStatusId, int? paymentStatusId, int? shipmemtMethodId, int? shipmentStatusId)
+		{
+			var orderStatusSelectList = new List<SelectListItem>();
+			foreach (var osc in db.OrderStatusCodes) { orderStatusSelectList.Add(new SelectListItem { Value = osc.Id.ToString(), Text = osc.Name}); }
+			ViewBag.OrderStatuses = orderStatusSelectList;
 
-    }
+            var paymentStatusSelectList = new List<SelectListItem>();
+            foreach (var psc in db.PaymentStatusCodes) { paymentStatusSelectList.Add(new SelectListItem { Value = psc.Id.ToString(), Text = psc.Name }); }
+            ViewBag.PaymentStatuses = orderStatusSelectList;
+
+            var shipmemtMethodSelectList = new List<SelectListItem>();
+            foreach (var smc in db.ShipmemtMethods) { shipmemtMethodSelectList.Add(new SelectListItem { Value = smc.Id.ToString(), Text = smc.Name }); }
+            ViewBag.ShipmemtMethods = orderStatusSelectList;
+
+            var shipmentStatusSelectList = new List<SelectListItem>();
+            foreach (var ssc in db.ShipmentStatusesCodes) { shipmentStatusSelectList.Add(new SelectListItem { Value = ssc.Id.ToString(), Text = ssc.Name }); }
+            ViewBag.ShipmentStatuses = orderStatusSelectList;
+
+		}
+
+
+
+		//public ActionResult Edit(int? index) 
+		//{
+
+		//}
+	}
 }
