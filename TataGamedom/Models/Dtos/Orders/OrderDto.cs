@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.Orders;
 
 namespace TataGamedom.Models.Dtos.Orders
@@ -62,6 +63,45 @@ namespace TataGamedom.Models.Dtos.Orders
 				TrackingNum = vm.TrackingNum,
 			};
 		}
-	}
+		public static OrderDto ToEditDto(this Order entity) 
+		{
+			return new OrderDto
+			{
+				Id = entity.Id,
+				MemberId = entity.MemberId,
+				OrderStatusId = entity.OrderStatusId,
+				ShipmentStatusId = entity.ShipmentStatusId,
+				PaymentStatusId = entity.PaymentStatusId,
+				CreatedAt = entity.CreatedAt,
+				CompletedAt = entity.CompletedAt,
+				ShipmemtMethodId= entity.ShipmemtMethodId,
+				RecipientName= entity.RecipientName,
+				ToAddress = entity.ToAddress,
+				SentAt= entity.SentAt,
+				DeliveredAt= entity.DeliveredAt,
+				TrackingNum = entity.TrackingNum
+			};
+		}
+
+        public static OrderEditVM ToEditVM(this Order dto)
+        {
+            return new OrderEditVM
+            {
+                Id = dto.Id,
+                MemberId = dto.MemberId,
+                OrderStatusId = dto.OrderStatusId,
+                ShipmentStatusId = dto.ShipmentStatusId,
+                PaymentStatusId = dto.PaymentStatusId,
+                CreatedAt = dto.CreatedAt,
+                CompletedAt = dto.CompletedAt,
+                ShipmemtMethodId = dto.ShipmemtMethodId,
+                RecipientName = dto.RecipientName,
+                ToAddress = dto.ToAddress,
+                SentAt = dto.SentAt,
+                DeliveredAt = dto.DeliveredAt,
+                TrackingNum = dto.TrackingNum
+            };
+        }
+    }
 
 }

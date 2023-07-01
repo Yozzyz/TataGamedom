@@ -213,6 +213,7 @@
     <Compile Include="Models\Dtos\Members\RegisterDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderIndexDto.cs" />
+    <Compile Include="Models\Dtos\Orders\OrderInfoDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
@@ -313,7 +314,9 @@
     <Compile Include="Models\ViewModels\Members\RegisterVM.cs" />
     <Compile Include="Models\ViewModels\Members\ResetPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Orders\OrderCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Orders\OrderEditVM.cs" />
     <Compile Include="Models\ViewModels\Orders\OrderIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Orders\OrderInfoVM.cs" />
     <Compile Include="Models\ViewModels\Products\ProductIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -457,6 +460,7 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Coupons\Index.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\Orders\Info.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

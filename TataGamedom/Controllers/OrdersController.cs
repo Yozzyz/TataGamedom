@@ -15,6 +15,7 @@ using TataGamedom.Models.Dtos.Orders;
 using TataGamedom.Models.ViewModels.Orders;
 using TataGamedom.Models.Infra;
 using System.Web.Http.Results;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace TataGamedom.Controllers
 {
@@ -101,10 +102,12 @@ namespace TataGamedom.Controllers
 		}
 
 
+		public ActionResult Info(string index)
+		{
+			if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-		//public ActionResult Edit(int? index) 
-		//{
-
-		//}
+			var orderInfo = _service.GetById(index).Select(x => x.ToVM());
+			return View(orderInfo);
+		}
 	}
 }

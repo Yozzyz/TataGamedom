@@ -29,7 +29,7 @@ namespace TataGamedom.Models.Services
 
 			string sqlJoin = @"
 SELECT 
-O.[Index], O.CreatedAt, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, SSC.[Name] AS ShipmentStatusCodeName,
+O.Id, O.[Index], O.CreatedAt, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, SSC.[Name] AS ShipmentStatusCodeName,
 M.[Name] AS MemberName, SUM(OI.ProductPrice) AS Total
 FROM Orders AS O 
 JOIN OrderStatusCodes AS OSC ON O.OrderStatusId = OSC.Id
@@ -91,7 +91,9 @@ M.[Name], O.OrderStatusId, O.ShipmentStatusId, O.PaymentStatusId,O.Id
 			_repo.Create(dto);
 			return Result.Success();
 		}
-	}
+
+        public IEnumerable<OrderInfoDto> GetById(string index) => _repo.GetById(index);
+    }
 
 	/// <summary>
 	/// 篩選條件: 訂單狀態,訂單編號

@@ -19,5 +19,7 @@ namespace TataGamedom.Models.Interfaces
 
 		int GetMaxIdInDb();
 
-	}
+        IEnumerable<OrderInfoDto>GetById(string index);
+
+    }
 }

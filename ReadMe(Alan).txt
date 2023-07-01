@@ -1,8 +1,12 @@
 Working On
-[] debug ¿z¿ï¥X·s²£¥Íªº½s¸¹ 
+[v]Add Order Info()
+Edit Delete
 
+[]Create Order ­nÀË¬did¬O§_¦s¦b
 
 To Do
+[]­q³æ°µ§¹Àu¥ý°µ®w¦s
+
 []¨Ï¯à¿ï¾Ü¿é¤JÄæ¦ì­n¿z¤°»ò
 []¨Ï¯à¿ï¾Ü
 	­q³æª¬ºA &  ­q³æ½s¸¹ & Åã¥Ü´Xµ§
@@ -46,3 +50,4 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 [v]Order Create IRepo repo Service []¥\¯à => Index½s½X
 [v]Order Create View Controller 
 [v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
+[v] debug Index Sql
