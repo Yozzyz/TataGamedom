@@ -7,7 +7,7 @@ using TataGamedom.Models.ViewModels.Coupons;
 
 namespace TataGamedom.Models.Interfaces
 {
-	public interface ICouponsRepository
+	public interface ICouponRepository
 	{
 		IEnumerable<CouponIndexVM> Get();
 	}
