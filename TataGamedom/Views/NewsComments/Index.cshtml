@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.News.NewsCommentIndexVM>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>
+	新聞留言管理
+</h2>
+
+
+<table class="table">
+	<tr>
+		@*<th>
+			@Html.DisplayNameFor(model => model.Title)
+		</th>*@
+		<th>
+			@Html.DisplayNameFor(model => model.MemberName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Content)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Time)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.ActiveFlag)
+		</th>
+		<th></th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			@*<td>
+				@Html.DisplayFor(modelItem => item.Title)
+			</td>*@
+			<td>
+				@Html.DisplayFor(modelItem => item.MemberName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Content)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Time)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ActiveFlagText)
+			</td>
+
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+				@Html.ActionLink("Details", "Details", new { id = item.Id }) |
+				@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+			</td>
+		</tr>
+	}
+
+</table>
