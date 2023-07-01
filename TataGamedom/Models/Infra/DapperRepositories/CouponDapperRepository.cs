@@ -9,7 +9,7 @@ using TataGamedom.Models.ViewModels.Coupons;
 
 namespace TataGamedom.Models.Infra.DapperRepositories
 {
-	public class CouponDapperRepository : ICouponsRepository
+	public class CouponDapperRepository : ICouponRepository
 	{
 		private string _connStr;
 		public CouponDapperRepository()

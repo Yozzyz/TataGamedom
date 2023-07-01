@@ -9,8 +9,8 @@ namespace TataGamedom.Models.Services
 {
 	public class CouponService
 	{
-		private ICouponsRepository _repo;
-        public CouponService(ICouponsRepository repo)
+		private ICouponRepository _repo;
+        public CouponService(ICouponRepository repo)
         {
             _repo=repo;
         }

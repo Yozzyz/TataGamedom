@@ -22,7 +22,7 @@ namespace TataGamedom.Controllers
 
 		private IEnumerable<CouponIndexVM> GetCoupons()
 		{
-			ICouponsRepository repo = new CouponDapperRepository();
+			ICouponRepository repo = new CouponDapperRepository();
             CouponService service = new CouponService(repo);
             return service.Get();
 		}

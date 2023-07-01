@@ -40,7 +40,7 @@
         @{
             var selectedClassifications = Model.SelectedGameClassification ?? new List<int>();
         }
-        @foreach (var classification in Model.GameClassification)
+        @foreach (var classification in Model.GameClassification.Skip(1))
         {
             <label class="checkbox-inline form-check-label">
                 @{
@@ -51,25 +51,7 @@
         }
         @Html.ValidationMessageFor(model => model.SelectedGameClassification, "", new { @class = "text-danger" })
     </div>
-    @*<div class="mb-3">
-            @Html.LabelFor(model => model.SelectedGameClassification, htmlAttributes: new { @class = "form-label" })
-            <br />
-            @foreach (var classification in Model.GameClassification.Skip(1))
-            {
-                <div>
-                    @{
-                        var selected = Model.SelectedGameClassification != null && Model.SelectedGameClassification.Contains(classification.Id);
-                    }
-                    <label>
-                        @Html.CheckBoxFor(m => selected)
-                        @classification.Name
-                    </label>
-                </div>
-            }
-            @Html.ValidationMessageFor(model => model.SelectedGameClassificationString, "", new { @class = "text-danger" })
-        </div>*@
-
-    <div class="mb-3">
+        <div class="mb-3">
         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "form-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
