@@ -1,44 +1,45 @@
 ﻿@model IEnumerable<TataGamedom.Models.ViewModels.News.NewsIndexVM>
+@using PagedList;
+@using PagedList.Mvc;
 
 @{
 	ViewBag.Title = "Index";
-	var gamesId = ViewBag.GamesId as SelectList ;
+	var gamesId = ViewBag.GamesId as SelectList;
 	var newsCriteria = ViewBag.NewsCriteria as TataGamedom.Models.ViewModels.News.NewsCriteria;
 	string s_gameId = newsCriteria.GamesId.HasValue ? newsCriteria.GamesId.Value.ToString() : "";
 }
 
-<h2>新聞頁面</h2>
+<h2>新聞總覽</h2>
 
-<div style="text-align: right;">
-	@Html.ActionLink("新增新聞", "Create", null, new { @class = "btn btn-danger" })
-</div>
+<section class="container-fluid">
+	<form method="get">
+		<div class="row">
 
-
-<section class="container">
-		<form method="get">
-			<div class="row">
-
-				<div class="mb-3 col-md-3">
-					<label for="s_gameId">遊戲分類</label>
-					<select name="GamesId" id="s_gameId" class="form-select">
-						@foreach (var item in gamesId)
-						{
-							<option value="@item.Value" @(s_gameId == item.Value ? "selected" : "") )>@item.Text</option>
-						}
-					</select>
-				</div>
-
-				<div class="mb-3 col-md-3">
-					<label for="s_name">名稱</label>
-					<input type="text" class="form-control" name="title" id="s_name" value="@newsCriteria.Title">
-				</div>
-
-				<div style="text-align: right" class="mb-3 col-md-3 align-self-end">
-					<button class="btn btn-primary" onclick="performSearch()">查詢</button>
-				</div>
+			<div class="mb-3 col-md-3">
+				<label for="s_gameId">遊戲分類</label>
+				<select name="GamesId" id="s_gameId" class="form-select">
+					@foreach (var item in gamesId)
+					{
+						<option value="@item.Value" @(s_gameId == item.Value ? "selected" : "") )>@item.Text</option>
+					}
+				</select>
 			</div>
-		</form>
-	</section>
+
+			<div class="mb-3 col-md-3">
+				<label for="s_name">搜尋新聞</label>
+				<input type="text" class="form-control" name="Title" id="s_name" value="@newsCriteria.Title">
+			</div>
+
+			<div class="mb-3 col-md-3 align-self-end">
+				<button class="btn btn-primary">查詢</button>
+			</div>
+
+			<div style="text-align: right" class="mb-3 col-md-3 align-self-end">
+				@Html.ActionLink("新增新聞", "Create", null, new { @class = "btn btn-danger" })
+			</div>
+		</div>
+	</form>
+</section>
 
 
 <table class="table ">
@@ -97,7 +98,8 @@
 				@Html.DisplayFor(modelItem => item.ActiveFlagText)
 			</td>
 			<td>
-				<a href="@Url.Action("index","newscomments")">
+				<a href="@Url.Action("Index", "NewsComments", new { newsId = item.Id })">
+					@*<a href="@Url.Action("index","Newscomments")">*@
 					<i class="fa-regular fa-comments ms-3"></i>
 				</a>
 			</td>
@@ -106,7 +108,30 @@
 					<i class="fas fa-edit ms-2"></i>
 				</a>
 			</td>
-		</tr>
 
+			<td>
+				<a href="@Url.Action("show", new { id = item.Id })">
+					偷看一下
+				</a>
+			</td>
+
+		</tr>
 	}
 </table>
+
+<div class="pagination-container">
+	<ul class="pagination justify-content-center">
+		@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "newsList" }))
+	</ul>
+</div>
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination ustify-content-center">
+		想套成這樣
+		<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+		<li class="page-item"><a class="page-link" href="#">1</a></li>
+		<li class="page-item"><a class="page-link" href="#">2</a></li>
+		<li class="page-item"><a class="page-link" href="#">3</a></li>
+		<li class="page-item"><a class="page-link" href="#">Next</a></li>
+	</ul>
+</nav>

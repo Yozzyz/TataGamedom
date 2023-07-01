@@ -35,5 +35,7 @@ namespace TataGamedom.Models.EFModels
         public virtual Member Member1 { get; set; }
 
         public virtual News News { get; set; }
-    }
+
+		public virtual News Title { get; set; }
+	}
 }
