@@ -39,5 +39,9 @@ namespace TataGamedom.Models.Interfaces
 		IEnumerable<GameEditVM> GetGameClassificationGames(int id);
 
 		bool DeleteGameClassificationGames(int id);
+
+		Game GetGameByIdForAddProduct(int id);
+
+		bool CreateProduct(Product product);
 	}
 }
