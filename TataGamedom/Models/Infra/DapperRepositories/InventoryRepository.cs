@@ -6,6 +6,7 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using TataGamedom.Models.Dtos.InventoryItems;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.ViewModels.InventoryItems;
 

@@ -19,6 +19,8 @@ namespace TataGamedom.Models.ViewModels.InventoryItems
         public decimal Cost { get; set; }
 
         public string GameKey { get; set; }
+
+        public string GameName{ get; set; }
     }
 
     public class InventoryVM 

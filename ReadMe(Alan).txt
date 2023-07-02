@@ -1,9 +1,11 @@
 Working On
-[] ®w¦sIndex  => Service Search()
+[v] Debug Order Info  *¸ê®Æ®w¦WºÙ ShipmentStatusCode¦³»~
+[] ®w¦s detail => ®w¦s©ú²ÓCRU
+[] §ó§ï°²¸ê®Æ OrderItemÁ`¼Æ­n¤Ö©ó
 
 
 To Do
-[] ±H«H  ®w¦s detail => ¶i³f³æCRUD
+[] Order ÅÜ§óª«¬yª¬ºA => ±H«H
 [] ¶i³f±ÀÂË²M³æ
 [] Create Order ­nÀË¬dMember id¬O§_¦s¦b
 
@@ -23,7 +25,6 @@ Completed
 [v]Add Controller & View & LayOut2
 [v]Add OrdersIndexVM, Add OrdersIndex Controller , Index View
 [v]Orders Index()§ï¤T¼h¦¡, §ïªº¶¶§Ç:DTO => IRepo => Repo => Services => Controller
-note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾Þ§@©Î³\¥i¥H¡A¦ý¦pªGÅÜ±o½ÆÂø¡A¥ýÂà¦¨DtoÁÙ¬O¦n¾Þ§@¤@¨Ç
 
 06/27
 [v]·s¼WService,Repo¨Ö¬°¤@­Ó
@@ -62,3 +63,4 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 [v] Order Edit Delete
 
 07/02
+[v] ®w¦sIndex  => Service Search()

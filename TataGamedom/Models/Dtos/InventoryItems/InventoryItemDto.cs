@@ -22,6 +22,8 @@ namespace TataGamedom.Models.Dtos.InventoryItems
         public decimal Cost { get; set; }
 
         public string GameKey { get; set; }
+
+        public string GameName { get; set; } 
     }
 
     public static class InventoryItemExts 
@@ -35,7 +37,8 @@ namespace TataGamedom.Models.Dtos.InventoryItems
                 ProductId = dto.ProductId,
                 StockInSheetId = dto.StockInSheetId,
                 Cost = dto.Cost,
-                GameKey = dto.GameKey
+                GameKey = dto.GameKey,
+                GameName = dto.GameName
             };
         }
 
@@ -48,8 +51,9 @@ namespace TataGamedom.Models.Dtos.InventoryItems
                 ProductId = entity.ProductId,
                 StockInSheetId= entity.StockInSheetId,
                 Cost = entity.Cost,
-                GameKey = entity.GameKey
+                GameKey = entity.GameKey,
+                GameName = entity.Product.Game.ChiName
             };
-        }
+        }        
     }
 }

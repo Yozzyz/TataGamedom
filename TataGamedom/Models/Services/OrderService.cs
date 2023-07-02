@@ -102,7 +102,7 @@ M.[Name], O.OrderStatusId, O.ShipmentStatusId, O.PaymentStatusId,O.Id
 			return Result.Success();
 		}
 
-		public void Delete(string index) => _repo.Delete(index);
+		//public void Delete(string index) => _repo.Delete(index);
     }
 
 	/// <summary>
