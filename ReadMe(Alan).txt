@@ -1,5 +1,4 @@
 Working On
-[v] Add InventoryVM,InventoryItemVM,InventoryItemDto
 [] ®w¦sIndex  => Service Search()
 
 
@@ -53,8 +52,12 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 06/30
 [v]Add Order Create() VM,Dto
 [v]Order Create IRepo repo Service []¥\¯à => Index½s½X
+
+07/01
 [v]Order Create View Controller 
 [v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
 [v] debug Index Sql
 [v] Add Order Info()
 [v] Order Edit Delete
+
+07/02
