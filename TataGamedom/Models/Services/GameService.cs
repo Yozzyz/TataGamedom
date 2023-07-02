@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TataGamedom.Models.Dtos.Games;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Infra;
@@ -181,6 +182,44 @@ namespace TataGamedom.Models.Services
 				{
 					return Result.Fail("遊戲類別新增失敗");
 				}
+			}
+			return Result.Success();
+		}
+
+		public GameAddProductVM GetGameByIdForAddProduct (int id)
+		{
+			var game = _repo.GetGameByIdForAddProduct(id);
+			return new GameAddProductVM
+			{
+				Id = game.Id,
+				GameChiName = game.ChiName,
+				GameEngName = game.EngName,
+				Description = game.Description,
+				Status = "待上架"
+			};
+		}
+
+		public Result CreateProduct(GameAddProductVM vm)
+		{
+			var product = new Product
+			{
+				GameId = vm.GameId,
+				Index = "",
+				IsVirtual = vm.IsVirtual,
+				Price = vm.Price,
+				SystemRequire = vm.SystemRequire,
+				SaleDate =vm.SaleDate,
+				ProductStatusId = 1,
+				CreatedBackendMemberId = vm.CreateBackendMemberId,
+				CreatedTime = DateTime.Now,
+				ModifiedBackendMemberId = null,
+				ModifiedTime = null
+			};
+
+			var result = _repo.CreateProduct(product);
+			if (!result)
+			{
+				return Result.Fail("商品新增失敗");
 			}
 			return Result.Success();
 		}
