@@ -285,6 +285,7 @@
     <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameCommentRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\InventoryRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
@@ -298,6 +299,7 @@
     <Compile Include="Models\Interfaces\ICouponRepository.cs" />
     <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
+    <Compile Include="Models\Interfaces\IInventoryRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
     <Compile Include="Models\Interfaces\IOrderRepository.cs" />
@@ -307,6 +309,7 @@
     <Compile Include="Models\Services\CouponService.cs" />
     <Compile Include="Models\Services\GameCommentService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
+    <Compile Include="Models\Services\InventoryService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
@@ -489,12 +492,12 @@
     <Content Include="Views\Orders\Info.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Models\ViewModels\Boards\" />
-    <Folder Include="Views\Inventory\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

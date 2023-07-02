@@ -131,11 +131,12 @@
                     <span>獺獺庫存</span>
                 </a>
                 <ul>
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a href="#">供應商管理</a></li>
                         <li><a href="#">叫貨管理</a></li>
-                        <li><a href="#">庫存管理</a></li>
+                        <li>@Html.ActionLink("庫存管理", "Index", "Inventory", new { area = "" }, new { @class = "nav-link" })</li>
                     }
                 </ul>
             </li>
@@ -145,15 +146,9 @@
                     <span>獺獺訂單</span>
                 </a>
                 <ul>
-                    @*之後要刪掉*@
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("訂單管理", "Index", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
-                    }
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("訂單管理", "Index", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li><a href="#">訂單管理</a></li>
                         <li><a href="#">物流管理</a></li>
                     }
                 </ul>

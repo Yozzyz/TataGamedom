@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.InventoryItems.InventoryVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductIndex)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameCoverImage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductIsVirtual)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductIndex)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GameName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GameCoverImage)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductIsVirtual)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Count)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

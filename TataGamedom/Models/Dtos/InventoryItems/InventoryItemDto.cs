@@ -24,7 +24,7 @@ namespace TataGamedom.Models.Dtos.InventoryItems
         public string GameKey { get; set; }
     }
 
-    public static class InventoryExts 
+    public static class InventoryItemExts 
     {
         public static InventoryItemVM ToVM(this InventoryItemDto dto)
         {
