@@ -17,7 +17,7 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 	{
 		private string _connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
 
-		//
+		
 		public void Create(OrderDto dto)
 		{
 			using (var connection = new SqlConnection(_connstr))
@@ -36,7 +36,32 @@ VALUES
 			}
 		}
 
-		public int GetMaxIdInDb()
+        public IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index)
+        {
+			using (var connection = new SqlConnection(_connstr)) 
+			{
+				string sql = @"SELECT
+OI.[Index] AS OrderItemIndex, OI.ProductPrice, O.[Index], O.CreatedAt, O.CompletedAt,
+(SELECT SUM(OI.ProductPrice) FROM OrderItems AS OI WHERE OI.OrderId = O.Id) AS Total, IIT.GameKey, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, G.ChiName AS GameName,
+G.GameCoverImg, C.[Description] AS CouponDescription, O.Id
+FROM OrderItems AS OI
+RIGHT JOIN Orders AS O ON OI.OrderId = O.Id
+LEFT JOIN InventoryItems AS IIT ON OI.InventoryItemId = IIT.Id
+LEFT JOIN OrderItemsCoupons AS OIC ON OI.Id = OIC.OrderItemId
+LEFT JOIN Coupons AS C ON OIC.CouponId = C.Id
+JOIN OrderStatusCodes AS OSC ON O.OrderStatusId = OSC.Id
+JOIN PaymentStatusCodes AS PSC ON O.OrderStatusId = PSC.Id
+LEFT JOIN Products AS P ON　OI.ProductId = P.Id
+LEFT JOIN Games AS G ON P.GameId = G.Id
+WHERE O.[Index] = @Index
+";
+
+                IEnumerable<OrderInfoDto> orderInfo = connection.Query<OrderInfoDto>(sql, new { Index = index }).ToList();	
+				return orderInfo;
+			}
+        }
+
+        public int GetMaxIdInDb()
 		{
 			using (var connection = new SqlConnection(_connstr))
 			{
@@ -78,5 +103,36 @@ VALUES
 			}
 		}
 
-	}
+        public OrderDto GetByIndex(string index)
+        {
+			using (var connection = new SqlConnection(_connstr)) 
+			{
+				string sql = "SELECT * FROM Orders WHERE [Index] = @Index";
+                var order = connection.QuerySingleOrDefault<Order>(sql, new { Index = index });
+				return order.ToDto();
+			}
+        }
+
+        public void Update(OrderDto dto)
+        {
+			using (var connection = new SqlConnection(_connstr)) 
+			{
+				string sql = @"UPDATE Orders SET 
+MemberId = @MemberId , OrderStatusId = @OrderStatusId, ShipmentStatusId = @ShipmentStatusId , CreatedAt = @CreatedAt, CompletedAt = @CompletedAt,
+ShipmemtMethodId = @ShipmemtMethodId, RecipientName = @RecipientName, ToAddress = @ToAddress, SentAt= @SentAt, DeliveredAt = @DeliveredAt, 
+TrackingNum = @TrackingNum
+WHERE [Index] = @Index";
+				connection.ExecuteScalar(sql,dto);
+			}
+        }
+
+        public void Delete(string index)
+        {
+            var dbContext = new AppDbContext();
+			var order = dbContext.Orders.SingleOrDefault(o => o.Index == index);
+			if (order == null) { return;}
+			dbContext.Orders.Remove(order);
+			dbContext.SaveChanges();
+        }
+    }
 }

@@ -3,6 +3,13 @@ Working On
 
 
 To Do
+[] ±H«H + ®w¦sR  detail => ¶i³f³æCRUD
+[]Create Order ­nÀË¬dMember id¬O§_¦s¦b
+
+[]°h³f³æ
+[]Edit Order ÅÜ§óª«¬yª¬ºA®É±H«H
+
+
 []¨Ï¯à¿ï¾Ü¿é¤JÄæ¦ì­n¿z¤°»ò
 []¨Ï¯à¿ï¾Ü
 	­q³æª¬ºA &  ­q³æ½s¸¹ & Åã¥Ü´Xµ§
@@ -45,3 +52,7 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 [v]Add Order Create() VM,Dto
 [v]Order Create IRepo repo Service []¥\¯à => Index½s½X
 [v]Order Create View Controller 
+[v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
+[v] debug Index Sql
+[v] Add Order Info()
+[v] Order Edit Delete
