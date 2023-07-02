@@ -1,10 +1,12 @@
 Working On
-
+[v] Add InventoryVM,InventoryItemVM,InventoryItemDto
+[] 庫存Index  => Service Search()
 
 
 To Do
-[] 寄信 + 庫存R  detail => 進貨單CRUD
-[]Create Order 要檢查Member id是否存在
+[] 寄信  庫存 detail => 進貨單CRUD
+[] 進貨推薦清單
+[] Create Order 要檢查Member id是否存在
 
 []退貨單
 []Edit Order 變更物流狀態時寄信
