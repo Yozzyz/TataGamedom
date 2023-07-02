@@ -18,7 +18,7 @@
                 @Html.DisplayNameFor(model => model.MemberName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                @Html.DisplayNameFor(model => model.ContentText)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Score)
@@ -36,6 +36,7 @@
                 @Html.DisplayNameFor(model => model.DeleteDatetime)
             </th>
             <th>
+                詳細
             </th>
         </tr>
 
@@ -49,7 +50,7 @@
                     @Html.DisplayFor(modelItem => item.MemberName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Content)
+                    @Html.DisplayFor(modelItem => item.ContentText)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Score)
@@ -60,7 +61,14 @@
                     <span>@item.CreatedTime.ToLongTimeString()</span>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ActiveFlag)
+                    @if (item.ActiveFlag == false)
+                    {
+                        <text>已隱藏</text>
+                    }
+                    else if (item.ActiveFlag == true)
+                    {
+                        <text>公開</text>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DeleteBackendMemberName)
@@ -74,8 +82,8 @@
                     }
                 </td>
                 <td>
-                    <a href="@Url.Action("Delete","Delete", new { id = item.Id })" class="icon-link">
-                        <i class="fa-solid fa-trash-can"></i>
+                    <a href="@Url.Action("Detail", new { id = item.Id })" class="icon-link">
+                        <i class="fa-solid fa-circle-info"></i>
                     </a>
                 </td>
 

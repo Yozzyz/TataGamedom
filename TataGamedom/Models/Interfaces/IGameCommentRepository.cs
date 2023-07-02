@@ -9,6 +9,13 @@ namespace TataGamedom.Models.Interfaces
 {
 	public interface IGameCommentRepository
 	{
-		IEnumerable<GameCommentIndexVM> Get();
+		IEnumerable<GameCommentIndexVM> Get(int? id);
+
+		GameCommentDetailVM GetCommentById(int id);
+
+		bool Delete(GameCommentDetailVM vm);
+
+		bool Restore(GameCommentDetailVM vm);
+
 	}
 }

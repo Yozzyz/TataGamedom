@@ -46,11 +46,6 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 		{
 			using (var conn = new SqlConnection(_connStr))
 			{
-				//string sql = @"SELECT ChiName,EngName,Description,IsRestrict,ModifiedTime,BM.Name AS ModifiedBackendMemberName
-				//FROM Games AS G
-				//LEFT JOIN BackendMembers AS BM ON BM.Id=G.ModifiedBackendMemberId
-				//WHERE G.Id = @Id";
-
 				string sql = @"SELECT ChiName, EngName, STRING_AGG(GCC.Id, ',') AS SelectedGameClassificationString,Description, G.IsRestrict AS IsRestrict,BM.Name AS ModifiedBackendMemberName, G.ModifiedTime AS ModifiedTime
 FROM Games AS G
 LEFT JOIN GameClassificationGames AS GCG ON GCG.GameId = G.Id
@@ -177,6 +172,27 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 			{
 				string sql = @"DELETE GameClassificationGames WHERE GameId= @Id";
 				var rowAffected = conn.Execute(sql, new { Id = id });
+				return rowAffected > 0;
+			}
+		}
+
+		//用來改成通用的
+		public Game GetGameByIdForAddProduct (int id)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"SELECT*FROM Games WHERE Id = @Id;";
+				return conn.QueryFirstOrDefault<Game>(sql, new { Id = id });
+			}
+		}
+
+		public bool CreateProduct(Product product)
+		{
+			using(var conn =new SqlConnection(_connStr))
+			{
+				string sql = @"INSERT INTO Products ([Index], GameId, IsVirtual, Price, GamePlatformId, SystemRequire, ProductStatusId, SaleDate, CreatedBackendMemberId, CreatedTime)
+VALUES(@[Index], @GameId, @IsVirtual, @Price, @GamePlatformId, @SystemRequire, @ProductStatusId, @SaleDate, @CreatedBackendMemberId, @CreatedTime)";
+				var rowAffected = conn.Execute(sql, product);
 				return rowAffected > 0;
 			}
 		}
