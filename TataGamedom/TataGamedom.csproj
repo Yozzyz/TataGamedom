@@ -56,6 +56,12 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
@@ -192,9 +198,11 @@
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\CouponsController.cs" />
+    <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\NewsCommentsController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
@@ -273,6 +281,7 @@
     <Compile Include="Models\EFModels\Supplier.cs" />
     <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\GameCommentRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
@@ -283,7 +292,8 @@
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
-    <Compile Include="Models\Interfaces\ICouponsRepository.cs" />
+    <Compile Include="Models\Interfaces\ICouponRepository.cs" />
+    <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
@@ -292,6 +302,7 @@
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
     <Compile Include="Models\Services\CouponService.cs" />
+    <Compile Include="Models\Services\GameCommentService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
@@ -299,6 +310,8 @@
     <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\GameComments\GameCommentIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Members\BackendMembersListVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\Members\ForgetPasswordVM.cs" />
@@ -307,6 +320,7 @@
     <Compile Include="Models\ViewModels\Games\GameEditVM.cs" />
     <Compile Include="Models\ViewModels\Games\GameIndexVM.cs" />
     <Compile Include="Models\ViewModels\Members\LoginVM.cs" />
+    <Compile Include="Models\ViewModels\News\NewsCommentIndexVM.cs" />
     <Compile Include="Models\ViewModels\News\NewsCreateVM.cs" />
     <Compile Include="Models\ViewModels\News\NewsCriteria.cs" />
     <Compile Include="Models\ViewModels\News\NewsEditVM.cs" />
@@ -338,6 +352,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\layoutStyle1.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Files\Images\otter.png" />
     <Content Include="Files\Mails\77_gmail.com 20230628_174620.txt" />
@@ -460,6 +475,13 @@
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Coupons\Index.cshtml" />
     <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\GameComments\Create.cshtml" />
+    <Content Include="Views\GameComments\Delete.cshtml" />
+    <Content Include="Views\GameComments\Details.cshtml" />
+    <Content Include="Views\GameComments\Edit.cshtml" />
+    <Content Include="Views\GameComments\Index.cshtml" />
+    <Content Include="Views\NewsComments\Index.cshtml" />
+    <Content Include="Views\News\Show.cshtml" />
     <Content Include="Views\Orders\Info.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Delete.cshtml" />

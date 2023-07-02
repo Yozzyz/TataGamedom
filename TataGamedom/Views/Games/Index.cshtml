@@ -5,15 +5,10 @@
 }
 
 <h2>遊戲管理列表</h2>
-<div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-secondary">
-            @Html.ActionLink("新增遊戲", "Create")
-        </button>
-    </div>
+<div class="mb-3" style="text-align: right;">
+    @Html.ActionLink("新增遊戲", "Create", null, new { @class = "btn btn-primary" })
 </div>
 
-<br />
 <div class="text-center">
     <table class="table">
         <tr>
