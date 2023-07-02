@@ -3,8 +3,11 @@ Working On
 
 
 To Do
-[]訂單做完優先做庫存
+[] 寄信 + 庫存R  detail => 進貨單CRUD
 []Create Order 要檢查Member id是否存在
+
+[]退貨單
+[]Edit Order 變更物流狀態時寄信
 
 
 []使能選擇輸入欄位要篩什麼
