@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Web;
+using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.Orders;
 
 namespace TataGamedom.Models.Dtos.Orders
@@ -62,6 +64,66 @@ namespace TataGamedom.Models.Dtos.Orders
 				TrackingNum = vm.TrackingNum,
 			};
 		}
-	}
+		public static OrderDto ToDto(this Order entity) 
+		{
+			return new OrderDto
+			{
+				Id = entity.Id,
+                Index = entity.Index,
+                MemberId = entity.MemberId,
+				OrderStatusId = entity.OrderStatusId,
+				ShipmentStatusId = entity.ShipmentStatusId,
+				PaymentStatusId = entity.PaymentStatusId,
+				CreatedAt = entity.CreatedAt,
+				CompletedAt = entity.CompletedAt,
+				ShipmemtMethodId= entity.ShipmemtMethodId,
+				RecipientName= entity.RecipientName,
+				ToAddress = entity.ToAddress,
+				SentAt= entity.SentAt,
+				DeliveredAt= entity.DeliveredAt,
+				TrackingNum = entity.TrackingNum
+			};
+		}
+        public static OrderEditVM ToEditVM(this OrderDto dto)
+        {
+            return new OrderEditVM
+            {
+                Id = dto.Id,
+                Index = dto.Index,
+                MemberId = dto.MemberId,
+                OrderStatusId = dto.OrderStatusId,
+                ShipmentStatusId = dto.ShipmentStatusId,
+                PaymentStatusId = dto.PaymentStatusId,
+                CreatedAt = dto.CreatedAt,
+                CompletedAt = dto.CompletedAt,
+                ShipmemtMethodId = dto.ShipmemtMethodId,
+                RecipientName = dto.RecipientName,
+                ToAddress = dto.ToAddress,
+                SentAt = dto.SentAt,
+                DeliveredAt = dto.DeliveredAt,
+                TrackingNum = dto.TrackingNum
+            };
+        }
+		public static OrderDto ToDto(this OrderEditVM vm) 
+		{
+			return new OrderDto
+			{
+                Id = vm.Id,
+                MemberId = vm.MemberId,
+                OrderStatusId = vm.OrderStatusId,
+                ShipmentStatusId = vm.ShipmentStatusId,
+                PaymentStatusId = vm.PaymentStatusId,
+                CreatedAt = vm.CreatedAt,
+                CompletedAt = vm.CompletedAt,
+                ShipmemtMethodId = vm.ShipmemtMethodId,
+                RecipientName = vm.RecipientName,
+                ToAddress = vm.ToAddress,
+                SentAt = vm.SentAt,
+                DeliveredAt = vm.DeliveredAt,
+                TrackingNum = vm.TrackingNum,
+            };
+		}
+
+    }
 
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using TataGamedom.Models.Dtos.Orders;
+using TataGamedom.Models.Infra;
 using TataGamedom.Models.Services;
 
 namespace TataGamedom.Models.Interfaces
@@ -19,5 +20,10 @@ namespace TataGamedom.Models.Interfaces
 
 		int GetMaxIdInDb();
 
-	}
+        IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index);
+
+		OrderDto GetByIndex(string index);
+        void Update(OrderDto dto);
+        void Delete(string index);
+    }
 }

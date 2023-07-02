@@ -93,9 +93,9 @@
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("編輯", "Edit", new { Index=item.Index}) |
+                @Html.ActionLink("明細", "Info", new { Index = item.Index }) |
+                @Html.ActionLink("刪除", "Delete", new { Index = item.Index })
             </td>
         </tr>
     }

@@ -29,14 +29,14 @@ namespace TataGamedom.Models.Services
 
 			string sqlJoin = @"
 SELECT 
-O.[Index], O.CreatedAt, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, SSC.[Name] AS ShipmentStatusCodeName,
+O.Id, O.[Index], O.CreatedAt, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, SSC.[Name] AS ShipmentStatusCodeName,
 M.[Name] AS MemberName, SUM(OI.ProductPrice) AS Total
 FROM Orders AS O 
 JOIN OrderStatusCodes AS OSC ON O.OrderStatusId = OSC.Id
 JOIN PaymentStatusCodes AS PSC ON O.PaymentStatusId = PSC.Id
 JOIN ShipmentStatusesCodes AS SSC ON O.ShipmentStatusId= SSC.Id
 JOIN Members AS M ON O.MemberId = M.Id
-RIGHT JOIN OrderItems AS OI ON O.Id = OI.OrderId";
+LEFT JOIN OrderItems AS OI ON O.Id = OI.OrderId";
 
 			string sqlSort = sortInfo.sqlSort();
 
@@ -91,7 +91,19 @@ M.[Name], O.OrderStatusId, O.ShipmentStatusId, O.PaymentStatusId,O.Id
 			_repo.Create(dto);
 			return Result.Success();
 		}
-	}
+
+        public IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index) => _repo.GetOrderItemsInfo(index);
+
+		public OrderDto GetByIndex(string index) => _repo.GetByIndex(index);
+
+		public Result Update(OrderDto dto)
+		{
+			_repo.Update(dto);
+			return Result.Success();
+		}
+
+		public void Delete(string index) => _repo.Delete(index);
+    }
 
 	/// <summary>
 	/// 篩選條件: 訂單狀態,訂單編號
