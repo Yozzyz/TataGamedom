@@ -1,7 +1,6 @@
 Working On
-[v] Debug Order Info  *資料庫名稱 ShipmentStatusCode有誤
 [] 庫存 detail => 庫存明細CRU
-[] 更改假資料 OrderItem總數要少於
+[v]更改篩選剩餘庫存的SQL語法
 
 
 To Do
@@ -17,6 +16,8 @@ To Do
 []使能選擇
 	訂單狀態 &  訂單編號 & 顯示幾筆
 	訂單狀態 OR 訂單編號(輸入欄位) & 顯示幾筆
+
+[] 更改假資料 OrderItem要少於對應的庫存item
 
 
 Completed
@@ -64,3 +65,4 @@ Completed
 
 07/02
 [v] 庫存Index  => Service Search()
+[v] Debug Order Info  *資料庫名稱 ShipmentStatusCode有誤

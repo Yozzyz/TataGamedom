@@ -21,8 +21,10 @@ namespace TataGamedom.Models.Infra.DapperRepositories
             using (var connection = new SqlConnection(_connstr)) 
             {
                 string sql = @"SELECT 
-SUM(IIT.Cost) AS Total, COUNT(IIT.ProductId) AS [Count], P.IsVirtual AS ProductIsVirtual, G.ChiName AS GameName, G.GameCoverImg AS GameCoverImage,
-P.[Index] AS ProductIndex, P.Id AS ProductId
+SUM(IIT.Cost) AS Total, P.IsVirtual AS ProductIsVirtual, G.ChiName AS GameName, G.GameCoverImg AS GameCoverImage,
+P.[Index] AS ProductIndex,
+(SELECT COUNT(*) FROM OrderItems AS OI RIGHT JOIN InventoryItems AS II ON OI.InventoryItemId = II.Id
+WHERE II.ProductId = P.Id AND OI.ProductId IS NULL) AS [Count],P.Id
 FROM InventoryItems AS IIT
 RIGHT JOIN Products AS P ON　IIT.ProductId = P.Id
 RIGHT JOIN Games AS G ON P.GameId = G.Id 
