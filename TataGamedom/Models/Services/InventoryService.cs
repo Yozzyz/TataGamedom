@@ -16,5 +16,8 @@ namespace TataGamedom.Models.Services
             _repo = repo;
         }
         public IEnumerable<InventoryVM> GetAll() => _repo.Search();
+
+        public IEnumerable<InventoryItemVM> GetItemInfo(int? productId) => _repo.Info(productId);
+
     }
 }

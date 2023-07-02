@@ -1,10 +1,10 @@
-﻿@model IEnumerable<TataGamedom.Models.EFModels.InventoryItem>
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.InventoryItems.InventoryItemVM>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Details";
 }
 
-<h2>Index</h2>
+<h2>Details</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,13 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Product.Index)
+            @Html.DisplayNameFor(model => model.SKU)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StockInSheet.Index)
+            @Html.DisplayNameFor(model => model.ProductId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Index)
+            @Html.DisplayNameFor(model => model.StockInSheetIndex)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Cost)
@@ -26,19 +26,22 @@
         <th>
             @Html.DisplayNameFor(model => model.GameKey)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameName)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Product.Index)
+            @Html.DisplayFor(modelItem => item.SKU)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.StockInSheet.Index)
+            @Html.DisplayFor(modelItem => item.ProductId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Index)
+            @Html.DisplayFor(modelItem => item.StockInSheetIndex)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Cost)
@@ -47,9 +50,10 @@
             @Html.DisplayFor(modelItem => item.GameKey)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.GameName)
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

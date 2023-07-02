@@ -10,5 +10,7 @@ namespace TataGamedom.Models.Interfaces
     public interface IInventoryRepository
     {
         IEnumerable<InventoryVM> Search();
+
+        IEnumerable<InventoryItemVM> Info(int? productId);
     }
 }

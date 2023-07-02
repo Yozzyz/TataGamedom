@@ -17,7 +17,7 @@ namespace TataGamedom.Models.Dtos.InventoryItems
 
         public int ProductId { get; set; }
 
-        public int StockInSheetId { get; set; }
+        public string StockInSheetIndex { get; set; }
 
         public decimal Cost { get; set; }
 
@@ -33,9 +33,9 @@ namespace TataGamedom.Models.Dtos.InventoryItems
             return new InventoryItemVM 
             {
                 Id = dto.Id,
-                Index = dto.Index,
+                SKU = dto.Index,
                 ProductId = dto.ProductId,
-                StockInSheetId = dto.StockInSheetId,
+                StockInSheetIndex = dto.StockInSheetIndex,
                 Cost = dto.Cost,
                 GameKey = dto.GameKey,
                 GameName = dto.GameName
@@ -49,7 +49,7 @@ namespace TataGamedom.Models.Dtos.InventoryItems
                 Id = entity.Id,
                 Index = entity.Index,
                 ProductId = entity.ProductId,
-                StockInSheetId= entity.StockInSheetId,
+                StockInSheetIndex = entity.StockInSheet.Index,
                 Cost = entity.Cost,
                 GameKey = entity.GameKey,
                 GameName = entity.Product.Game.ChiName

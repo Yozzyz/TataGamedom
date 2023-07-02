@@ -14,17 +14,17 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 {
     public class InventoryRepository : IInventoryRepository
     {
-        private string _connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
+        private string Connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
 
         public IEnumerable<InventoryVM> Search()
         {
-            using (var connection = new SqlConnection(_connstr)) 
+            using (var connection = new SqlConnection(Connstr)) 
             {
                 string sql = @"SELECT 
 SUM(IIT.Cost) AS Total, P.IsVirtual AS ProductIsVirtual, G.ChiName AS GameName, G.GameCoverImg AS GameCoverImage,
-P.[Index] AS ProductIndex,
+P.[Index] AS ProductIndex,IIT.ProductId,
 (SELECT COUNT(*) FROM OrderItems AS OI RIGHT JOIN InventoryItems AS II ON OI.InventoryItemId = II.Id
-WHERE II.ProductId = P.Id AND OI.ProductId IS NULL) AS [Count],P.Id
+WHERE II.ProductId = P.Id AND OI.ProductId IS NULL) AS [Count], P.Id
 FROM InventoryItems AS IIT
 RIGHT JOIN Products AS P ON　IIT.ProductId = P.Id
 RIGHT JOIN Games AS G ON P.GameId = G.Id 
@@ -34,5 +34,23 @@ ORDER BY COUNT(IIT.ProductId) DESC
                 return connection.Query<InventoryVM>(sql);
             }
         }
+
+        public IEnumerable<InventoryItemVM> Info(int? productId)
+        {
+            using (var connection = new SqlConnection(Connstr))
+            {
+                string sql = @"
+SELECT IIT.[Index] AS SKU, IIT.Cost AS Cost, IIT.GameKey AS GameKey, SIS.[Index] AS StockInSheetIndex, G.ChiName AS GameName
+FROM InventoryItems AS IIT
+JOIN StockInSheets AS SIS ON IIT.StockInSheetId = SIS.Id
+JOIN Products AS P ON IIT.ProductId = P.Id
+JOIN Games AS G ON P.GameId = G.Id
+WHERE IIT.ProductId = @productId
+ORDER BY SKU ";
+
+                return connection.Query<InventoryItemVM>(sql, new { ProductId = productId });
+            }
+        }
+
     }
 }

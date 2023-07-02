@@ -10,16 +10,21 @@ namespace TataGamedom.Models.ViewModels.InventoryItems
     {
         public int Id { get; set; }
 
-        public string Index { get; set; }
+        [Display(Name = "SKU")]
+        public string SKU { get; set; }
 
         public int ProductId { get; set; }
 
-        public int StockInSheetId { get; set; }
+        [Display(Name = "進貨單編號")]
+        public string StockInSheetIndex { get; set; }
 
+        [Display(Name = "成本")]
         public decimal Cost { get; set; }
 
+        [Display(Name = "遊戲序號")]
         public string GameKey { get; set; }
 
+        [Display(Name = "遊戲名稱")]
         public string GameName{ get; set; }
     }
 

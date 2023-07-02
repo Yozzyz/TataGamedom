@@ -202,7 +202,6 @@
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
-    <Compile Include="Controllers\InventoryItemsController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\NewsCommentsController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -290,7 +289,6 @@
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
-    <Compile Include="Models\Infra\EFRepositories\InventoryItemRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\IndexGenerator.cs" />
@@ -300,7 +298,6 @@
     <Compile Include="Models\Interfaces\ICouponRepository.cs" />
     <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
-    <Compile Include="Models\Interfaces\IInventoryItemRepository.cs" />
     <Compile Include="Models\Interfaces\IInventoryRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
@@ -495,15 +492,12 @@
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Delete.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
-    <Content Include="Views\InventoryItems\Create.cshtml" />
-    <Content Include="Views\InventoryItems\Delete.cshtml" />
-    <Content Include="Views\InventoryItems\Details.cshtml" />
-    <Content Include="Views\InventoryItems\Edit.cshtml" />
-    <Content Include="Views\InventoryItems\Index.cshtml" />
+    <Content Include="Views\Inventory\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Models\Infra\EFRepositories\" />
     <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>

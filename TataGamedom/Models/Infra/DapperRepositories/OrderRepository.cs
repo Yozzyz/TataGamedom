@@ -15,12 +15,12 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 {
 	public class OrderRepository : IOrderRepository
 	{
-		private string _connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
+		private string Connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
 
 		
 		public void Create(OrderDto dto)
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				string sql = @"
 INSERT INTO Orders 
@@ -38,7 +38,7 @@ VALUES
 
         public IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index)
         {
-			using (var connection = new SqlConnection(_connstr)) 
+			using (var connection = new SqlConnection(Connstr)) 
 			{
 				string sql = @"SELECT
 OI.[Index] AS OrderItemIndex, OI.ProductPrice, O.[Index], O.CreatedAt, O.CompletedAt,
@@ -65,7 +65,7 @@ WHERE O.[Index] = @Index
 
         public int GetMaxIdInDb()
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				string sql = "SELECT MAX(Id) FROM Orders";
 				int maxId = connection.QuerySingle<int>(sql);
@@ -82,7 +82,7 @@ WHERE O.[Index] = @Index
 		/// <returns></returns>
 		public IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo)
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				IEnumerable<OrderIndexDto> orders = connection.Query<OrderIndexDto>(GetSql(criteria, sortInfo), criteria);
 				return orders;
@@ -98,7 +98,7 @@ WHERE O.[Index] = @Index
 		/// <returns></returns>
 		public IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo, string sqlAddPage)
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				IEnumerable<OrderIndexDto> orders = connection.Query<OrderIndexDto>(sqlAddPage, criteria);
 				return orders;
@@ -107,7 +107,7 @@ WHERE O.[Index] = @Index
 
         public OrderDto GetByIndex(string index)
         {
-			using (var connection = new SqlConnection(_connstr)) 
+			using (var connection = new SqlConnection(Connstr)) 
 			{
 				string sql = "SELECT * FROM Orders WHERE [Index] = @Index";
                 var order = connection.QuerySingleOrDefault<Order>(sql, new { Index = index });
@@ -117,7 +117,7 @@ WHERE O.[Index] = @Index
 
         public void Update(OrderDto dto)
         {
-			using (var connection = new SqlConnection(_connstr)) 
+			using (var connection = new SqlConnection(Connstr)) 
 			{
 				string sql = @"UPDATE Orders SET 
 MemberId = @MemberId , OrderStatusId = @OrderStatusId, ShipmentStatusId = @ShipmentStatusId , CreatedAt = @CreatedAt, CompletedAt = @CompletedAt,
