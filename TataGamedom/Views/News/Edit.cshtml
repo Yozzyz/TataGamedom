@@ -97,7 +97,45 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="mb-5">
+		<div class="mb-3" style="display: flex; justify-content: flex-end;">
+			@Html.ActionLink("返回", "Index", null, new { @class = "btn btn-primary" })
+			@if (Model.ActiveFlag)
+			{
+				using (Html.BeginForm("Delete", "News", new { id = Model.Id }, FormMethod.Post))
+				{
+
+					<span>&nbsp;</span>
+					<input type="submit" value="刪除新聞" class="btn btn-danger" />
+				}
+			}
+			else
+			{
+				using (Html.BeginForm("Reduction", "News", new { id = Model.Id }, FormMethod.Post))
+				{
+					<span>&nbsp;</span>
+					<input type="submit" value="復原" class="btn btn-success" />
+				}
+			}
+		</div>
+	</div>
 }
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
+
+	<script>
+		tinymce.init({
+		selector: 'textarea',
+		plugins: '',
+		toolbar: 'blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | checklist numlist bullist indent outdent |',
+		tinycomments_mode: 'embedded',
+		tinycomments_author: 'Author name',
+		mergetags_list: [
+		{ value: 'First.Name', title: 'First Name' },
+		{ value: 'Email', title: 'Email' },
+		]
+		});
+	</script>
+
 }

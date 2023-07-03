@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using TataGamedom.Models.Dtos.InventoryItems;
+using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.ViewModels.InventoryItems;
 
@@ -52,5 +53,61 @@ ORDER BY SKU ";
             }
         }
 
-    }
+		public int GetMaxIdInDb()
+		{
+			using (var connection = new SqlConnection(Connstr))
+			{
+				string sql = "SELECT MAX(Id) FROM InventoryItems";
+				int maxId = connection.QuerySingle<int>(sql);
+
+				return maxId;
+			}
+		}
+		public string GetProductIndex(int productId)
+		{
+			using (var connection = new SqlConnection(Connstr))
+			{
+				string sql = @"
+SELECT DISTINCT p.[Index]
+FROM Products AS p JOIN InventoryItems AS II ON II.ProductId = P.Id
+WHERE II.ProductId = @productId";
+				return connection.QuerySingleOrDefault<InventoryItemCreateDto>(sql, new { ProductId = productId }).Index;
+			}
+		}
+
+		public void Create(InventoryItemCreateDto dto)
+		{
+			using (var connection = new SqlConnection(Connstr)) 
+			{
+				string sql = @"
+INSERT INTO InventoryItems
+([Index],[ProductId],[StockInSheetId] ,[Cost],[GameKey])
+VALUES
+(@Index, @ProductId, @StockInSheetId, @Cost, @GameKey)";
+				connection.Execute(sql, dto);
+			}
+		}
+
+		public void Update(InventoryItemDto dto)
+		{
+			using (var connection = new SqlConnection(Connstr)) 
+			{
+				string sql = @"
+UPDATE InventoryItems SET
+[ProductId] = @ProductId ,[StockInSheetId] = @StockInSheetId, [Cost]=@Cost, [GameKey]=@GameKey
+WHERE [Index] = @Index;";
+				connection.ExecuteScalar(sql, dto);
+			}
+		}
+
+		public InventoryItemDto GetByIndex(string index)
+		{
+			using (var connection = new SqlConnection(Connstr))
+			{
+				string sql = @"SELECT * FROM InventoryItems WHERE [Index] = @Index";
+				var inventoryItem = connection.QuerySingleOrDefault<InventoryItem>(sql, new { Index = index });
+				return inventoryItem.ToDto();
+			}
+		}
+	}
 }

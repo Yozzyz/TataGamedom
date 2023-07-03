@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TataGamedom.Filters;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.Members;
 using TataGamedom.Models.ViewModels.News;
@@ -19,9 +20,9 @@ namespace TataGamedom.Controllers
     {
         private AppDbContext db = new AppDbContext();
         private string _connstr = System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
-        // GET: BackendMembersList
-
-        public ActionResult Index()
+		// GET: BackendMembersList
+        
+		public ActionResult Index()
         {
             using (var con = new SqlConnection(_connstr))
             {
@@ -62,7 +63,7 @@ LEFT JOIN BackendMembersRolesCodes AS bmr ON bmr.Id = bm.BackendMembersRoleId";
 
             using (var con = new SqlConnection(_connstr))
             {
-                string sql = @"SELECT bm.Id, bm.Name, bm.Account, bm.Email, bm.Phone,
+                string sql = @"SELECT bm.Id, bm.Name, bm.Account,bm.BackendMembersRoleId, bm.Email, bm.Phone,
                 bmr.Name AS BackendMembersRoleName, bm.ActiveFlag
                 FROM BackendMembers AS bm
                 LEFT JOIN BackendMembersRolesCodes AS bmr ON bmr.Id = bm.BackendMembersRoleId
@@ -77,6 +78,7 @@ LEFT JOIN BackendMembersRolesCodes AS bmr ON bmr.Id = bm.BackendMembersRoleId";
 				}
 
 				ViewBag.BackendMembersRoleId = new SelectList(db.BackendMembersRolesCodes, "Id", "Name", list.BackendMembersRoleId);
+
 				return View(list);
 			}
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TataGamedom.Models.EFModels;
+using TataGamedom.Models.Infra;
 using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
@@ -12,13 +13,13 @@ using TataGamedom.Models.ViewModels.Products;
 
 namespace TataGamedom.Controllers
 {
-    public class ProductsController : Controller
-    {
+	public class ProductsController : Controller
+	{
 		private AppDbContext db = new AppDbContext();
 		[Authorize]
 		// GET: Products
 		public ActionResult Index()
-        {
+		{
 			IEnumerable<ProductIndexVM> product = GetProducts();
 			return View(product);
 		}
@@ -28,7 +29,40 @@ namespace TataGamedom.Controllers
 			IProductRepository repo = new ProductDapperRepository();
 			ProductService service = new ProductService(repo);
 			return service.Get();
-			
+
+		}
+		[Authorize]
+		public ActionResult EditProduct(int id)
+		{
+			IProductRepository repo = new ProductDapperRepository();
+			ProductService service = new ProductService(repo);
+
+			var product = service.Get(id);
+			ViewBag.GamePlatform = new SelectList(db.GamePlatformsCodes, "Id", "Name", product.GamePlatform);
+			ViewBag.ProductStatus = new SelectList(db.ProductStatusCodes, "Id", "Name", product.ProductStatus);
+			return View(product);
+		}
+		[HttpPost]
+		public ActionResult EditProduct(ProductEditVM vm)
+		{
+			var currentUserAccount = User.Identity.Name;
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+			vm.ModifiedBackendMemberId = memberInDb.Id;
+
+			if (!ModelState.IsValid)
+			{
+				return View(vm);
+			}
+			var editResult = UpdateProduct(vm);
+			return View(vm);
+		}
+
+		private Result UpdateProduct(ProductEditVM vm)
+		{
+			IProductRepository repo = new ProductDapperRepository();
+			ProductService service = new ProductService(repo);
+			return service.Edit(vm);
+
 		}
 	}
 }

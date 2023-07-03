@@ -1,0 +1,61 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.StockInSheets.StockInSheetIndexVM>
+
+@{
+    ViewBag.Title = "進貨單清單";
+}
+
+<h2>進貨單清單</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Index)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderRequestDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArrivedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StockInStatusCodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SupplierName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Index)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderRequestDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArrivedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StockInStatusCodeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SupplierName)
+        </td>
+        <td>
+            @Html.ActionLink("編輯", "Edit", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

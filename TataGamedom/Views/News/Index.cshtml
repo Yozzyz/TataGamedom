@@ -1,17 +1,46 @@
 ﻿@model IEnumerable<TataGamedom.Models.ViewModels.News.NewsIndexVM>
 @using PagedList;
 @using PagedList.Mvc;
+@using System.Security.Claims
 
-@{
+@*@{
 	ViewBag.Title = "Index";
 	var gamesId = ViewBag.GamesId as SelectList;
 	var newsCriteria = ViewBag.NewsCriteria as TataGamedom.Models.ViewModels.News.NewsCriteria;
 	string s_gameId = newsCriteria.GamesId.HasValue ? newsCriteria.GamesId.Value.ToString() : "";
+
+
+
+	var userIdentity = (ClaimsIdentity)User.Identity;
+	var claims = userIdentity.Claims;
+	var roleClaimType = userIdentity.RoleClaimType;
+	var roles = claims.Where(c => c.Type == roleClaimType).ToList();
+
+	var a = "b";
+}*@
+@section Styles{
+
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+	<link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+	<style>
+		thead {
+			background-color: goldenrod;
+			color: white;
+		}
+
+		.vertical-align-middle {
+			vertical-align: middle;
+		}
+	</style>
 }
 
 <h2>新聞總覽</h2>
-
-<section class="container-fluid">
+<div class="mb-3" style="text-align: right;">
+	@Html.ActionLink("新增新聞", "Create", null, new { @class = "btn btn-primary" })
+</div>
+@*<section class="container-fluid">
 	<form method="get">
 		<div class="row">
 
@@ -39,99 +68,116 @@
 			</div>
 		</div>
 	</form>
-</section>
+</section>*@
 
 
-<table class="table ">
-	<tr>
-		<th>
-			@Html.DisplayNameFor(model => model.Title)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.ScheduleDate)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.BackendMemberName)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.GameClassificationName)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.ViewCount)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.LikeCount)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.ActiveFlag)
-		</th>
-		<th>
-			查看留言
-		</th>
-		<th>
-			編輯
-		</th>
-	</tr>
-
-	@foreach (var item in Model)
-	{
+<table class="table" id="myTable">
+	<thead>
 		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Title)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.ScheduleDate)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.BackendMemberName)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.GameClassificationName)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.ViewCount)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.LikeCount)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.ActiveFlagText)
-			</td>
-			<td>
-				<a href="@Url.Action("Index", "NewsComments", new { newsId = item.Id })">
-					@*<a href="@Url.Action("index","Newscomments")">*@
-					<i class="fa-regular fa-comments ms-3"></i>
-				</a>
-			</td>
-			<td>
-				<a href="@Url.Action("Edit", new { id = item.Id })">
-					<i class="fas fa-edit ms-2"></i>
-				</a>
-			</td>
-
-			<td>
-				<a href="@Url.Action("show", new { id = item.Id })">
-					偷看一下
-				</a>
-			</td>
-
+			<th>
+				@Html.DisplayNameFor(model => model.Title)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ScheduleDate)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.BackendMemberName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.GameClassificationName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ViewCount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.LikeCount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ActiveFlag)
+			</th>
+			<th>
+				查看留言
+			</th>
+			<th>
+				編輯
+			</th>
+			<th>
+				預覽
+			</th>
 		</tr>
-	}
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ScheduleDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.BackendMemberName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.GameClassificationName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ViewCount)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.LikeCount)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ActiveFlagText)
+				</td>
+				<td>
+					<a href="@Url.Action("Index", "NewsComments", new { newsId = item.Id })">
+						@*<a href="@Url.Action("index","Newscomments")">*@
+						<i class="fa-regular fa-comments ms-3"></i>
+					</a>
+				</td>
+				<td>
+					<a href="@Url.Action("Edit", new { id = item.Id })">
+						<i class="fas fa-edit ms-2"></i>
+					</a>
+				</td>
+
+				<td>
+					<a href="@Url.Action("show", new { id = item.Id })">
+						偷看一下
+					</a>
+				</td>
+
+			</tr>
+		}
+	</tbody>
 </table>
 
-<div class="pagination-container">
-	<ul class="pagination justify-content-center">
-		@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "newsList" }))
-	</ul>
-</div>
+@*<div class="pagination-container">
+		<ul class="pagination justify-content-center">
+			@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "newsList" }))
+		</ul>
+	</div>*@
 
-<nav aria-label="Page navigation example">
-	<ul class="pagination ustify-content-center">
-		想套成這樣
-		<li class="page-item"><a class="page-link" href="#">Previous</a></li>
-		<li class="page-item"><a class="page-link" href="#">1</a></li>
-		<li class="page-item"><a class="page-link" href="#">2</a></li>
-		<li class="page-item"><a class="page-link" href="#">3</a></li>
-		<li class="page-item"><a class="page-link" href="#">Next</a></li>
-	</ul>
-</nav>
+@section Scripts{
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			$('#myTable').DataTable({
+				responsive: true,
+				language: {
+					url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json',
+				}
+			});
+		});
+	</script>
+}
