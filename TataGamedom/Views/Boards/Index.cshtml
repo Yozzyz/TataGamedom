@@ -2,6 +2,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+
 
     <style>
         thead {
@@ -17,13 +19,19 @@
 
 <h2>討論區列表</h2>
 
+<div class="d-flex">
+    <button type="button" class="btn btn-primary ms-auto me-0 mb-2" id="addBoardBtn">新增看板</button>
+</div>
+
+
 <table class="table table-striped table-hover w-100" id="boardtable">
     <thead>
         <tr>
-            <td>Cover</td>
-            <td>BoardName</td>
-            <td>GameName</td>
-            <td>BoardAboud</td>
+            <td>看板名稱</td>
+            <td>遊戲名稱</td>
+            <td>關於</td>
+            <td>追蹤數</td>
+            <td>最新更新</td>
         </tr>
     </thead>
 </table>
@@ -33,15 +41,49 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">看板詳情</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <img id="boardImage" src="" alt="Board Image" style="width: 100%;">
+                    </div>
+                    <div class="col-md-8">
+                        <span class="opacity-75 small">看板Id</span><p id="boardId"></p>
+                        <span class="opacity-75 small">看板名稱</span><p id="boardName" class="fw-bold"></p>
+                        <span class="opacity-75 small">關於</span><p id="boardAbout"></p>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-warning" id="editBtn">Edit</button>
+                <button type="button" class="btn btn-primary visually-hidden" id="saveBtn">Save changes</button>
+                <button type="button" class="btn btn-secondary" id="closeBtn" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="AddModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">新增看板</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                        <span class="opacity-75 small">看板Id</span><input type="text" class="d-block form-control" id="boardIdAdd">
+                        <span class="opacity-75 small">看板名稱</span><input type="text" class="d-block form-control" id="boardNameAdd">
+                        <span class="opacity-75 small">看板封面</span><input type="file" class="d-block form-control" id="boardCoverAdd">
+                        <br/>
+                        <span class="opacity-75 small">關於</span><textarea type="text" id="boardAboutAdd"></textarea>>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="AddBtn">Add</button>
+                <button type="button" class="btn btn-secondary" id="closeBtn" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -55,24 +97,77 @@
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
     <script>
+
         const baseAddress = 'https://localhost:44398';
-        //function getBoards() {
-        //    $.ajax({
-        //        type: 'Get',
-        //        url: `${baseAddress}/api/BoardsApi`
-        //    })
-        //        .done(data => {
-        //            console.log('wow')
-        //            console.log(data);
-        //            alert(JSON.stringify(data));
-        //        })
-        //        .fail(err => {
-        //            console.log('no...')
-        //            alert(err.statustext);
-        //        });
-        //}
+        let boardId;
+        let coverImg;
+        let editedName;
+        let editedAbout;
+
+
+        $("#boardName").on("keyup", function () {
+            editedName = $("#boardName").text();
+            console.log(editedName);
+        })
+        $("#boardAbout").on("keyup", function () {
+            editedAbout = $("#boardAbout").text();
+            console.log(editedAbout);
+        })
+        $('#myModal').on('hidden.bs.modal', InitEditBtn)
+
+        function SaveEdit() {
+            ditedName = $("#boardName").text();
+            editedAbout = $("#boardAbout").text();
+            $.ajax({
+                type: 'PUT',
+                url: `${baseAddress}/api/BoardsApi/${boardId}`,
+                data: JSON.stringify({
+                    "Id": boardId,
+                    "Name": editedName,
+                    "BoardAbout": editedAbout
+                }),
+                contentType: "application/json"
+            })
+                .done(data => {
+                    console.log(data);
+                    if (data.IsSuccess) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '成功',
+                            text: JSON.stringify(data.Message)
+                        }).then(() => {
+                            $('#boardtable').DataTable().ajax.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '失敗',
+                            text: JSON.stringify(data.Message)
+                        });
+                    }
+                })
+                .fail(err => {
+                    console.log('no...')
+                    Swal.fire({
+                        icon: 'error',
+                        title: '失敗',
+                        text: err.statusText
+                    })
+                })
+        }
+        function InitEditBtn() {
+            // 將看板名稱和關於欄位變回不可編輯的形式
+            $("#boardName").attr("contenteditable", "false");
+            $("#boardAbout").attr("contenteditable", "false");
+
+            // 隱藏保存按鈕，顯示編輯按鈕
+            $("#saveBtn").addClass("visually-hidden");
+            $("#editBtn").removeClass("visually-hidden");
+        }
+
         $(document).ready(function () {
             $('#boardtable').DataTable
                 ({
@@ -86,30 +181,84 @@
                         dataSrc: function (data) { return data; }
                     },
                     columns: [
-                        {
-                            "data": "Cover", "width": "40%",
-                            "render": function (data, type, row) {
-                                return '<img src="' + data + '" alt="Image" style="width: 100%;">';
-                            }
-                        },
-                        { "data": "BoardName", "width": "20%", "className": "text-center vertical-align-middle fw-bold" },
+                        //{
+                        //    "data": "Cover", "width": "40%",
+                        //    "render": function (data, type, row) {
+                        //        return '<img src="' + data + '" alt="Image" style="width: 100%;">';
+                        //    }
+                        //},
+                        { "data": "Name", "width": "20%", "className": "text-center vertical-align-middle fw-bold" },
                         { "data": "GameName", "width": "20%", "className": "vertical-align-middle" },
-                        { "data": "BoardAboud", "width": "20%", "className": "vertical-align-middle" },
+                        { "data": "BoardAbout", "width": "30%", "className": "vertical-align-middle" },
+                        { "data": "FollowersCount", "width": "10%", "className": "text-center vertical-align-middle" },
+                        { "data": "LastPostedAt", "width": "20%", "className": "vertical-align-middle" },
                     ],
                     "bSort": true,
                     "rowCallback": function (row, data) {
                         $(row).on("click", function () {
-                            // 彈出 Bootstrap 模態框
                             $('#myModal').modal('show');
 
-                            // 在模態框中填充相應的資料
-                            let GameName = data.GameName;
-                            $('#myModal .modal-body').html(GameName);
+                            $('#boardId').text(data.Id);
+                            $('#boardName').text(data.Name);
+                            $('#boardAbout').text(data.BoardAbout);
+                            $('#boardImage').attr('src', data.BoardHeaderCoverImg);
+                            boardId = data.Id;
+                            coverImg = data.BoardHeaderCoverImg;
+                            editedName = data.Name;
+                            editedAbout = data.BoardAbout;
                         });
                     }
                 })
 
-        })
+            // 點擊編輯按鈕時的事件處理函式
+            $("#editBtn").on("click", function () {
+                // 將看板名稱和關於欄位變成可編輯的形式
+                $("#boardName").attr("contenteditable", "true");
+                $("#boardAbout").attr("contenteditable", "true");
+
+                // 隱藏編輯按鈕，顯示保存按鈕
+                $("#editBtn").addClass("visually-hidden");
+                $("#saveBtn").removeClass("visually-hidden");
+            });
+
+            // 點擊保存按鈕時的事件處理函式
+            $("#saveBtn").on("click", function () {
+
+                // 顯示確認對話框
+                Swal.fire({
+                    title: '確認',
+                    text: '此動作將修改內容，你確定嗎？',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '確定',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 使用者選擇確定，執行 SaveEdit()
+                        SaveEdit();
+                        InitEditBtn()
+                    }
+                });
+
+
+
+
+                //// 獲取編輯後的看板名稱和關於內容
+                //SaveEdit();
+                //// 將看板名稱和關於欄位變回不可編輯的形式
+                //$("#boardName").attr("contenteditable", "false");
+                //$("#boardAbout").attr("contenteditable", "false");
+
+                //// 隱藏保存按鈕，顯示編輯按鈕
+                //$("#saveBtn").addClass("visually-hidden");
+                //$("#editBtn").removeClass("visually-hidden");
+            });
+
+            $('#addBoardBtn').on('click', function () {
+                $('#AddModal').modal('show');
+            })
+
+        });
 
 
     </script>

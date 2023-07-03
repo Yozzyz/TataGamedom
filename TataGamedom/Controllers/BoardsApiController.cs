@@ -12,12 +12,15 @@ using TataGamedom.Models.EFModels;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using TataGamedom.Models.Dtos.Boards;
+using TataGamedom.Models.ViewModels.Boards;
+using TataGamedom.Models.Infra;
 
 namespace TataGamedom.Controllers
 {
 	public class BoardsApiController : ApiController
 	{
 		private AppDbContext db = new AppDbContext();
+		private SimpleHelper simpleHelper = new SimpleHelper();
 
 		// GET: api/BoardsApi
 		public async Task<IEnumerable<BoardListVM>> GetBoards()
@@ -29,10 +32,10 @@ namespace TataGamedom.Controllers
 			return db.Boards.Select(board=> new BoardListVM
 			{
 				Id= board.Id,
-				Cover = "/Files/Uploads/" + board.BoardHeaderCoverImg,
-				BoardName = board.Name,
-				GameName = board.Game.ChiName + "|" + board.Game.EngName,
-				BoardAboud = board.BoardAbout,
+				BoardHeaderCoverImg = "/Files/Uploads/" + board.BoardHeaderCoverImg,
+				Name = board.Name,
+				GameName = board.GameId != null ? (board.Game.ChiName + " | " + board.Game.EngName) : "",
+				BoardAbout = board.BoardAbout,
 				FollowersCount = db.MembersBoards.Count(mb => mb.BoardId == board.Id),
 				LastPostedAt = db.Posts.Where(p => p.BoardId == board.Id)
 					  .OrderByDescending(p => p.Datetime)
@@ -44,9 +47,9 @@ namespace TataGamedom.Controllers
 
 		// GET: api/BoardsApi/5
 		[ResponseType(typeof(BoardListVM))]
-		public IHttpActionResult GetBoard(string boardName)
+		public IHttpActionResult GetBoard(int id)
 		{
-			Board board = db.Boards.Find(boardName);
+			Board board = db.Boards.Find(id);
 			if (board == null)
 			{
 				return NotFound();
@@ -54,10 +57,10 @@ namespace TataGamedom.Controllers
 			var boardListDto = new BoardListVM
 			{
 				Id = board.Id,
-				Cover = "/Files/Uploads/" + board.BoardHeaderCoverImg,
-				BoardName = board.Name,
-				GameName = board.Game.ChiName + "|" + board.Game.EngName,
-				BoardAboud = board.BoardAbout,
+				BoardHeaderCoverImg = "/Files/Uploads/" + board.BoardHeaderCoverImg,
+				Name = board.Name,
+				GameName = board.Game.ChiName + " | " + board.Game.EngName,
+				BoardAbout = board.BoardAbout,
 				FollowersCount = db.MembersBoards.Count(mb => mb.BoardId == board.Id),
 				LastPostedAt = db.Posts.Where(p => p.BoardId == board.Id)
 						  .OrderByDescending(p => p.Datetime)
@@ -70,30 +73,44 @@ namespace TataGamedom.Controllers
 		}
 
 		// PUT: api/BoardsApi/5
-		[ResponseType(typeof(string))]
-		public IHttpActionResult PutBoard(int id, Board board)
+		[ResponseType(typeof(ApiResult))]
+		public ApiResult PutBoard(int id, BoardCreateEditorVM vm)
 		{
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(ModelState);
+				return ApiResult.Fail("驗證失敗");
 			}
 
-			if (id != board.Id)
+			BoardEditDto dto = new BoardEditDto
 			{
-				return BadRequest();
+				Id = vm.Id ?? 0,
+				Name= vm.Name,
+				BoardAbout = vm.BoardAbout,
+			};
+
+			Board existingEntity = db.Boards.Find(id);
+
+			if (id != dto.Id)
+			{
+				return ApiResult.Fail("修改失敗");
 			}
 
-			db.Entry(board).State = EntityState.Modified;
+			if (BoardNameExists(dto.Name) && existingEntity.Name != dto.Name)
+			{
+				return ApiResult.Fail("已經有同名看板");
+			}
 
 			try
 			{
+				existingEntity.Name = dto.Name;
+				existingEntity.BoardAbout = dto.BoardAbout;
 				db.SaveChanges();
 			}
 			catch (DbUpdateConcurrencyException)
 			{
 				if (!BoardExists(id))
 				{
-					return NotFound();
+					return ApiResult.Fail("修改失敗");
 				}
 				else
 				{
@@ -101,42 +118,70 @@ namespace TataGamedom.Controllers
 				}
 			}
 
-			return StatusCode(HttpStatusCode.NoContent);
+			return ApiResult.Success("修改成功！");
 		}
 
 
-		//TODO
 		// POST: api/BoardsApi
-		[ResponseType(typeof(string))]
-		public IHttpActionResult PostBoard(BoardAddVm boardAddVm)
+		[ResponseType(typeof(ApiResult))]
+		public ApiResult PostBoard(BoardCreateEditorVM vm)
 		{
+			if (vm == null)
+			{
+				return ApiResult.Fail("沒VM好新增失敗");
+			}
 			if (!ModelState.IsValid)
 			{
-				return BadRequest(ModelState);
+				return ApiResult.Fail("驗證新增失敗");
 			}
 
-			
-			db.Boards.Add(board);
+			var BackendMemberAccount = User.Identity.Name;
+			int BackendMemberId = simpleHelper.FindBackendmemberIdByAccount(BackendMemberAccount);
+
+			BoardCreateDto dto = new BoardCreateDto
+			{
+				Name = vm.Name,
+				BoardAbout = vm.BoardAbout,
+				BoardHeaderCoverImg = vm.BoardHeaderCoverImg,
+				CreatedBackendMemberId = BackendMemberId,
+				CreatedTime = DateTime.Now,
+			};
+
+			if (dto.CreatedBackendMemberId == 0) { return ApiResult.Fail("沒人啊，新增失敗"); }
+			if (BoardNameExists(dto.Name) ) { return ApiResult.Fail("版名重複，新增失敗"); }
+
+			Board entity = new Board
+			{
+				Name = dto.Name,
+				GameId = null,
+				BoardAbout = dto.BoardAbout,
+				BoardHeaderCoverImg = dto.BoardHeaderCoverImg,
+				CreatedBackendMemberId = dto.CreatedBackendMemberId,
+				CreatedTime = dto.CreatedTime
+			};
+
+			db.Boards.Add(entity);
 			db.SaveChanges();
 
-			return CreatedAtRoute("DefaultApi", new { id = board.Id }, board);
+			return ApiResult.Success("新增成功");
 		}
+
 
 		// DELETE: api/BoardsApi/5
-		[ResponseType(typeof(Board))]
-		public IHttpActionResult DeleteBoard(int id)
-		{
-			Board board = db.Boards.Find(id);
-			if (board == null)
-			{
-				return NotFound();
-			}
+		//[ResponseType(typeof(Board))]
+		//public IHttpActionResult DeleteBoard(int id)
+		//{
+		//	Board board = db.Boards.Find(id);
+		//	if (board == null)
+		//	{
+		//		return NotFound();
+		//	}
 
-			db.Boards.Remove(board);
-			db.SaveChanges();
+		//	db.Boards.Remove(board);
+		//	db.SaveChanges();
 
-			return Ok(board);
-		}
+		//	return Ok(board);
+		//}
 
 		protected override void Dispose(bool disposing)
 		{
@@ -149,7 +194,12 @@ namespace TataGamedom.Controllers
 
 		private bool BoardExists(int id)
 		{
-			return db.Boards.Count(e => e.Id == id) > 0;
+			return db.Boards.Any(e => e.Id == id);
+		}
+		private bool BoardNameExists(string name)
+		{
+			return db.Boards.Any(e => e.Name == name);
 		}
 	}
+
 }

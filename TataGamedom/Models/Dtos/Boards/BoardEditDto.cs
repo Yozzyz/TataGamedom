@@ -5,7 +5,10 @@ using System.Web;
 
 namespace TataGamedom.Models.Dtos.Boards
 {
-	public class BoardAddDto
+	public class BoardEditDto
 	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public string BoardAbout { get; set; }
 	}
 }
