@@ -13,8 +13,8 @@ namespace TataGamedom.Models.ViewModels.Boards
         public string Name { get; set; }
 		[Required]
 		public string BoardAbout { get; set; }
-
 		public string BoardHeaderCoverImg { get; set; }
+		public string BoardHeaderCoverImgPath { get; set; }
 	}
 
 }
