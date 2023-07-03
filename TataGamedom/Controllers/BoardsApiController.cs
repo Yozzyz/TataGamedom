@@ -14,6 +14,8 @@ using System.Threading.Tasks;
 using TataGamedom.Models.Dtos.Boards;
 using TataGamedom.Models.ViewModels.Boards;
 using TataGamedom.Models.Infra;
+using System.IO;
+using System.Web;
 
 namespace TataGamedom.Controllers
 {
@@ -124,33 +126,76 @@ namespace TataGamedom.Controllers
 
 		// POST: api/BoardsApi
 		[ResponseType(typeof(ApiResult))]
-		public ApiResult PostBoard(BoardCreateEditorVM vm)
+		public async Task<ApiResult> PostBoard()
 		{
-			if (vm == null)
+			if (!Request.Content.IsMimeMultipartContent())
 			{
-				return ApiResult.Fail("沒VM好新增失敗");
-			}
-			if (!ModelState.IsValid)
-			{
-				return ApiResult.Fail("驗證新增失敗");
+				throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
 			}
 
-			var BackendMemberAccount = User.Identity.Name;
-			int BackendMemberId = simpleHelper.FindBackendmemberIdByAccount(BackendMemberAccount);
+			var uploadFolder = "~/Files/Uploads"; // 指定上傳檔案的儲存位置
+			var provider = new MultipartFormDataStreamProvider(HttpContext.Current.Server.MapPath(uploadFolder));
 
-			BoardCreateDto dto = new BoardCreateDto
+			await Request.Content.ReadAsMultipartAsync(provider);
+
+			var vm = new BoardCreateEditorVM
+			{
+				Name = provider.FormData["Name"],
+				BoardAbout = provider.FormData["BoardAbout"],
+				BoardHeaderCoverImg = null
+			};
+
+			if (provider.FileData.Count > 0)
+			{
+				var fileData = provider.FileData[0];
+				var fileName = fileData.Headers.ContentDisposition.FileName.Trim('\"');
+				var localFilePath = fileData.LocalFileName;
+
+				var uniqueFileName = GetUniqueFileName(fileName); // 生成唯一的檔案名
+
+				var destinationFilePath = Path.Combine(HttpContext.Current.Server.MapPath(uploadFolder), fileName);
+				File.Move(localFilePath, destinationFilePath);
+
+				vm.BoardHeaderCoverImgPath = new FileInfo(destinationFilePath)?.FullName;
+				vm.BoardHeaderCoverImg = uniqueFileName;
+			}
+
+			if (vm == null || !ModelState.IsValid)
+			{
+				return ApiResult.Fail("新增失敗");
+			}
+
+			var backendMemberAccount = User.Identity.Name;
+			int backendMemberId = simpleHelper.FindBackendmemberIdByAccount(backendMemberAccount);
+
+			var dto = new BoardCreateDto
 			{
 				Name = vm.Name,
 				BoardAbout = vm.BoardAbout,
 				BoardHeaderCoverImg = vm.BoardHeaderCoverImg,
-				CreatedBackendMemberId = BackendMemberId,
-				CreatedTime = DateTime.Now,
+				//CreatedBackendMemberId = backendMemberId,
+				CreatedBackendMemberId = 1,
+				CreatedTime = DateTime.Now
 			};
 
-			if (dto.CreatedBackendMemberId == 0) { return ApiResult.Fail("沒人啊，新增失敗"); }
-			if (BoardNameExists(dto.Name) ) { return ApiResult.Fail("版名重複，新增失敗"); }
+			if (dto.CreatedBackendMemberId == 0 || BoardNameExists(dto.Name))
+			{
+				return ApiResult.Fail("新增失敗");
+			}
 
-			Board entity = new Board
+			var filePath = Path.Combine(HttpContext.Current.Server.MapPath(uploadFolder), dto.BoardHeaderCoverImg);
+
+			try
+			{
+				File.Move(vm.BoardHeaderCoverImgPath, filePath);
+				// 存儲檔案路徑至資料庫中的相應欄位
+			}
+			catch (Exception ex)
+			{
+				return ApiResult.Fail("檔案上傳失敗：" + ex.Message);
+			}
+
+			var entity = new Board
 			{
 				Name = dto.Name,
 				GameId = null,
@@ -165,6 +210,16 @@ namespace TataGamedom.Controllers
 
 			return ApiResult.Success("新增成功");
 		}
+
+		private string GetUniqueFileName(string fileName)
+		{
+			var guid = Guid.NewGuid().ToString("N"); // 生成唯一的識別碼
+			var extension = Path.GetExtension(fileName); // 取得檔案副檔名
+			var uniqueFileName = $"{guid}{extension}"; // 組合新的檔案名稱
+
+			return uniqueFileName;
+		}
+
 
 
 		// DELETE: api/BoardsApi/5
