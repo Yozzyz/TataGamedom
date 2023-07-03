@@ -3,6 +3,23 @@
 @{
     ViewBag.Title = "Index";
 }
+@section Styles{
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        thead {
+            background-color: goldenrod;
+            color: white;
+        }
+
+        .vertical-align-middle {
+            vertical-align: middle;
+        }
+    </style>
+}
 
 <h2>商品管理列表</h2>
 
@@ -10,89 +27,110 @@
 
 </p>
 <div class="text-center">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Index)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GameName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GamePlatformName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsVirtual)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SaleDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedTime)
-            </th>
-            <th>
-                編輯
-            </th>
-            <th>
-                商品圖片
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table class="table" id="myTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Index)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GamePlatformName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsVirtual)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @item.SaleDate.ToString("yyyy-MM-dd")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ProductStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
-                </td>
-                <td>
-                    <span>@item.CreatedTime.ToShortDateString()</span>
-                    <br />
-                    <span>@item.CreatedTime.ToShortTimeString()</span>
-                </td>
-                <td>
-                    <a href="@Url.Action("EditProduct", new { id = item.Id })" class="icon-link">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("EditProducImg", new { id = item.Id })" class="icon-link">
-                        <i class="fa-regular fa-image"></i>
-                    </a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Index)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GameName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GamePlatformName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsVirtual)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SaleDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedTime)
+                </th>
+                <th>
+                    編輯
+                </th>
+                <th>
+                    商品圖片
+                </th>
             </tr>
-        }
-
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Index)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GameName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GamePlatformName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsVirtual)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @item.SaleDate.ToString("yyyy-MM-dd")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
+                    </td>
+                    <td>
+                        <span>@item.CreatedTime.ToShortDateString()</span>
+                        <br />
+                        <span>@item.CreatedTime.ToShortTimeString()</span>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditProduct", new { id = item.Id })" class="icon-link">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditProducImg", new { id = item.Id })" class="icon-link">
+                            <i class="fa-regular fa-image"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json',
+                }
+            });
+        });
+    </script>
+}

@@ -3,92 +3,132 @@
 @{
     ViewBag.Title = "Index";
 }
+@section Styles{
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        thead {
+            background-color: goldenrod;
+            color: white;
+        }
+
+        .vertical-align-middle {
+            vertical-align: middle;
+        }
+    </style>
+}
 
 <h2>遊戲評論管理列表</h2>
 
 <p>
 </p>
 <div class="text-center">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GameName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MemberName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContentText)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Score)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActiveFlag)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteBackendMemberName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeleteDatetime)
-            </th>
-            <th>
-                詳細
-            </th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table class="table" id="myTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MemberName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ContentText)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Score)
-                </td>
-                <td>
-                    <span>@item.CreatedTime.ToShortDateString()</span>
-                    <br />
-                    <span>@item.CreatedTime.ToLongTimeString()</span>
-                </td>
-                <td>
-                    @if (item.ActiveFlag == false)
-                    {
-                        <text>已隱藏</text>
-                    }
-                    else if (item.ActiveFlag == true)
-                    {
-                        <text>公開</text>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeleteBackendMemberName)
-                </td>
-                <td>
-                    @if (item.DeleteDatetime != null)
-                    {
-                        <span>@item.DeleteDatetime.Value.ToShortDateString()</span>
-                        <br />
-                        <span>@item.DeleteDatetime.Value.ToLongTimeString()</span>
-                    }
-                </td>
-                <td>
-                    <a href="@Url.Action("Detail", new { id = item.Id })" class="icon-link">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </a>
-                </td>
-
+                <th>
+                    @Html.DisplayNameFor(model => model.GameName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MemberName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContentText)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Score)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActiveFlag)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeleteBackendMemberName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeleteDatetime)
+                </th>
+                <th>
+                    詳細
+                </th>
             </tr>
-        }
+        </thead>
+        <tbody>
 
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GameName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MemberName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContentText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Score)
+                    </td>
+                    <td>
+                        <span>@item.CreatedTime.ToShortDateString()</span>
+                        <br />
+                        <span>@item.CreatedTime.ToLongTimeString()</span>
+                    </td>
+                    <td>
+                        @if (item.ActiveFlag == false)
+                        {
+                            <text>已隱藏</text>
+                        }
+                        else if (item.ActiveFlag == true)
+                        {
+                            <text>公開</text>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeleteBackendMemberName)
+                    </td>
+                    <td>
+                        @if (item.DeleteDatetime != null)
+                        {
+                            <span>@item.DeleteDatetime.Value.ToShortDateString()</span>
+                            <br />
+                            <span>@item.DeleteDatetime.Value.ToLongTimeString()</span>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Detail", new { id = item.Id })" class="icon-link">
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json',
+                }
+            });
+        });
+    </script>
+}

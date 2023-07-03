@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TataGamedom.Models.EFModels;
+using TataGamedom.Models.Infra;
 using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
@@ -44,7 +45,24 @@ namespace TataGamedom.Controllers
 		[HttpPost]
 		public ActionResult EditProduct(ProductEditVM vm)
 		{
-			throw new NotImplementedException();
+			var currentUserAccount = User.Identity.Name;
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+			vm.ModifiedBackendMemberId = memberInDb.Id;
+
+			if (!ModelState.IsValid)
+			{
+				return View(vm);
+			}
+			var editResult = UpdateProduct(vm);
+			return View(vm);
+		}
+
+		private Result UpdateProduct(ProductEditVM vm)
+		{
+			IProductRepository repo = new ProductDapperRepository();
+			ProductService service = new ProductService(repo);
+			return service.Edit(vm);
+
 		}
 	}
 }
