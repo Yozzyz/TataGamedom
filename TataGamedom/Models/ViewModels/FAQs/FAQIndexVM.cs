@@ -22,7 +22,7 @@ namespace TataGamedom.Models.ViewModels.CustomerServices
         public DateTime? CreatedAt { get; set; }
 
         [Display(Name = "問題類別")]
-        public string IssueTypeId { get; set; }
+        public int IssueTypeId { get; set; }
         public virtual IssueTypesCode IssueTypesCode { get; set; }
     }
 }

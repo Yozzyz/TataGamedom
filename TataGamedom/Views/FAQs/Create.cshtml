@@ -1,16 +1,16 @@
-﻿@model TataGamedom.Models.EFModels.FAQ
+﻿@model TataGamedom.Models.ViewModels.CustomerServices.FAQsCreateVM
 
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>新增FAQ</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "FAQs", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>FAQ</h4>
         <hr />

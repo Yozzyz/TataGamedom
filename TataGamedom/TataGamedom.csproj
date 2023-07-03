@@ -217,6 +217,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
+    <Compile Include="Models\Dtos\FAQs\FAQIndexDto.cs" />
     <Compile Include="Models\Dtos\InventoryItems\InventoryItemDto.cs" />
     <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
@@ -293,6 +294,7 @@
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
+    <Compile Include="Models\Infra\EFRepositories\FAQsEFRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\IndexGenerator.cs" />
@@ -300,6 +302,7 @@
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
     <Compile Include="Models\Interfaces\ICouponRepository.cs" />
+    <Compile Include="Models\Interfaces\IFAQRepository.cs" />
     <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
     <Compile Include="Models\Interfaces\IInventoryRepository.cs" />
@@ -310,6 +313,7 @@
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
     <Compile Include="Models\Services\CouponService.cs" />
+    <Compile Include="Models\Services\FAQService.cs" />
     <Compile Include="Models\Services\GameCommentService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
     <Compile Include="Models\Services\InventoryService.cs" />
@@ -519,7 +523,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\Infra\EFRepositories\" />
     <Folder Include="Models\ViewModels\Announcement\" />
     <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>

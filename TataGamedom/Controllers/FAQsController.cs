@@ -7,6 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TataGamedom.Models.EFModels;
+using TataGamedom.Models.Infra.DapperRepositories;
+using TataGamedom.Models.Infra.EFRepositories;
+using TataGamedom.Models.Interfaces;
+using TataGamedom.Models.Services;
+using TataGamedom.Models.ViewModels.CustomerServices;
+using TataGamedom.Models.ViewModels.Games;
 
 namespace TataGamedom.Controllers
 {
@@ -15,11 +21,23 @@ namespace TataGamedom.Controllers
         private AppDbContext db = new AppDbContext();
 
         // GET: FAQs
+        [Authorize]
         public ActionResult Index()
         {
             var fAQs = db.FAQs.Include(f => f.IssueTypesCode);
             return View(fAQs.ToList());
         }
+        //public ActionResult Index()
+        //{
+        //    IEnumerable<FAQIndexVM> FAQs = GetFAQs();
+        //    return View();
+        //}
+        //private IEnumerable<FAQIndexVM> GetFAQs()
+        //{
+        //    IFAQRepository repo = new FAQsEFRepository();
+        //    FAQService service = new FAQService(repo);
+        //    return (IEnumerable<FAQIndexVM>)service.Search();
+        //}
 
         // GET: FAQs/Details/5
         public ActionResult Details(int? id)

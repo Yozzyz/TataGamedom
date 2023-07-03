@@ -9,6 +9,7 @@ namespace TataGamedom.Models.EFModels
     [Table("FAQ")]
     public partial class FAQ
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public int Id { get; set; }
 
         public string Question { get; set; }
@@ -17,8 +18,9 @@ namespace TataGamedom.Models.EFModels
 
         public DateTime? CreatedAt { get; set; }
 
-        public int? IssueTypeId { get; set; }
+        public int IssueTypeId { get; set; }   
 
         public virtual IssueTypesCode IssueTypesCode { get; set; }
+
     }
 }
