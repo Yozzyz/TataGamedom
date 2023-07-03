@@ -27,8 +27,6 @@ namespace TataGamedom.Models.EFModels
         [StringLength(1500)]
         public string Content { get; set; }
 
-        public int CategoryCode { get; set; }
-
         public DateTime Datetime { get; set; }
 
         public DateTime LastEditDatetime { get; set; }

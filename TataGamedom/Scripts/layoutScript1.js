@@ -37,15 +37,26 @@ updateDateTime();
 setInterval(updateDateTime, 1000);
 
 
-//tiny edit
-tinymce.init({
-	selector: 'textarea',
-	plugins: '',
-	toolbar: 'blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | checklist numlist bullist indent outdent |',
-	tinycomments_mode: 'embedded',
-	tinycomments_author: 'Author name',
-	mergetags_list: [
-		{ value: 'First.Name', title: 'First Name' },
-		{ value: 'Email', title: 'Email' },
-	]
-});
+////tiny edit
+//tinymce.init({
+//	selector: 'textarea',
+//	plugins: '',
+//	toolbar: 'blocks fontfamily fontsize | bold italic underline strikethrough |  align lineheight | checklist numlist bullist indent outdent |',
+//	tinycomments_mode: 'embedded',
+//	tinycomments_author: 'Author name',
+//	mergetags_list: [
+//		{ value: 'First.Name', title: 'First Name' },
+//		{ value: 'Email', title: 'Email' },
+//	]
+//});
+
+//close window => logout
+// 在視窗關閉時觸發登出
+//window.addEventListener('beforeunload', function () {
+//    // 執行登出的相關程式碼，例如發送登出請求
+//    logout();
+//});
+
+//function logout() {
+//    document.cookie = "membershipdemo=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+//}

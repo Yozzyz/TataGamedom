@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -15,7 +16,12 @@ using TataGamedom.Models.ViewModels.Members;
 
 namespace TataGamedom.Controllers
 {
-    public class BackendMembersController : Controller
+	[Flags]
+	public enum Roles
+	{
+		Visitor = 0, Tataboss = 1, NNtata = 2, Producttata = 3, Ordertata = 4, Newstata = 5, Faqtata = 6, Memberstata = 7
+	}
+	public class BackendMembersController : Controller
     {
 		private AppDbContext db = new AppDbContext();
 

@@ -34,10 +34,9 @@
 
 	<div class="mt-3">
 		@Html.LabelFor(model => model.BackendMembersRoleId, "BackendMembersRoleId", htmlAttributes: new { @class = "control-label col-md-2" })
+		@Html.DropDownList("BackendMembersRoleId", null,"",htmlAttributes: new { @class = "form-select" })
+		@Html.ValidationMessageFor(model => model.BackendMembersRoleId, "", new { @class = "text-danger" })
 
-			@Html.DropDownList("BackendMembersRoleId", null, htmlAttributes: new { @class = "form-select" })
-			@Html.ValidationMessageFor(model => model.BackendMembersRoleId, "", new { @class = "text-danger" })
-	
 	</div>
 
 	<div class="mt-3">
