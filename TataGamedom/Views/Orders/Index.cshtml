@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "訂單列表";
-    var criteria = ViewBag.Criteria as TataGamedom.Models.Services.OrderService.Criteria;
+    var criteria = ViewBag.Criteria as TataGamedom.Models.Services.Criteria;
     var orderStatusId = ViewBag.OrderStatusId as SelectList;
     string orderStatusName = criteria.OrderStatusId.HasValue ? criteria.OrderStatusId.Value.ToString() : "";
     var sortInfo = ViewBag.SortInfo;
@@ -45,25 +45,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Index)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.Index)
+            @Html.DisplayNameFor(model => model.Index)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.Index)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MemberName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.MemberName)
+            @Html.DisplayNameFor(model => model.MemberName)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.MemberName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OrderStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.OrderStatusCodeName)
+            @Html.DisplayNameFor(model => model.OrderStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.OrderStatusCodeName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ShipmentStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.ShipmentStatusCodeName)
+            @Html.DisplayNameFor(model => model.ShipmentStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.ShipmentStatusCodeName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PaymentStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.PaymentStatusCodeName)
+            @Html.DisplayNameFor(model => model.PaymentStatusCodeName)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.PaymentStatusCodeName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreateAtText)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.CreatedAt)
+            @Html.DisplayNameFor(model => model.CreateAtText)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.CreatedAt)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Total)@sortInfo.RenderItem(TataGamedom.Models.Services.OrderService.SortInfo.EnumColumn.Total)
+            @Html.DisplayNameFor(model => model.Total)@sortInfo.RenderItem(TataGamedom.Models.Services.SortInfo.EnumColumn.Total)
         </th>
         <th></th>
     </tr>
@@ -93,9 +93,9 @@
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("編輯", "Edit", new { Index=item.Index}) |
+                @Html.ActionLink("明細", "Info", new { Index = item.Index })
+                @*@Html.ActionLink("刪除", "Delete", new { Index = item.Index })*@
             </td>
         </tr>
     }

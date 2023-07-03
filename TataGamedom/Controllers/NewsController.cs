@@ -6,8 +6,8 @@ using System.Net;
 using System.Web.Mvc;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.News;
-
-
+using PagedList;
+using TataGamedom.Filters;
 
 namespace TataGamedom.Controllers
 {
@@ -18,8 +18,8 @@ namespace TataGamedom.Controllers
 
 
 		// GET: News
-		[Authorize]
-		public ActionResult Index(NewsCriteria newsCriteria)
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		public ActionResult Index(NewsCriteria newsCriteria, int? page)
 		{
 			PrepareNewsDataSource(newsCriteria.GamesId);
 			ViewBag.NewsCriteria = newsCriteria;
@@ -27,65 +27,56 @@ namespace TataGamedom.Controllers
 			using (var con = new SqlConnection(_connstr))
 			{
 				string sql = @"SELECT n.Id, n.Title, n.ScheduleDate, b.Name AS BackendMemberName, gc.Name AS GameClassificationName,
-COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
-FROM news AS n
-JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
-LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
-LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
-LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
-WHERE 1 = 1";
+            COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
+            FROM news AS n
+            JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
+            LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+            LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
+            LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
+            WHERE 1 = 1";
 
 				// 動態建立條件參數
 				DynamicParameters parameters = new DynamicParameters();
 
 				if (newsCriteria.GamesId.HasValue && newsCriteria.GamesId.Value != 0)
 				{
-					sql += " AND n.GamesId = @GamesId";
-					parameters.Add("@GamesId", newsCriteria.GamesId.Value);
+					if (newsCriteria.GamesId.Value == 1)
+					{
+						// 當 GamesId 為 1 時不加入篩選條件，列出全部
+					}
+					else
+					{
+						sql += " AND n.GamesId = @GamesId";
+						parameters.Add("@GamesId", newsCriteria.GamesId.Value);
+					}
 				}
 
-					// 如果有其他搜尋條件，請繼續在此處新增條件
+				// 如果有其他搜尋條件，請繼續在此處新增條件
+				if (!string.IsNullOrEmpty(newsCriteria.Title))
+				{
+					sql += " AND n.Title LIKE @Title";
+					parameters.Add("@Title", "%" + newsCriteria.Title + "%");
+				}
 
-					sql += @" GROUP BY n.Id, n.Title, n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
+				sql += @" GROUP BY n.Id, n.Title, n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
             ORDER BY n.Id DESC";
 
 				var news = con.Query<NewsIndexVM>(sql, parameters);
 
-				//ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
+				// 取得當前頁數
+				int pageNumber = page ?? 1;
 
-				return View(news);
+				// 每頁顯示的項目數量
+				int pageSize = 10;
+
+				// 將資料列表轉換為分頁結果
+				var pagedNews = news.ToPagedList(pageNumber, pageSize);
+
+				return View(pagedNews);
 			}
 		}
 
-
-		//public ActionResult Index(NewsCriteria newsCriteria)
-		//{
-		//	PrepareNewsDataSource(newsCriteria.GamesId);
-		//	ViewBag.NewsCriteria = newsCriteria;
-
-		//	using (var con = new SqlConnection(_connstr))
-		//	{
-		//		string sql = @"SELECT n.Id,n.Title,n.ScheduleDate, b.Name AS BackendMemberName, gc.Name AS GameClassificationName,
-		//	COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
-		//	FROM news AS n
-		//	JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
-		//	LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
-		//	LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
-		//	LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
-		//	GROUP BY n.Id,n.Title,n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
-		//	ORDER BY N.id DESC";
-
-		//		var news = con.Query<NewsIndexVM>(sql);
-
-		//		ViewBag.GamesId = new SelectList(db.GameClassificationsCodes, "Id", "Name");
-
-		//		return View(news);
-		//	}
-
-		//}
-
-
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Create()
 		{
 			ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
@@ -96,7 +87,7 @@ WHERE 1 = 1";
 		}
 
 
-		[Authorize]
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(NewsCreateVM newsCreateVM)
@@ -145,7 +136,7 @@ WHERE 1 = 1";
 
 
 		// GET: News/Edit
-		[Authorize]
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -180,6 +171,7 @@ WHERE 1 = 1";
 			}
 		}
 
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(NewsEditVM news)
@@ -217,7 +209,7 @@ WHERE 1 = 1";
 			return View(news);
 		}
 
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -232,7 +224,7 @@ WHERE 1 = 1";
 			return View(news);
 		}
 
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
@@ -251,8 +243,7 @@ WHERE 1 = 1";
 			}
 			return RedirectToAction("Index");
 		}
-
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Reduction(int? id)
 		{
 			if (id == null)
@@ -267,6 +258,8 @@ WHERE 1 = 1";
 			return View(news);
 		}
 
+
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Reduction")]
 		[ValidateAntiForgeryToken]
 		public ActionResult reductionConfirmed(int id)
@@ -284,6 +277,36 @@ WHERE 1 = 1";
 				}
 			}
 			return RedirectToAction("Index");
+		}
+
+
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		public ActionResult Show(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+
+			using (var con = new SqlConnection(_connstr))
+			{
+				string sql = @"SELECT n.Id, n.Title, n.Content, n.BackendMemberId, n.NewsCategoryId, n.GamesId, n.CoverImg, 
+                   n.ScheduleDate, n.ActiveFlag, n.DeleteDatetime, n.DeleteBackendMemberId,
+                   b.Name AS BackendMemberName, gc.Name AS GameClassificationName
+                   FROM News AS n
+                   JOIN BackendMembers AS b ON b.Id = n.BackendMemberId
+                   LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+                   WHERE n.Id = @Id";
+
+				var news = con.Query<NewsEditVM>(sql, new { Id = id }).SingleOrDefault();
+
+				if (news == null)
+				{
+					return HttpNotFound();
+				}
+
+				return View(news);
+			}
 		}
 
 		private void PrepareNewsDataSource(int? gamesId)

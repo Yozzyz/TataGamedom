@@ -12,6 +12,10 @@ using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
 using TataGamedom.Models.Dtos.Orders;
+using TataGamedom.Models.ViewModels.Orders;
+using TataGamedom.Models.Infra;
+using System.Web.Http.Results;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace TataGamedom.Controllers
 {
@@ -45,43 +49,116 @@ namespace TataGamedom.Controllers
 		private void PrepareOrderStatusDataSource(int? orderStatusId)
 		{
 			ViewBag.OrderStatusId = new SelectList(
-				db.OrderStatusCodes
-				.ToList()
-				.Prepend(new OrderStatusCode { Id = 0, Name = "" }), "Id", "Name", orderStatusId
-				);
+									 db.OrderStatusCodes
+									.ToList()
+									.Prepend(new OrderStatusCode { Id = 0, Name = "" }), "Id", "Name", orderStatusId
+									);
 		}
-
 
 
 		public ActionResult Create()
 		{
-			ViewBag.MemberId = new SelectList(db.Members, "Id", "Name");
-			ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes, "Id", "Name");
-			ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes, "Id", "Name");
-			ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods, "Id", "Name");
-			ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes, "Id", "Name");
-			return View();
+			PrepareCreateOrderDataSource(null, null, null, null);
+            return View();
 		}
-
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "Id,Index,MemberId,OrderStatusId,ShipmentStatusId,PaymentStatusId,CreatedAt,CompletedAt,ShipmemtMethodId,RecipientName,ToAddress,SentAt,DeliveredAt,TrackingNum")] Order order)
+		public ActionResult Create(OrderCreateVM vm)
 		{
-			if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(vm);
+
+			PrepareCreateOrderDataSource(vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
+            Result result = _service.Create(vm.ToDto());	
+			if (result.IsSuccess)
 			{
-				db.Orders.Add(order);
-				db.SaveChanges();
 				return RedirectToAction("Index");
 			}
+			else 
+			{
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
 
-			ViewBag.MemberId = new SelectList(db.Members, "Id", "Name", order.MemberId);
-			ViewBag.OrderStatusId = new SelectList(db.OrderStatusCodes, "Id", "Name", order.OrderStatusId);
-			ViewBag.PaymentStatusId = new SelectList(db.PaymentStatusCodes, "Id", "Name", order.PaymentStatusId);
-			ViewBag.ShipmemtMethodId = new SelectList(db.ShipmemtMethods, "Id", "Name", order.ShipmemtMethodId);
-			ViewBag.ShipmentStatusId = new SelectList(db.ShipmentStatusesCodes, "Id", "Name", order.ShipmentStatusId);
-			return View(order);
+		}
+		private void PrepareCreateOrderDataSource(int? orderStatusId, int? paymentStatusId, int? shipmemtMethodId, int? shipmentStatusId)
+		{
+			var orderStatusSelectList = new List<SelectListItem>();
+			foreach (var osc in db.OrderStatusCodes) { orderStatusSelectList.Add(new SelectListItem { Value = osc.Id.ToString(), Text = osc.Name}); }
+			ViewBag.OrderStatuses = orderStatusSelectList;
+
+            var paymentStatusSelectList = new List<SelectListItem>();
+            foreach (var psc in db.PaymentStatusCodes) { paymentStatusSelectList.Add(new SelectListItem { Value = psc.Id.ToString(), Text = psc.Name }); }
+            ViewBag.PaymentStatuses = paymentStatusSelectList;
+
+            var shipmemtMethodSelectList = new List<SelectListItem>();
+            foreach (var smc in db.ShipmemtMethods) { shipmemtMethodSelectList.Add(new SelectListItem { Value = smc.Id.ToString(), Text = smc.Name }); }
+            ViewBag.ShipmemtMethods = shipmemtMethodSelectList;
+
+            var shipmentStatusSelectList = new List<SelectListItem>();
+            foreach (var ssc in db.ShipmentStatusesCodes) { shipmentStatusSelectList.Add(new SelectListItem { Value = ssc.Id.ToString(), Text = ssc.Name }); }
+            ViewBag.ShipmentStatuses = shipmentStatusSelectList;
+
 		}
 
-	}
+		public ActionResult Info(string index)
+		{
+			if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			var orderInfo = _service.GetOrderItemsInfo(index).Select(x => x.ToVM());
+			return View(orderInfo);
+		}
+
+		public ActionResult Edit(string index) 
+		{
+            PrepareCreateOrderDataSource(null, null, null, null);
+
+            if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			var order = _service.GetByIndex(index).ToEditVM();
+			return View(order);
+        }
+
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(OrderEditVM vm)
+        {
+            if (!ModelState.IsValid) return View(vm);
+            PrepareCreateOrderDataSource(vm.OrderStatusId, vm.PaymentStatusId, vm.ShipmemtMethodId, vm.ShipmentStatusId);
+
+            Result result = _service.Update(vm.ToDto());
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, result.ErrorMessage);
+                return View(vm);
+            }
+        }
+
+
+   //     public ActionResult Delete(string index)
+   //     {
+   //         if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			//var order = db.Orders.SingleOrDefault(x => x.Index == index);
+   //         if (order == null) return HttpNotFound();
+   //         return View(order);
+   //     }
+
+   //     [HttpPost]
+   //     [ActionName("Delete")]
+   //     [ValidateAntiForgeryToken]
+   //     public ActionResult DeleteConfirmed(string index)
+   //     {
+			//_service.Delete(index);
+   //         return RedirectToAction("Index");
+   //     }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) db.Dispose();
+            base.Dispose(disposing);
+        }
+    }
 }

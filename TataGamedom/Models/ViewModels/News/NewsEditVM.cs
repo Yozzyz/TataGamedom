@@ -30,7 +30,7 @@ namespace TataGamedom.Models.ViewModels.News
 			}
 
 		}
-		[Display(Name = "修改人員")]
+		[Display(Name = "最後修改人員")]
 		public int BackendMemberId { get; set; }
 		[Display(Name = "新聞類別")]
 		public int? NewsCategoryId { get; set; }
@@ -42,7 +42,7 @@ namespace TataGamedom.Models.ViewModels.News
 		[Display(Name = "上線時間")]
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
 		public DateTime ScheduleDate { get; set; }
-		[Display(Name = "狀態")]
+		[Display(Name = "新聞狀態")]
 		public bool ActiveFlag { get; set; }
 
 		public string ActiveFlagText
@@ -58,7 +58,7 @@ namespace TataGamedom.Models.ViewModels.News
 		public int? DeleteBackendMemberId { get; set; }
 
 		public BackendMember BackendMember { get; set; }
-		[Display(Name = "修改人員")]
+		[Display(Name = "最後修改人員")]
 		public string BackendMemberName { get; set; }
 
 		[Display(Name = "遊戲分類")]

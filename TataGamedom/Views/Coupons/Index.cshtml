@@ -6,12 +6,8 @@
 
 <h2>優惠券管理列表</h2>
 
-<div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-secondary">
-            @Html.ActionLink("新增優惠券", "Create")
-        </button>
-    </div>
+<div class="mb-3" style="text-align: right;">
+    @Html.ActionLink("新增遊戲", "Create", null, new { @class = "btn btn-primary" })
 </div>
 <div class="text-center">
     <table class="table">
@@ -90,7 +86,7 @@
                     }
                 </td>
                 <td>
-                    <a href="@Url.Action("EditCoupon", new { id = item.CouponId })" class="icon-link">
+                    <a href="@Url.Action("Edit", new { id = item.CouponId })" class="icon-link">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                 </td>

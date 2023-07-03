@@ -46,7 +46,7 @@ namespace TataGamedom.Controllers
 			GameService service = new GameService(repo);
 			return service.GetGameClassifications();
 		}
-		
+
 		[HttpPost]
 		public ActionResult Create(GameCreateVM vm, HttpPostedFileBase file1)
 		{
@@ -166,14 +166,13 @@ namespace TataGamedom.Controllers
 					};
 					return View(model);
 				}
-				vm.ModifiedBackendMemberId =memberInDb.Id;
+				vm.ModifiedBackendMemberId = memberInDb.Id;
 				Result editResult = UpdateGames(vm);
 				if (editResult.IsSuccess)
 				{
 					//更新遊戲類別
 					UpdateGameClassification(vm);
 					CreateGameClassification(vm);
-
 
 					return RedirectToAction("Index");
 				}
@@ -227,7 +226,7 @@ namespace TataGamedom.Controllers
 			{
 				var currentUserAccount = User.Identity.Name;
 				var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
-				vm.ModifiedBackendMemberId= memberInDb.Id;
+				vm.ModifiedBackendMemberId = memberInDb.Id;
 				IGameRepository repo = new GameDapperRepository();
 				GameService service = new GameService(repo);
 				service.EditGameCover(vm);
@@ -235,9 +234,54 @@ namespace TataGamedom.Controllers
 			}
 			return View(vm);
 		}
-		public ActionResult CreateProduct()
+
+		public ActionResult AddProduct(int id)
 		{
-			return View();
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			ViewBag.Platform = new SelectList(db.GamePlatformsCodes, "Id", "Name");
+			var game = service.GetGameByIdForAddProduct(id);
+			return View(game);
+		}
+		[HttpPost]
+		public ActionResult AddProduct(GameAddProductVM vm, HttpPostedFileBase[] files)
+		{
+			//IGameRepository repo = new GameDapperRepository();
+			//GameService service = new GameService(repo);
+			//var game = service.GetGameByIdForAddProduct(id);
+			var currentUserAccount = User.Identity.Name;
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+			vm.CreateBackendMemberId = memberInDb.Id;
+	
+			if (files != null && files.Length > 0)
+			{
+				List<string> savedFileNames = new List<string>();
+
+				foreach (var file in files)
+				{
+					var savedFileName = SaveFile(file);
+					if (savedFileName != null)
+					{
+						savedFileNames.Add(savedFileName);
+					}
+				}
+				vm.ProductImg = savedFileNames;
+			}
+			//新增商品
+			var productResult = CreateProduct(vm);
+			if (productResult.IsSuccess)
+			{
+				//新增商品圖片
+				return RedirectToAction("Index");
+			}
+			else { return View(vm); }
+		}
+
+		private Result CreateProduct(GameAddProductVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			return service.CreateProduct(vm);
 		}
 	}
 }

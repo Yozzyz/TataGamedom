@@ -8,6 +8,8 @@ namespace TataGamedom.Models.ViewModels.Orders
 {
 	public class OrderIndexVM
 	{
+		public int Id { get; set; }
+
 		[Display(Name = "訂單編號")]
 		public string Index { get; set; }
 

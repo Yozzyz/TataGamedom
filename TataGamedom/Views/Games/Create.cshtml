@@ -61,11 +61,11 @@
     </div>
 
     <div class="mb-5">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-secondary" type="button" value="返回">
-                @Html.ActionLink("返回", "Index")
-            </button>
-            <button class="btn btn-secondary" type="submit" value="Create">新增</button>
+        <div class="mb-3">
+            <div style="text-align: right;">
+                @Html.ActionLink("返回", "Index", null, new { @class = "btn btn-primary" })
+                <input type="submit" value="新增" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 </div>

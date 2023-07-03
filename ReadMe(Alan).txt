@@ -1,12 +1,23 @@
 Working On
-[]·s¼W­q³æ
+[] ®w¦s detail => ®w¦s©ú²ÓCU   [v]R
 
 
 To Do
+[] Order ÅÜ§óª«¬yª¬ºA => ±H«H
+[] ¶i³f±ÀÂË²M³æ
+[] Create Order ­nÀË¬dMember id¬O§_¦s¦b
+
+[]°h³f³æ
+[]Edit Order ÅÜ§óª«¬yª¬ºA®É±H«H
+
+[]¤À­¶­«ºc Pagination , RouteValueDictionary , 0040
 []¨Ï¯à¿ï¾Ü¿é¤JÄæ¦ì­n¿z¤°»ò
 []¨Ï¯à¿ï¾Ü
 	­q³æª¬ºA &  ­q³æ½s¸¹ & Åã¥Ü´Xµ§
 	­q³æª¬ºA OR ­q³æ½s¸¹(¿é¤JÄæ¦ì) & Åã¥Ü´Xµ§
+
+[] §ó§ï°²¸ê®Æ OrderItem­n¤Ö©ó¹ïÀ³ªº®w¦sitem
+
 
 Completed
 06/26
@@ -14,7 +25,6 @@ Completed
 [v]Add Controller & View & LayOut2
 [v]Add OrdersIndexVM, Add OrdersIndex Controller , Index View
 [v]Orders Index()§ï¤T¼h¦¡, §ïªº¶¶§Ç:DTO => IRepo => Repo => Services => Controller
-note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾Þ§@©Î³\¥i¥H¡A¦ý¦pªGÅÜ±o½ÆÂø¡A¥ýÂà¦¨DtoÁÙ¬O¦n¾Þ§@¤@¨Ç
 
 06/27
 [v]·s¼WService,Repo¨Ö¬°¤@­Ó
@@ -40,3 +50,19 @@ note: ¥ÎDapper´N¤£»Ý­n¥ýÂàEntityÂàDto¤F? ¦]¬°¥L¬Oª½±µ¹ï¸ê®Æ®w°µ¾Þ§@? XX  Â²³æªº¾
 	       PageItemPrevNumber­º­¶btn¹ïÀ³­¶¼Æ
 	       PageItemNextNumberµ²§Àbtn¹ïÀ³­¶¼Æ
 	       PageBarItemCount(¹w³]button¼Æ)
+
+06/30
+[v]Add Order Create() VM,Dto
+[v]Order Create IRepo repo Service []¥\¯à => Index½s½X
+
+07/01
+[v]Order Create View Controller 
+[v] Orders Create ­×§ïDataAnnotations&¤U©Ô²M³æ
+[v] debug Index Sql
+[v] Add Order Info()
+[v] Order Edit Delete
+
+07/02
+[v] ®w¦sIndex  => Service Search()
+[v] Debug Order Info  *¸ê®Æ®w¦WºÙ ShipmentStatusCode¦³»~
+[v] §ó§ï¿z¿ï³Ñ¾l®w¦sªºSQL»yªk

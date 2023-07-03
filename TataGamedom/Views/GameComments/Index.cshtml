@@ -1,0 +1,94 @@
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.GameComments.GameCommentIndexVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>遊戲評論管理列表</h2>
+
+<p>
+</p>
+<div class="text-center">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GameName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemberName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContentText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActiveFlag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeleteBackendMemberName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeleteDatetime)
+            </th>
+            <th>
+                詳細
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MemberName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContentText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Score)
+                </td>
+                <td>
+                    <span>@item.CreatedTime.ToShortDateString()</span>
+                    <br />
+                    <span>@item.CreatedTime.ToLongTimeString()</span>
+                </td>
+                <td>
+                    @if (item.ActiveFlag == false)
+                    {
+                        <text>已隱藏</text>
+                    }
+                    else if (item.ActiveFlag == true)
+                    {
+                        <text>公開</text>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeleteBackendMemberName)
+                </td>
+                <td>
+                    @if (item.DeleteDatetime != null)
+                    {
+                        <span>@item.DeleteDatetime.Value.ToShortDateString()</span>
+                        <br />
+                        <span>@item.DeleteDatetime.Value.ToLongTimeString()</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("Detail", new { id = item.Id })" class="icon-link">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </a>
+                </td>
+
+            </tr>
+        }
+
+    </table>
+</div>

@@ -11,11 +11,14 @@ using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
 using TataGamedom.Models.ViewModels;
+using TataGamedom.Models.ViewModels.Members;
 
 namespace TataGamedom.Controllers
 {
     public class BackendMembersController : Controller
     {
+		private AppDbContext db = new AppDbContext();
+
 		// GET: BackendMembers
 		public ActionResult Index()
 		{
@@ -29,7 +32,6 @@ namespace TataGamedom.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-
 		public ActionResult Login(LoginVM vm)
 		{
 			if (ModelState.IsValid == false) return View();
@@ -44,7 +46,141 @@ namespace TataGamedom.Controllers
 
 			var processResult = ProcessLogin(vm.Account, rememberMe);
 			Response.Cookies.Add(processResult.cookie);
+
+			// 在登录成功后的逻辑中获取BackendMembersRoleId，并存储在Session中
+			int backendMembersRoleId = GetBackendMembersRoleIdByUsername(vm.Account); // 根据用户名查询BackendMembersRoleId的逻辑，你需要根据实际情况实现该方法
+			HttpContext.Session["BackendMembersRoleId"] = backendMembersRoleId;
+
 			return Redirect(processResult.returnUrl);
+		}
+
+	
+
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult Login(LoginVM vm)
+		//{
+		//	if (ModelState.IsValid == false) return View();
+		//	Result result = ValidLogin(vm);
+
+		//	if (result.IsSuccess != true)
+		//	{
+		//		ModelState.AddModelError("", result.ErrorMessage);
+		//		return View(vm);
+		//	}
+		//	const bool rememberMe = false;
+
+		//	var processResult = ProcessLogin(vm.Account, rememberMe);
+		//	Response.Cookies.Add(processResult.cookie);
+		//	return Redirect(processResult.returnUrl);
+		//}
+
+		public ActionResult Logout()
+		{
+			Session.Abandon();
+			FormsAuthentication.SignOut();
+			return Redirect("/BackendMembers/Login");
+		}
+
+
+		public ActionResult EditProfile()
+		{
+			var currentUserAccount = User.Identity.Name;
+
+			var model = GetBackendMemberProfile(currentUserAccount);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditProfile(EditProfileVM vm)
+		{
+			var currentUserAccount = User.Identity.Name;
+
+			if (ModelState.IsValid == false) return View();
+
+			Result updateResult = UpdateProfile(vm);
+			if (updateResult.IsSuccess) return RedirectToAction("Index");
+
+			ModelState.AddModelError(string.Empty, updateResult.ErrorMessage);
+			return View(vm);
+		}
+		
+		[Authorize]
+		public ActionResult EditPassword()
+		{
+			return View();
+		}
+
+		[Authorize]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditPassword(EditPasswordVM vm)
+		{
+			if (ModelState.IsValid == false) return View(vm);
+			var currentUserAccount = User.Identity.Name;
+			Result result = ChangePassword(currentUserAccount, vm);
+			if (result.IsSuccess == false)
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+			return RedirectToAction("Index");
+		}
+
+		public ActionResult NotAuthorize()
+		{
+			return View();
+		}
+
+
+
+		//分一下 之後再改3層
+
+
+		private EditProfileVM GetBackendMemberProfile(string account)
+		{
+			IBackendMemberRepositiry repo = new BackendMemberDapperRepository();
+			BackendMemberService service = new BackendMemberService(repo);
+			return service.GetBackendMemberProfile(account);
+		}
+
+		private Result ChangePassword(string account, EditPasswordVM vm)
+		{
+			var salt = HashUtility.GetSalt();
+			var hashOrigPwd = HashUtility.ToSHA256(vm.OringinalPassword, salt);
+
+			var db = new AppDbContext();
+
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == account && m.Password == hashOrigPwd);
+			if (memberInDb == null) return Result.Fail("找不到要修改的會員紀錄");
+
+			var hashPwd = HashUtility.ToSHA256(vm.CreatePassword, salt);
+
+			memberInDb.Password = hashPwd;
+			db.SaveChanges();
+
+			return Result.Success();
+		}
+
+		private Result UpdateProfile(EditProfileVM vm)
+		{
+			// 取得在db裡的原始記錄
+			var db = new AppDbContext();
+
+			var currentUserAccount = User.Identity.Name;
+			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
+			if (memberInDb == null) return Result.Fail("找不到要修改的會員記錄");
+
+			// 更新記錄
+			memberInDb.Name = vm.Name;
+			memberInDb.Email = vm.Email;
+			memberInDb.Phone = vm.Phone;
+
+			db.SaveChanges();
+
+			return Result.Success();
 		}
 
 		private Result ValidLogin(LoginVM vm)
@@ -82,101 +218,19 @@ namespace TataGamedom.Controllers
 
 		}
 
-		public ActionResult Logout()
+		private int GetBackendMembersRoleIdByUsername(string account)
 		{
-			Session.Abandon();
-			FormsAuthentication.SignOut();
-			return Redirect("/BackendMembers/Login");
-		}
-
-
-		public ActionResult EditProfile()
-		{
-			var currentUserAccount = User.Identity.Name;
-
-			var model = GetBackendMemberProfile(currentUserAccount);
-
-			return View(model);
-		}
-
-		private EditProfileVM GetBackendMemberProfile(string account)
-		{
-			IBackendMemberRepositiry repo = new BackendMemberDapperRepository();
-			BackendMemberService service = new BackendMemberService(repo);
-			return service.GetBackendMemberProfile(account);
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditProfile(EditProfileVM vm)
-		{
-			var currentUserAccount = User.Identity.Name;
-
-			if (ModelState.IsValid == false) return View();
-
-			Result updateResult = UpdateProfile(vm);
-			if (updateResult.IsSuccess) return RedirectToAction("Index");
-
-			ModelState.AddModelError(string.Empty, updateResult.ErrorMessage);
-			return View(vm);
-		}
-		private Result UpdateProfile(EditProfileVM vm)
-		{
-			// 取得在db裡的原始記錄
-			var db = new AppDbContext();
-
-			var currentUserAccount = User.Identity.Name;
-			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
-			if (memberInDb == null) return Result.Fail("找不到要修改的會員記錄");
-
-			// 更新記錄
-			memberInDb.Name = vm.Name;
-			memberInDb.Email = vm.Email;
-			memberInDb.Phone = vm.Phone;
-
-			db.SaveChanges();
-
-			return Result.Success();
-		}
-
-		[Authorize]
-		public ActionResult EditPassword()
-		{
-			return View();
-		}
-
-		[Authorize]
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditPassword(EditPasswordVM vm)
-		{
-			if (ModelState.IsValid == false) return View(vm);
-			var currentUserAccount = User.Identity.Name;
-			Result result = ChangePassword(currentUserAccount, vm);
-			if (result.IsSuccess == false)
+			using (var db = new AppDbContext()) // 用你的DbContext替代YourDbContext
 			{
-				ModelState.AddModelError(string.Empty, result.ErrorMessage);
-				return View(vm);
+				var backendMember = db.BackendMembers.FirstOrDefault(m => m.Account == account);
+				if (backendMember != null)
+				{
+					return backendMember.BackendMembersRoleId;
+				}
 			}
-			return RedirectToAction("Index");
-		}
 
-		private Result ChangePassword(string account, EditPasswordVM vm)
-		{
-			var salt = HashUtility.GetSalt();
-			var hashOrigPwd = HashUtility.ToSHA256(vm.OringinalPassword, salt);
-
-			var db = new AppDbContext();
-
-			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == account && m.Password == hashOrigPwd);
-			if (memberInDb == null) return Result.Fail("找不到要修改的會員紀錄");
-
-			var hashPwd = HashUtility.ToSHA256(vm.CreatePassword, salt);
-
-			memberInDb.Password = hashPwd;
-			db.SaveChanges();
-
-			return Result.Success();
+			// 若未找到对应的BackendMember记录，则返回一个默认的BackendMembersRoleId
+			return 0; // 或者其他你认为合适的默认值
 		}
 	}
 }

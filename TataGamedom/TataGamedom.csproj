@@ -56,6 +56,12 @@
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
     </Reference>
@@ -192,18 +198,23 @@
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\CouponsController.cs" />
+    <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
+    <Compile Include="Controllers\NewsCommentsController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Files\Mails\Class1.cs" />
     <Compile Include="Files\Uploads\Class1.cs" />
+    <Compile Include="Filters\AuthorizeFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
+    <Compile Include="Models\Dtos\InventoryItems\InventoryItemDto.cs" />
     <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
     <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
@@ -211,7 +222,9 @@
     <Compile Include="Models\Dtos\Games\GameIndexDto.cs" />
     <Compile Include="Models\Dtos\Members\LoginDto.cs" />
     <Compile Include="Models\Dtos\Members\RegisterDto.cs" />
+    <Compile Include="Models\Dtos\Orders\OrderDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderIndexDto.cs" />
+    <Compile Include="Models\Dtos\Orders\OrderInfoDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
@@ -271,31 +284,43 @@
     <Compile Include="Models\EFModels\Supplier.cs" />
     <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\GameCommentRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\InventoryRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
-    <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Infra\IndexGenerator.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
-    <Compile Include="Models\Interfaces\ICouponsRepository.cs" />
+    <Compile Include="Models\Interfaces\ICouponRepository.cs" />
+    <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
+    <Compile Include="Models\Interfaces\IInventoryRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
+    <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
     <Compile Include="Models\Interfaces\IOrderRepository.cs" />
     <Compile Include="Models\Interfaces\IProductRepository.cs" />
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
     <Compile Include="Models\Services\CouponService.cs" />
+    <Compile Include="Models\Services\GameCommentService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
+    <Compile Include="Models\Services\InventoryService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
     <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\GameComments\GameCommentDetailVM.cs" />
+    <Compile Include="Models\ViewModels\GameComments\GameCommentIndexVM.cs" />
+    <Compile Include="Models\ViewModels\InventoryItems\InventoryVM.cs" />
+    <Compile Include="Models\ViewModels\Games\GameAddProductVM.cs" />
+    <Compile Include="Models\ViewModels\Members\BackendMembersListVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditProfileVM.cs" />
     <Compile Include="Models\ViewModels\Members\ForgetPasswordVM.cs" />
@@ -304,13 +329,18 @@
     <Compile Include="Models\ViewModels\Games\GameEditVM.cs" />
     <Compile Include="Models\ViewModels\Games\GameIndexVM.cs" />
     <Compile Include="Models\ViewModels\Members\LoginVM.cs" />
+    <Compile Include="Models\ViewModels\Members\Role.cs" />
+    <Compile Include="Models\ViewModels\News\NewsCommentIndexVM.cs" />
     <Compile Include="Models\ViewModels\News\NewsCreateVM.cs" />
     <Compile Include="Models\ViewModels\News\NewsCriteria.cs" />
     <Compile Include="Models\ViewModels\News\NewsEditVM.cs" />
     <Compile Include="Models\ViewModels\News\NewsIndexVM.cs" />
     <Compile Include="Models\ViewModels\Members\RegisterVM.cs" />
     <Compile Include="Models\ViewModels\Members\ResetPasswordVM.cs" />
+    <Compile Include="Models\ViewModels\Orders\OrderCreateVM.cs" />
+    <Compile Include="Models\ViewModels\Orders\OrderEditVM.cs" />
     <Compile Include="Models\ViewModels\Orders\OrderIndexVM.cs" />
+    <Compile Include="Models\ViewModels\Orders\OrderInfoVM.cs" />
     <Compile Include="Models\ViewModels\Products\ProductIndexVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -332,6 +362,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\layoutStyle1.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Files\Images\otter.png" />
     <Content Include="Files\Mails\77_gmail.com 20230628_174620.txt" />
@@ -417,7 +448,6 @@
     <Content Include="Views\BackendMembers\Login.cshtml" />
     <Content Include="Views\BackendMembers\EditProfile.cshtml" />
     <Content Include="Views\BackendMembers\EditPassword.cshtml" />
-    <Content Include="Views\BackendMembersList\Create.cshtml" />
     <Content Include="Views\BackendMembersList\Delete.cshtml" />
     <Content Include="Views\BackendMembersList\Details.cshtml" />
     <Content Include="Views\BackendMembersList\Edit.cshtml" />
@@ -453,10 +483,24 @@
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Coupons\Index.cshtml" />
+    <Content Include="Views\Orders\Create.cshtml" />
+    <Content Include="Views\GameComments\Index.cshtml" />
+    <Content Include="Views\NewsComments\Index.cshtml" />
+    <Content Include="Views\News\Show.cshtml" />
+    <Content Include="Views\Orders\Info.cshtml" />
+    <Content Include="Views\Orders\Edit.cshtml" />
+    <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Inventory\Details.cshtml" />
+    <Content Include="Views\GameComments\Detail.cshtml" />
+    <Content Include="Views\GameComments\Error.cshtml" />
+    <Content Include="Views\Games\AddProduct.cshtml" />
+    <Content Include="Views\BackendMembers\NotAuthorize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Models\Infra\EFRepositories\" />
     <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>

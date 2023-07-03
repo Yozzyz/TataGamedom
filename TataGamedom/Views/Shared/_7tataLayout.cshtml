@@ -19,39 +19,40 @@
     @RenderSection("Styles", required: false)
 
 </head>
-
+@using TataGamedom.Filters;
 <body>
 
-	<div class="title">
-		<h1 id="title">獺獺玩國TaTaGameDoM</h1>
-	</div>
+    <div class="title">
+        <h1 id="title">獺獺玩國TaTaGameDoM</h1>
+    </div>
 
-	<nav id="user-nav">
-		<div class="time">
-			現在時間：<span id="timeSpan"></span>
-		</div>
+    <nav id="user-nav">
+        <div class="time">
+            現在時間：<span id="timeSpan"></span>
+        </div>
 
-		@{ if (User.Identity.IsAuthenticated) {
-		<div class="user">
-			<ul>
-				<li>
-						<a href="/BackendMembers/Index">@Html.Raw(User.Identity.Name)</a>
-					<ul>
-						<li><a href="/BackendMembers/EditProfile/">維護個人資料</a></li>
-						<li><a href="/BackendMembers/EditPassword/">修改密碼</a></li>
-						<li><a href="/BackendMembers/Logout/">登出</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-				}
-			}
-	</nav>
+        @{ if (User.Identity.IsAuthenticated)
+            {
+                <div class="user">
+                    <ul>
+                        <li>
+                            <a href="/BackendMembers/Index">@Html.Raw(User.Identity.Name)</a>
+                            <ul>
+                                <li><a href="/BackendMembers/EditProfile/">維護個人資料</a></li>
+                                <li><a href="/BackendMembers/EditPassword/">修改密碼</a></li>
+                                <li><a href="/BackendMembers/Logout/">登出</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            }
+        }
+    </nav>
 
-	<nav id="side-nav" class="width">
-		<a id="logo" href="#">
-			<img src="~/Files/Images/otter.png" alt="" class="otterlogo">
-		</a>
+    <nav id="side-nav" class="width">
+        <a id="logo" href="#">
+            <img src="~/Files/Images/otter.png" alt="" class="otterlogo">
+        </a>
 		<ul>
 			<li>
 				<a href="/HOME/INDEX">
@@ -78,7 +79,7 @@
 					}
 				</ul>
 			</li>
-		
+
 			<li>
 				<a href="#">
 					<i class="fa fa-comment"></i>
@@ -95,20 +96,22 @@
 					}
 				</ul>
 			</li>
-			<li>
-				<a href="#">
-					<i class="fa fa-newspaper"></i>
-					<span>獺獺新聞</span>
-				</a>
-				<ul>
-					@if (User.Identity.IsAuthenticated)
-					{
-						<li>@Html.ActionLink("新聞管理", "Index", "NEWS", new { area = "" }, new { @class = "nav-link" })</li>
-						<li><a href="#">新聞分類管理</a></li>
-						<li>@Html.ActionLink("新聞留言管理", "Index", "NewsComments", new { area = "" }, new { @class = "nav-link" })</li>
-					}
-				</ul>
-			</li>
+
+				<li>
+					<a href="#">
+						<i class="fa fa-newspaper"></i>
+						<span>獺獺新聞</span>
+					</a>
+					<ul>
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li>@Html.ActionLink("新聞管理", "Index", "NEWS", new { area = "" }, new { @class = "nav-link" })</li>
+							<li><a href="#">新聞分類管理</a></li>
+							<li>@Html.ActionLink("新聞留言管理", "Index", "NewsComments", new { area = "" }, new { @class = "nav-link" })</li>
+						}
+					</ul>
+				</li>
+			
 			<li>
 				<a href="#">
 					<i class="fa fa-store"></i>
@@ -118,9 +121,9 @@
 					@if (User.Identity.IsAuthenticated)
 					{
 						<li>@Html.ActionLink("遊戲管理", "Index", "Games", new { area = "" }, new { @class = "nav-link" })</li>
-						<li><a href="#">商品管理</a></li>
-						<li><a href="#">優惠券管理</a></li>
-						<li><a href="#">商品評論管理</a></li>
+						<li>@Html.ActionLink("遊戲評論管理", "Index", "GameComments", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("商品管理", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
+						<li>@Html.ActionLink("優惠券管理", "Index", "Coupons", new { area = "" }, new { @class = "nav-link" })</li>
 					}
 				</ul>
 			</li>
@@ -144,8 +147,14 @@
 					<span>獺獺訂單</span>
 				</a>
 				<ul>
+					@*之後要刪掉*@
+					@if (!User.Identity.IsAuthenticated)
+					{
+						<li>@Html.ActionLink("訂單管理", "Index", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
+					}
 					@if (User.Identity.IsAuthenticated)
 					{
+						<li>@Html.ActionLink("訂單管理", "Index", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
 						<li><a href="#">訂單管理</a></li>
 						<li><a href="#">物流管理</a></li>
 					}
@@ -156,6 +165,94 @@
 					<i class="fa fa-circle-info"></i>
 					<span>獺獺客服</span>
 				</a>
+				<ul>
+					@if (User.Identity.IsAuthenticated)
+					{
+						<li>@Html.ActionLink("FAQ管理", "Index", "FAQ", new { area = "" }, new { @class = "nav-link" })</li>
+						<li><a href="#">公告管理</a></li>
+						<li><a href="#">客服管理</a></li>
+					}
+				</ul>
+			</li>
+		</ul>
+            <li>
+                <a href="#">
+                    <i class="fa fa-comment"></i>
+                    <span>獺獺討論區</span>
+                </a>
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a href="#">看板管理</a></li>
+                        <li><a href="#">貼文／留言管理</a></li>
+                        <li><a href="#">版主審核</a></li>
+                        <li><a href="#">檢舉審核</a></li>
+                        <li><a href="#">水桶名單管理</a></li>
+                    }
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-newspaper"></i>
+                    <span>獺獺新聞</span>
+                </a>
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("新聞管理", "Index", "NEWS", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li><a href="#">新聞分類管理</a></li>
+                        <li>@Html.ActionLink("新聞留言管理", "Index", "NewsComments", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-store"></i>
+                    <span>獺獺商城</span>
+                </a>
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("遊戲管理", "Index", "Games", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("遊戲評論管理", "Index", "GameComments", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("商品管理", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("優惠券管理", "Index", "Coupons", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-cart-flatbed"></i>
+                    <span>獺獺庫存</span>
+                </a>
+                <ul>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a href="#">供應商管理</a></li>
+                        <li><a href="#">叫貨管理</a></li>
+                        <li>@Html.ActionLink("庫存管理", "Index", "Inventory", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-truck-moving"></i>
+                    <span>獺獺訂單</span>
+                </a>
+                <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("訂單管理", "Index", "Orders", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li><a href="#">物流管理</a></li>
+                    }
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-circle-info"></i>
+                    <span>獺獺客服</span>
+                </a>
                 <ul>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -164,20 +261,20 @@
                         <li><a href="#">客服管理</a></li>
                     }
                 </ul>
-			</li>
-		</ul>
-		<a id="toggle">
-			<i class="fa fa-chevron-circle-right"></i>
-		</a>
-	</nav>
+            </li>
+        </ul>
+        <a id="toggle">
+            <i class="fa fa-chevron-circle-right"></i>
+        </a>
+    </nav>
 
-	<div class="container body-content">
-		@RenderBody()
-	</div>
-	@Scripts.Render("~/bundles/jquery")
-	@Scripts.Render("~/bundles/bootstrap")
-	@RenderSection("scripts", required: false)
-	<script src="~/Scripts/layoutScript1.js"></script>
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/layoutScript1.js"></script>
 
 </body>
 
