@@ -28,8 +28,7 @@ FROM Products AS P
 JOIN Games AS G ON P.GameId=G.Id
 JOIN GamePlatformsCodes AS GPC ON GPC.Id = P.GamePlatformId
 JOIN ProductStatusCodes AS PSC ON PSC.Id = P.ProductStatusId
-JOIN BackendMembers AS BM ON BM.Id = P.CreatedBackendMemberId
-ORDER BY P.CreatedTime desc";
+JOIN BackendMembers AS BM ON BM.Id = P.CreatedBackendMemberId";
 				return conn.Query<ProductIndexVM>(sql);
 			}
 		}
@@ -46,6 +45,25 @@ LEFT JOIN BackendMembers AS BM ON BM.Id = P.ModifiedBackendMemberId
 JOIN ProductStatusCodes AS PSC ON PSC.Id = P.ProductStatusId
 WHERE P.Id =@Id";
 				return conn.QueryFirstOrDefault<ProductEditVM>(sql, new { Id = id });
+			}
+		}
+
+		public bool Update(ProductEditVM vm)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"UPDATE Products SET GamePlatformId=@GamePlatformId, IsVirtual = @IsVirtual, Price=@Price,SystemRequire=@SystemRequire,SaleDate=@SaleDate,ProductStatusId=@ProductStatusId,ModifiedBackendMemberId=@ModifiedBackendMemberId,ModifiedTime=@ModifiedTime WHERE [Index]=@Index";
+				var rowAffected = conn.Execute(sql, new { Index = vm.Index });
+				return rowAffected > 0;
+			}
+		}
+
+		public Product GetGameByIndex(ProductEditVM vm)
+		{
+			using(var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"select*from Products WHERE [Index]=@Index;";
+				return conn.QueryFirstOrDefault(sql, new { Index = vm.Index });
 			}
 		}
 	}

@@ -3,6 +3,23 @@
 @{
     ViewBag.Title = "Index";
 }
+﻿@section Styles{
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        thead {
+            background-color: goldenrod;
+            color: white;
+        }
+
+        .vertical-align-middle {
+            vertical-align: middle;
+        }
+    </style>
+}
 
 <h2>優惠券管理列表</h2>
 
@@ -10,93 +27,117 @@
     @Html.ActionLink("新增遊戲", "Create", null, new { @class = "btn btn-primary" })
 </div>
 <div class="text-center">
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CouponId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Threshold)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ActiveFlag)
-            </th>
-            <th>編輯</th>
-            <th>適用商品</th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <table class="table" id="myTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CouponId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Threshold)
-                </td>
-                <td>
-                    <span>@item.StartTime.ToShortDateString()</span>
-                    <br />
-                    <span>@item.StartTime.ToLongTimeString()</span>
-                </td>
-                <td>
-                    <span>@item.EndTime.ToShortDateString()</span>
-                    <br />
-                    <span>@item.EndTime.ToLongTimeString()</span>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
-                </td>
-                <td>
-                    @item.CreatedTime.ToString("yyyy-MM-dd")
-                </td>
-                <td>
-                    @if (item.ActiveFlag == false)
-                    {
-                        <text>刪除</text>
-                    }
-                    else if (item.ActiveFlag == true)
-                    {
-                        <text>公開</text>
-                    }
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit", new { id = item.CouponId })" class="icon-link">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
-                </td>
-                <td>
-                    <a href="@Url.Action("EditCouponProducts", new { id = item.CouponId })" class="icon-link">
-                        <i class="fa-solid fa-circle-plus"></i>
-                    </a>
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.CouponId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Threshold)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActiveFlag)
+                </th>
+                <th>編輯</th>
+                <th>適用商品</th>
             </tr>
-        }
+        </thead>
 
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CouponId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Threshold)
+                    </td>
+                    <td>
+                        <span>@item.StartTime.ToShortDateString()</span>
+                        <br />
+                        <span>@item.StartTime.ToLongTimeString()</span>
+                    </td>
+                    <td>
+                        <span>@item.EndTime.ToShortDateString()</span>
+                        <br />
+                        <span>@item.EndTime.ToLongTimeString()</span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
+                    </td>
+                    <td>
+                        @item.CreatedTime.ToString("yyyy-MM-dd")
+                    </td>
+                    <td>
+                        @if (item.ActiveFlag == false)
+                        {
+                            <text>刪除</text>
+                        }
+                        else if (item.ActiveFlag == true)
+                        {
+                            <text>公開</text>
+                        }
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit", new { id = item.CouponId })" class="icon-link">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditCouponProducts", new { id = item.CouponId })" class="icon-link">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 </div>
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/v/bs5/jq-3.6.0/dt-1.13.1/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                responsive: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json',
+                }
+            });
+        });
+    </script>
+}
