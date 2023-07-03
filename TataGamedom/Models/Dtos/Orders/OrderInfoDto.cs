@@ -53,7 +53,11 @@ namespace TataGamedom.Models.Dtos.Orders
                 CompletedAt = dto.CompletedAt,
                 Total = dto.Total,
                 GameKey = dto.GameKey,
+                OrderStatusCodeName = dto.OrderStatusCodeName,
+                PaymentStatusCodeName = dto.PaymentStatusCodeName,
+                ShipmentStatusCodeName = dto.ShipmentStatusCodeName,
                 GameCoverImg = dto.GameCoverImg,
+                GameName = dto.GameName,
                 CouponDescription = dto.CouponDescription
             };
         }

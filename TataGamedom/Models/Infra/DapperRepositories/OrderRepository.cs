@@ -15,12 +15,12 @@ namespace TataGamedom.Models.Infra.DapperRepositories
 {
 	public class OrderRepository : IOrderRepository
 	{
-		private string _connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
+		private string Connstr => System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
 
 		
 		public void Create(OrderDto dto)
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				string sql = @"
 INSERT INTO Orders 
@@ -38,11 +38,12 @@ VALUES
 
         public IEnumerable<OrderInfoDto> GetOrderItemsInfo(string index)
         {
-			using (var connection = new SqlConnection(_connstr)) 
+			using (var connection = new SqlConnection(Connstr)) 
 			{
 				string sql = @"SELECT
 OI.[Index] AS OrderItemIndex, OI.ProductPrice, O.[Index], O.CreatedAt, O.CompletedAt,
-(SELECT SUM(OI.ProductPrice) FROM OrderItems AS OI WHERE OI.OrderId = O.Id) AS Total, IIT.GameKey, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, G.ChiName AS GameName,
+(SELECT SUM(OI.ProductPrice) FROM OrderItems AS OI WHERE OI.OrderId = O.Id) AS Total, 
+IIT.GameKey, OSC.[Name] AS OrderStatusCodeName, PSC.[Name] AS PaymentStatusCodeName, SSC.[Name] AS ShipmentStatusCodeName,G.ChiName AS GameName,
 G.GameCoverImg, C.[Description] AS CouponDescription, O.Id
 FROM OrderItems AS OI
 RIGHT JOIN Orders AS O ON OI.OrderId = O.Id
@@ -50,7 +51,8 @@ LEFT JOIN InventoryItems AS IIT ON OI.InventoryItemId = IIT.Id
 LEFT JOIN OrderItemsCoupons AS OIC ON OI.Id = OIC.OrderItemId
 LEFT JOIN Coupons AS C ON OIC.CouponId = C.Id
 JOIN OrderStatusCodes AS OSC ON O.OrderStatusId = OSC.Id
-JOIN PaymentStatusCodes AS PSC ON O.OrderStatusId = PSC.Id
+JOIN PaymentStatusCodes AS PSC ON O.PaymentStatusId = PSC.Id
+JOIN ShipmentStatusesCodes AS SSC ON O.ShipmentStatusId = SSC.Id
 LEFT JOIN Products AS P ON　OI.ProductId = P.Id
 LEFT JOIN Games AS G ON P.GameId = G.Id
 WHERE O.[Index] = @Index
@@ -63,7 +65,7 @@ WHERE O.[Index] = @Index
 
         public int GetMaxIdInDb()
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				string sql = "SELECT MAX(Id) FROM Orders";
 				int maxId = connection.QuerySingle<int>(sql);
@@ -80,7 +82,7 @@ WHERE O.[Index] = @Index
 		/// <returns></returns>
 		public IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo)
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				IEnumerable<OrderIndexDto> orders = connection.Query<OrderIndexDto>(GetSql(criteria, sortInfo), criteria);
 				return orders;
@@ -96,7 +98,7 @@ WHERE O.[Index] = @Index
 		/// <returns></returns>
 		public IEnumerable<OrderIndexDto> Search(Criteria criteria, SortInfo sortInfo, string sqlAddPage)
 		{
-			using (var connection = new SqlConnection(_connstr))
+			using (var connection = new SqlConnection(Connstr))
 			{
 				IEnumerable<OrderIndexDto> orders = connection.Query<OrderIndexDto>(sqlAddPage, criteria);
 				return orders;
@@ -105,7 +107,7 @@ WHERE O.[Index] = @Index
 
         public OrderDto GetByIndex(string index)
         {
-			using (var connection = new SqlConnection(_connstr)) 
+			using (var connection = new SqlConnection(Connstr)) 
 			{
 				string sql = "SELECT * FROM Orders WHERE [Index] = @Index";
                 var order = connection.QuerySingleOrDefault<Order>(sql, new { Index = index });
@@ -115,7 +117,7 @@ WHERE O.[Index] = @Index
 
         public void Update(OrderDto dto)
         {
-			using (var connection = new SqlConnection(_connstr)) 
+			using (var connection = new SqlConnection(Connstr)) 
 			{
 				string sql = @"UPDATE Orders SET 
 MemberId = @MemberId , OrderStatusId = @OrderStatusId, ShipmentStatusId = @ShipmentStatusId , CreatedAt = @CreatedAt, CompletedAt = @CompletedAt,
@@ -126,13 +128,13 @@ WHERE [Index] = @Index";
 			}
         }
 
-        public void Delete(string index)
-        {
-            var dbContext = new AppDbContext();
-			var order = dbContext.Orders.SingleOrDefault(o => o.Index == index);
-			if (order == null) { return;}
-			dbContext.Orders.Remove(order);
-			dbContext.SaveChanges();
-        }
+   //     public void Delete(string index)
+   //     {
+   //         var dbContext = new AppDbContext();
+			//var order = dbContext.Orders.SingleOrDefault(o => o.Index == index);
+			//if (order == null) { return;}
+			//dbContext.Orders.Remove(order);
+			//dbContext.SaveChanges();
+   //     }
     }
 }
