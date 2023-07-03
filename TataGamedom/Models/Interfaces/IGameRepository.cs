@@ -43,5 +43,6 @@ namespace TataGamedom.Models.Interfaces
 		Game GetGameByIdForAddProduct(int id);
 
 		bool CreateProduct(Product product);
+		bool CreateProductImg(ProductImage productImage);
 	}
 }

@@ -8,6 +8,8 @@ using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Interfaces;
 using Dapper;
 using TataGamedom.Models.ViewModels.Games;
+using System.Reflection;
+using System.Diagnostics;
 
 namespace TataGamedom.Models.Infra.DapperRepositories
 {
@@ -113,7 +115,7 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 
 		public Game GetGameByName2(string name)
 		{
-			using(var conn = new SqlConnection(_connStr))
+			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"SELECT * FROM Games WHERE ChiName=@ChiName";
 				return conn.QueryFirstOrDefault<Game>(sql, new { ChiName = name });
@@ -122,7 +124,7 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 
 		public bool CreateBoard(Game game)
 		{
-			using(var conn = new SqlConnection(_connStr))
+			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"INSERT INTO Boards(Name , GameId, BoardHeaderCoverImg) VALUES(@Name , @GameId, @BoardHeaderCoverImg);";
 				var rowAffected = conn.Execute(sql, new { Name = game.ChiName, GameId = game.Id, BoardHeaderCoverImg = game.GameCoverImg });
@@ -159,7 +161,7 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 
 		public IEnumerable<GameEditVM> GetGameClassificationGames(int id)
 		{
-			using(var conn = new SqlConnection(_connStr))
+			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"SELECT * FROM GameClassificationGames WHERE GameId = @Id";
 				return conn.Query<GameEditVM>(sql, new { Id = id });
@@ -168,7 +170,7 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 
 		public bool DeleteGameClassificationGames(int id)
 		{
-			using(var conn = new SqlConnection(_connStr))
+			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"DELETE GameClassificationGames WHERE GameId= @Id";
 				var rowAffected = conn.Execute(sql, new { Id = id });
@@ -177,9 +179,9 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 		}
 
 		//用來改成通用的
-		public Game GetGameByIdForAddProduct (int id)
+		public Game GetGameByIdForAddProduct(int id)
 		{
-			using(var conn = new SqlConnection(_connStr))
+			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"SELECT*FROM Games WHERE Id = @Id;";
 				return conn.QueryFirstOrDefault<Game>(sql, new { Id = id });
@@ -188,11 +190,21 @@ GROUP BY G.Id, G.ChiName, G.IsRestrict, G.CreatedTime, BM.Name";
 
 		public bool CreateProduct(Product product)
 		{
-			using(var conn =new SqlConnection(_connStr))
+			using (var conn = new SqlConnection(_connStr))
 			{
 				string sql = @"INSERT INTO Products ([Index], GameId, IsVirtual, Price, GamePlatformId, SystemRequire, ProductStatusId, SaleDate, CreatedBackendMemberId, CreatedTime)
-VALUES(@[Index], @GameId, @IsVirtual, @Price, @GamePlatformId, @SystemRequire, @ProductStatusId, @SaleDate, @CreatedBackendMemberId, @CreatedTime)";
-				var rowAffected = conn.Execute(sql, product);
+VALUES(@Index, @GameId, @IsVirtual, @Price, @GamePlatformId, @SystemRequire, @ProductStatusId, @SaleDate, @CreatedBackendMemberId, @CreatedTime)";
+				var rowAffected = conn.Execute(sql, new { Index = product.Index, GameId = product.GameId, IsVirtual = product.IsVirtual, Price = product.Price, GamePlatformId = product.GamePlatformId, SystemRequire = product.SystemRequire, ProductStatusId = product.ProductStatusId, SaleDate = product.SaleDate, CreatedBackendMemberId = product.CreatedBackendMemberId, CreatedTime = product.CreatedTime });
+				return rowAffected > 0;
+			}
+		}
+
+		public bool CreateProductImg(ProductImage productImage)
+		{
+			using (var conn = new SqlConnection(_connStr))
+			{
+				string sql = @"INSERT INTO ProductImages(ProductId,Image)VALUES(@ProductId,@Image)";
+				var rowAffected = conn.Execute(sql, productImage);
 				return rowAffected > 0;
 			}
 		}
