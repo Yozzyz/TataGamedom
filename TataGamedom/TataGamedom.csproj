@@ -349,6 +349,7 @@
     <Compile Include="Models\ViewModels\Orders\OrderInfoVM.cs" />
     <Compile Include="Models\ViewModels\Products\ProductIndexVM.cs" />
     <Compile Include="Models\ViewModels\StockInSheets\StockInSheetIndexVM.cs" />
+    <Compile Include="Models\ViewModels\StockInSheets\StockInSheetVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -505,13 +506,15 @@
     <Content Include="Views\BackendMembers\NotAuthorize.cshtml" />
     <Content Include="Views\Inventory\Create.cshtml" />
     <Content Include="Views\Inventory\Edit.cshtml" />
+    <Content Include="Views\StockInSheets\Index.cshtml" />
+    <Content Include="Views\StockInSheets\Create.cshtml" />
+    <Content Include="Views\StockInSheets\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Models\Infra\EFRepositories\" />
     <Folder Include="Models\ViewModels\Boards\" />
-    <Folder Include="Views\StockInSheets\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

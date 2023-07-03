@@ -27,6 +27,8 @@ namespace TataGamedom.Models.Services
             return Result.Success();
         }
 
+        public StockInSheetDto GetById(int? id) => _repo.GetById(id);
+        
         public Result Update(StockInSheetDto dto) 
         {
             _repo.Update(dto);

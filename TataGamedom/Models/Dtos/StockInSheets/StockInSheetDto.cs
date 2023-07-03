@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using TataGamedom.Models.EFModels;
+using TataGamedom.Models.ViewModels.StockInSheets;
 
 namespace TataGamedom.Models.Dtos.StockInSheets
 {
@@ -37,6 +38,18 @@ namespace TataGamedom.Models.Dtos.StockInSheets
 				Quantity = entity.Quantity,
 				OrderRequestDate = entity.OrderRequestDate,
 				ArrivedAt = entity.ArrivedAt
+			};
+		}
+		public static StockInSheetVM ToVM(this StockInSheetDto dto) 
+		{
+			return new StockInSheetVM
+			{
+				Id = dto.Id,
+				StockInStatusId= dto.StockInStatusId,
+				SupplierId = dto.SupplierId,
+				Quantity= dto.Quantity,
+				OrderRequestDate = dto.OrderRequestDate,
+				ArrivedAt= dto.ArrivedAt
 			};
 		}
 	}

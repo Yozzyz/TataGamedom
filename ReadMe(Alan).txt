@@ -1,5 +1,5 @@
 Working On
-[]進貨單CRU  剩Controller呼叫
+[v]進貨單CRU
 
 
 To Do
