@@ -15,6 +15,7 @@ namespace TataGamedom.Models.Services
 {
 	public class GameService
 	{
+		private AppDbContext db = new AppDbContext();
 		private IGameRepository _repo;
 		public GameService(IGameRepository repo)
 		{
@@ -186,12 +187,13 @@ namespace TataGamedom.Models.Services
 			return Result.Success();
 		}
 
-		public GameAddProductVM GetGameByIdForAddProduct (int id)
+		public GameAddProductVM GetGameByIdForAddProduct(int id)
 		{
 			var game = _repo.GetGameByIdForAddProduct(id);
 			return new GameAddProductVM
 			{
-				Id = game.Id,
+				//Id = game.Id,
+				GameId = game.Id,
 				GameChiName = game.ChiName,
 				GameEngName = game.EngName,
 				Description = game.Description,
@@ -201,25 +203,70 @@ namespace TataGamedom.Models.Services
 
 		public Result CreateProduct(GameAddProductVM vm)
 		{
-			var product = new Product
+			var gameProduct = db.Products.FirstOrDefault(p => p.GameId == vm.GameId && p.GamePlatformId == vm.Platform);
+			if (gameProduct != null)
 			{
-				GameId = vm.GameId,
-				Index = "",
-				IsVirtual = vm.IsVirtual,
-				Price = vm.Price,
-				SystemRequire = vm.SystemRequire,
-				SaleDate =vm.SaleDate,
-				ProductStatusId = 1,
-				CreatedBackendMemberId = vm.CreateBackendMemberId,
-				CreatedTime = DateTime.Now,
-				ModifiedBackendMemberId = null,
-				ModifiedTime = null
-			};
+				return Result.Fail("該商品已存在！");
+			}
+			else
+			{
+				string index = "";
+				switch (vm.Platform)
+				{
+					case 1:
+						index = "PC";
+						break;
+					case 2:
+						index = "PS";
+						break;
+					case 3:
+						index = "SW";
+						break;
+				}
+				var product = new Product
+				{
+					GameId = vm.GameId,
+					Index = (index + vm.GameId.ToString() + vm.Platform.ToString()),//自訂編號：平台Name(0,2) + 遊戲ID + 平台ID
+					GamePlatformId = vm.Platform,
+					IsVirtual = vm.IsVirtual,
+					Price = vm.Price,
+					SystemRequire = vm.SystemRequire,
+					SaleDate = vm.SaleDate,
+					ProductStatusId = 1,
+					CreatedBackendMemberId = vm.CreateBackendMemberId,
+					CreatedTime = DateTime.Now,
+					ModifiedBackendMemberId = null,
+					ModifiedTime = null
+				};
+				var result = _repo.CreateProduct(product);
+				if (!result)
+				{
+					return Result.Fail("商品新增失敗");
+				}
+			}
+			return Result.Success();
+		}
 
-			var result = _repo.CreateProduct(product);
-			if (!result)
+		public Result CreateProductImg(GameAddProductVM vm)
+		{
+			var gameProduct = db.Products.FirstOrDefault(p => p.GameId == vm.GameId && p.GamePlatformId == vm.Platform);
+			int productId=0;
+			if (gameProduct != null)
 			{
-				return Result.Fail("商品新增失敗");
+				productId = gameProduct.Id;
+			}
+			foreach(var item in vm.ProductImg)
+			{
+				var productImages = new ProductImage
+				{
+					ProductId = productId,
+					Image = item
+				};
+				var createImgResult = _repo.CreateProductImg(productImages);
+				if (!createImgResult)
+				{
+					return Result.Fail("商品圖片新增失敗");
+				}
 			}
 			return Result.Success();
 		}
