@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TataGamedom.Filters;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.Members;
 using TataGamedom.Models.ViewModels.News;
@@ -19,9 +20,9 @@ namespace TataGamedom.Controllers
     {
         private AppDbContext db = new AppDbContext();
         private string _connstr = System.Configuration.ConfigurationManager.ConnectionStrings["AppDbContext"].ToString();
-        // GET: BackendMembersList
-
-        public ActionResult Index()
+		// GET: BackendMembersList
+        
+		public ActionResult Index()
         {
             using (var con = new SqlConnection(_connstr))
             {
