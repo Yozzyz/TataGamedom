@@ -192,21 +192,24 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AnnouncementsController.cs" />
     <Compile Include="Controllers\BackendMembersController.cs" />
     <Compile Include="Controllers\BackendMembersListController.cs" />
     <Compile Include="Controllers\BoardsApiController.cs" />
-    <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\BoardsController.cs" />
     <Compile Include="Controllers\CouponsController.cs" />
+    <Compile Include="Controllers\FAQsController.cs" />
     <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
+    <Compile Include="Controllers\IssuesController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\NewsCommentsController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\RepliesController.cs" />
     <Compile Include="Files\Mails\Class1.cs" />
     <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Filters\AuthorizeFilter.cs" />
@@ -314,8 +317,9 @@
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
     <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
-    <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
-    <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
+    <Compile Include="Models\ViewModels\FAQs\FAQbasic.cs" />
+    <Compile Include="Models\ViewModels\FAQs\FAQIndexVM.cs" />
+    <Compile Include="Models\ViewModels\FAQs\FAQsCreateVM.cs" />
     <Compile Include="Models\ViewModels\GameComments\GameCommentDetailVM.cs" />
     <Compile Include="Models\ViewModels\GameComments\GameCommentIndexVM.cs" />
     <Compile Include="Models\ViewModels\InventoryItems\InventoryVM.cs" />
@@ -474,11 +478,6 @@
     <Content Include="Views\Games\EditGameCover.cshtml" />
     <Content Include="Views\Games\Index.cshtml" />
     <Content Include="Views\News\Reduction.cshtml" />
-    <Content Include="Views\FAQ\Create.cshtml" />
-    <Content Include="Views\FAQ\Delete.cshtml" />
-    <Content Include="Views\FAQ\Details.cshtml" />
-    <Content Include="Views\FAQ\Edit.cshtml" />
-    <Content Include="Views\FAQ\Index.cshtml" />
     <Content Include="Views\Boards\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
@@ -496,11 +495,32 @@
     <Content Include="Views\GameComments\Error.cshtml" />
     <Content Include="Views\Games\AddProduct.cshtml" />
     <Content Include="Views\BackendMembers\NotAuthorize.cshtml" />
+    <Content Include="Views\FAQs\Create.cshtml" />
+    <Content Include="Views\FAQs\Delete.cshtml" />
+    <Content Include="Views\FAQs\Details.cshtml" />
+    <Content Include="Views\FAQs\Edit.cshtml" />
+    <Content Include="Views\FAQs\Index.cshtml" />
+    <Content Include="Views\Announcements\Create.cshtml" />
+    <Content Include="Views\Announcements\Delete.cshtml" />
+    <Content Include="Views\Announcements\Details.cshtml" />
+    <Content Include="Views\Announcements\Edit.cshtml" />
+    <Content Include="Views\Announcements\Index.cshtml" />
+    <Content Include="Views\Issues\Create.cshtml" />
+    <Content Include="Views\Issues\Delete.cshtml" />
+    <Content Include="Views\Issues\Details.cshtml" />
+    <Content Include="Views\Issues\Edit.cshtml" />
+    <Content Include="Views\Issues\Index.cshtml" />
+    <Content Include="Views\Replies\Create.cshtml" />
+    <Content Include="Views\Replies\Delete.cshtml" />
+    <Content Include="Views\Replies\Details.cshtml" />
+    <Content Include="Views\Replies\Edit.cshtml" />
+    <Content Include="Views\Replies\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Models\Infra\EFRepositories\" />
+    <Folder Include="Models\ViewModels\Announcement\" />
     <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>

@@ -10,112 +10,116 @@ using TataGamedom.Models.EFModels;
 
 namespace TataGamedom.Controllers
 {
-    public class FAQController : Controller
+    public class RepliesController : Controller
     {
         private AppDbContext db = new AppDbContext();
 
-        // GET: FAQ
+        // GET: Replies
         public ActionResult Index()
         {
-            var fAQs = db.FAQs.Include(f => f.IssueTypesCode);
-            return View(fAQs.ToList());
+            var replies = db.Replies.Include(r => r.BackendMember).Include(r => r.Issue);
+            return View(replies.ToList());
         }
 
-        // GET: FAQ/Details/5
+        // GET: Replies/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FAQ fAQ = db.FAQs.Find(id);
-            if (fAQ == null)
+            Reply reply = db.Replies.Find(id);
+            if (reply == null)
             {
                 return HttpNotFound();
             }
-            return View(fAQ);
+            return View(reply);
         }
 
-        // GET: FAQ/Create
+        // GET: Replies/Create
         public ActionResult Create()
         {
-            ViewBag.IssueTypeId = new SelectList(db.IssueTypesCodes, "Id", "TypeName");
+            ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
+            ViewBag.IssueId = new SelectList(db.Issues, "Id", "Content");
             return View();
         }
 
-        // POST: FAQ/Create
+        // POST: Replies/Create
         // 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Question,Answer,CreatedAt,IssueTypeId")] FAQ fAQ)
+        public ActionResult Create([Bind(Include = "Id,IssueId,BackendMemberId,CreatedAt,Content")] Reply reply)
         {
             if (ModelState.IsValid)
             {
-                db.FAQs.Add(fAQ);
+                db.Replies.Add(reply);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.IssueTypeId = new SelectList(db.IssueTypesCodes, "Id", "TypeName", fAQ.IssueTypeId);
-            return View(fAQ);
+            ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name", reply.BackendMemberId);
+            ViewBag.IssueId = new SelectList(db.Issues, "Id", "Content", reply.IssueId);
+            return View(reply);
         }
 
-        // GET: FAQ/Edit/5
+        // GET: Replies/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FAQ fAQ = db.FAQs.Find(id);
-            if (fAQ == null)
+            Reply reply = db.Replies.Find(id);
+            if (reply == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IssueTypeId = new SelectList(db.IssueTypesCodes, "Id", "TypeName", fAQ.IssueTypeId);
-            return View(fAQ);
+            ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name", reply.BackendMemberId);
+            ViewBag.IssueId = new SelectList(db.Issues, "Id", "Content", reply.IssueId);
+            return View(reply);
         }
 
-        // POST: FAQ/Edit/5
+        // POST: Replies/Edit/5
         // 若要免於大量指派 (overposting) 攻擊，請啟用您要繫結的特定屬性，
         // 如需詳細資料，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Question,Answer,CreatedAt,IssueTypeId")] FAQ fAQ)
+        public ActionResult Edit([Bind(Include = "Id,IssueId,BackendMemberId,CreatedAt,Content")] Reply reply)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(fAQ).State = EntityState.Modified;
+                db.Entry(reply).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IssueTypeId = new SelectList(db.IssueTypesCodes, "Id", "TypeName", fAQ.IssueTypeId);
-            return View(fAQ);
+            ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name", reply.BackendMemberId);
+            ViewBag.IssueId = new SelectList(db.Issues, "Id", "Content", reply.IssueId);
+            return View(reply);
         }
 
-        // GET: FAQ/Delete/5
+        // GET: Replies/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FAQ fAQ = db.FAQs.Find(id);
-            if (fAQ == null)
+            Reply reply = db.Replies.Find(id);
+            if (reply == null)
             {
                 return HttpNotFound();
             }
-            return View(fAQ);
+            return View(reply);
         }
 
-        // POST: FAQ/Delete/5
+        // POST: Replies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            FAQ fAQ = db.FAQs.Find(id);
-            db.FAQs.Remove(fAQ);
+            Reply reply = db.Replies.Find(id);
+            db.Replies.Remove(reply);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

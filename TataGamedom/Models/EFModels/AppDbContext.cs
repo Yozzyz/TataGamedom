@@ -578,5 +578,7 @@ namespace TataGamedom.Models.EFModels
         public System.Data.Entity.DbSet<TataGamedom.Models.ViewModels.Orders.OrderCreateVM> OrderCreateVMs { get; set; }
 
         public System.Data.Entity.DbSet<TataGamedom.Models.ViewModels.GameComments.GameCommentDetailVM> GameCommentDetailVMs { get; set; }
+
+        public System.Data.Entity.DbSet<TataGamedom.Models.ViewModels.CustomerServices.FAQIndexVM> FAQIndexVMs { get; set; }
     }
 }
