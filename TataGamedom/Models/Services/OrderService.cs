@@ -85,9 +85,9 @@ M.[Name], O.OrderStatusId, O.ShipmentStatusId, O.PaymentStatusId,O.Id
 		public Result Create(OrderDto dto)
 		{
 			int maxId =  _repo.GetMaxIdInDb();
-			var orderIndexGenerator = new OrderIndexGenerator(maxId);
+			var indexGenerator = new IndexGenerator(maxId);
 
-			dto.Index = orderIndexGenerator.GetIndex(dto);
+			dto.Index = indexGenerator.GetOrderIndex(dto);
 			_repo.Create(dto);
 			return Result.Success();
 		}
@@ -102,7 +102,7 @@ M.[Name], O.OrderStatusId, O.ShipmentStatusId, O.PaymentStatusId,O.Id
 			return Result.Success();
 		}
 
-		public void Delete(string index) => _repo.Delete(index);
+		//public void Delete(string index) => _repo.Delete(index);
     }
 
 	/// <summary>
@@ -304,19 +304,5 @@ OFFSET {recordStartIndex} ROWS
 FETCH NEXT {PageSize} ROWS ONLY";
 		}
 	}
-
-	//Index 自動產生   
-	//note: "命名規則: CreatedAt+ ShipmentMethodId + MemberId + Id"
-	public class OrderIndexGenerator : IIndexGenerator
-	{
-		private int _Id;
-        public OrderIndexGenerator(int id)
-        {
-           _Id = id;
-        }
-
-		public string GetIndex(OrderDto dto) => string.Concat(dto.CreatedAt.ToString("yyyyMMdd"), dto.ShipmemtMethodId, dto.MemberId, _Id+1);
-	}
-
 	
 }

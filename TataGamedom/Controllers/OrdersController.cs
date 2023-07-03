@@ -89,18 +89,17 @@ namespace TataGamedom.Controllers
 
             var paymentStatusSelectList = new List<SelectListItem>();
             foreach (var psc in db.PaymentStatusCodes) { paymentStatusSelectList.Add(new SelectListItem { Value = psc.Id.ToString(), Text = psc.Name }); }
-            ViewBag.PaymentStatuses = orderStatusSelectList;
+            ViewBag.PaymentStatuses = paymentStatusSelectList;
 
             var shipmemtMethodSelectList = new List<SelectListItem>();
             foreach (var smc in db.ShipmemtMethods) { shipmemtMethodSelectList.Add(new SelectListItem { Value = smc.Id.ToString(), Text = smc.Name }); }
-            ViewBag.ShipmemtMethods = orderStatusSelectList;
+            ViewBag.ShipmemtMethods = shipmemtMethodSelectList;
 
             var shipmentStatusSelectList = new List<SelectListItem>();
             foreach (var ssc in db.ShipmentStatusesCodes) { shipmentStatusSelectList.Add(new SelectListItem { Value = ssc.Id.ToString(), Text = ssc.Name }); }
-            ViewBag.ShipmentStatuses = orderStatusSelectList;
+            ViewBag.ShipmentStatuses = shipmentStatusSelectList;
 
 		}
-
 
 		public ActionResult Info(string index)
 		{
@@ -137,22 +136,24 @@ namespace TataGamedom.Controllers
                 return View(vm);
             }
         }
-        public ActionResult Delete(string index)
-        {
-            if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			var order = db.Orders.SingleOrDefault(x => x.Index == index);
-            if (order == null) return HttpNotFound();
-            return View(order);
-        }
 
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string index)
-        {
-			_service.Delete(index);
-            return RedirectToAction("Index");
-        }
+
+   //     public ActionResult Delete(string index)
+   //     {
+   //         if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			//var order = db.Orders.SingleOrDefault(x => x.Index == index);
+   //         if (order == null) return HttpNotFound();
+   //         return View(order);
+   //     }
+
+   //     [HttpPost]
+   //     [ActionName("Delete")]
+   //     [ValidateAntiForgeryToken]
+   //     public ActionResult DeleteConfirmed(string index)
+   //     {
+			//_service.Delete(index);
+   //         return RedirectToAction("Index");
+   //     }
 
         protected override void Dispose(bool disposing)
         {
