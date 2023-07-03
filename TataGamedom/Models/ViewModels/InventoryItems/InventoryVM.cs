@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TataGamedom.Models.EFModels;
 
 namespace TataGamedom.Models.ViewModels.InventoryItems
 {
@@ -13,19 +14,33 @@ namespace TataGamedom.Models.ViewModels.InventoryItems
         [Display(Name = "SKU")]
         public string SKU { get; set; }
 
-        public int ProductId { get; set; }
+		public string Index { get; set; }
 
-        [Display(Name = "進貨單編號")]
+
+		[Required(ErrorMessage = "{0} 必填")]
+		[Display(Name = "商品編號")]
+		[Range(1, 99999999, ErrorMessage = "{0}不得小於1")]
+		public int ProductId { get; set; }
+
+		[Required(ErrorMessage = "{0} 必填")]
+		[Display(Name = "進貨單編號")]
+		public  int StockInSheetId { get; set; }
+
+		[Display(Name = "進貨單編號")]
         public string StockInSheetIndex { get; set; }
 
-        [Display(Name = "成本")]
-        public decimal Cost { get; set; }
+		[Required(ErrorMessage = "{0} 必填")]
+		[Display(Name = "成本")]
+		[Range(1, 99999999, ErrorMessage = "{0}不得小於1")]
+		public decimal Cost { get; set; }
 
         [Display(Name = "遊戲序號")]
         public string GameKey { get; set; }
 
         [Display(Name = "遊戲名稱")]
         public string GameName{ get; set; }
+
+        public StockInStatusCode StockInStatusCode { get; set; }
     }
 
     public class InventoryVM 

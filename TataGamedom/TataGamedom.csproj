@@ -207,6 +207,7 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\StockInSheetsController.cs" />
     <Compile Include="Files\Mails\Class1.cs" />
     <Compile Include="Files\Uploads\Class1.cs" />
     <Compile Include="Filters\AuthorizeFilter.cs" />
@@ -224,6 +225,8 @@
     <Compile Include="Models\Dtos\Orders\OrderDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderIndexDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderInfoDto.cs" />
+    <Compile Include="Models\Dtos\StockInSheets\StockInSheetDto.cs" />
+    <Compile Include="Models\Dtos\StockInSheets\StockInSheetIndexDto.cs" />
     <Compile Include="Models\Dtos\Boards\BoardCreateDto.cs" />
     <Compile Include="Models\Dtos\Boards\BoardEditDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
@@ -303,6 +306,7 @@
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\StockInSheetRepository.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\Infra\IndexGenerator.cs" />
@@ -317,6 +321,7 @@
     <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
     <Compile Include="Models\Interfaces\IOrderRepository.cs" />
     <Compile Include="Models\Interfaces\IProductRepository.cs" />
+    <Compile Include="Models\Interfaces\IStockInSheetRepository.cs" />
     <Compile Include="Models\Services\BackendMemberService.cs" />
     <Compile Include="Models\Services\BoardService.cs" />
     <Compile Include="Models\Services\CouponService.cs" />
@@ -326,6 +331,7 @@
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
+    <Compile Include="Models\Services\StockInSheetService.cs" />
     <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
@@ -356,6 +362,8 @@
     <Compile Include="Models\ViewModels\Orders\OrderInfoVM.cs" />
     <Compile Include="Models\ViewModels\Products\ProductEditVM.cs" />
     <Compile Include="Models\ViewModels\Products\ProductIndexVM.cs" />
+    <Compile Include="Models\ViewModels\StockInSheets\StockInSheetIndexVM.cs" />
+    <Compile Include="Models\ViewModels\StockInSheets\StockInSheetVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +521,11 @@
     <Content Include="Views\Products\EditProduct.cshtml" />
     <Content Include="Views\Boards\test.cshtml" />
     <Content Include="Views\NewsComments\Details.cshtml" />
+    <Content Include="Views\Inventory\Create.cshtml" />
+    <Content Include="Views\Inventory\Edit.cshtml" />
+    <Content Include="Views\StockInSheets\Index.cshtml" />
+    <Content Include="Views\StockInSheets\Create.cshtml" />
+    <Content Include="Views\StockInSheets\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

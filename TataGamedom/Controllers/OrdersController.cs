@@ -21,7 +21,7 @@ namespace TataGamedom.Controllers
 {
 	public class OrdersController : Controller
 	{
-		private AppDbContext db = new AppDbContext();
+		private readonly AppDbContext db = new AppDbContext();
 		private static readonly IOrderRepository _repo = new OrderRepository();
 		private readonly OrderService _service = new OrderService(_repo);
 
