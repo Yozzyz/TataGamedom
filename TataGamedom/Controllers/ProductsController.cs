@@ -12,13 +12,13 @@ using TataGamedom.Models.ViewModels.Products;
 
 namespace TataGamedom.Controllers
 {
-    public class ProductsController : Controller
-    {
+	public class ProductsController : Controller
+	{
 		private AppDbContext db = new AppDbContext();
 		[Authorize]
 		// GET: Products
 		public ActionResult Index()
-        {
+		{
 			IEnumerable<ProductIndexVM> product = GetProducts();
 			return View(product);
 		}
@@ -28,7 +28,23 @@ namespace TataGamedom.Controllers
 			IProductRepository repo = new ProductDapperRepository();
 			ProductService service = new ProductService(repo);
 			return service.Get();
-			
+
+		}
+		[Authorize]
+		public ActionResult EditProduct(int id)
+		{
+			IProductRepository repo = new ProductDapperRepository();
+			ProductService service = new ProductService(repo);
+
+			var product = service.Get(id);
+			ViewBag.GamePlatform = new SelectList(db.GamePlatformsCodes, "Id", "Name", product.GamePlatform);
+			ViewBag.ProductStatus = new SelectList(db.ProductStatusCodes, "Id", "Name", product.ProductStatus);
+			return View(product);
+		}
+		[HttpPost]
+		public ActionResult EditProduct(ProductEditVM vm)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
