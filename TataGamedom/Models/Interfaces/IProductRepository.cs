@@ -12,6 +12,8 @@ namespace TataGamedom.Models.Interfaces
 	{
 		IEnumerable<ProductIndexVM> Get();
 
-		ProductEditVM GetGameById(int id); 
+		ProductEditVM GetGameById(int id);
+
+		Product GetGameByIndex(ProductEditVM vm);
 	}
 }
