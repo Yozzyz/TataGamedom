@@ -94,6 +94,12 @@ namespace TataGamedom.Models.EFModels
 				.IsUnicode(false);
 
 			modelBuilder.Entity<BackendMember>()
+				.HasMany(e => e.Boards)
+				.WithRequired(e => e.BackendMember)
+				.HasForeignKey(e => e.CreatedBackendMemberId)
+				.WillCascadeOnDelete(false);
+
+			modelBuilder.Entity<BackendMember>()
 				.HasMany(e => e.BucketLogs)
 				.WithOptional(e => e.BackendMember)
 				.HasForeignKey(e => e.BackendMmemberId);
