@@ -9,7 +9,7 @@ namespace TataGamedom.Models.ViewModels.Products
 	public class ProductEditVM
 	{
 		public int Id { get; set; }
-		[Display(Name = "商品a編號")]
+		[Display(Name = "商品編號")]
 		public string Index { get; set; }
 		[Display(Name = "遊戲名稱")]
 		public string GameName { get; set; }
@@ -31,6 +31,8 @@ namespace TataGamedom.Models.ViewModels.Products
 		public DateTime SaleDate { get; set; }
 		[Display(Name = "最後修改者")]
 		public string ModifiedBackendMemberName { get; set; }
+		public int ModifiedBackendMemberId { get; set; }
+
 		[Display(Name = "最後修改時間")]
 		public DateTime? ModifiedTime { get; set; }
 	}
