@@ -33,48 +33,72 @@ namespace TataGamedom.Controllers
             LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
             LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
             LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
-            WHERE 1 = 1";
+			GROUP BY n.Id, n.Title, n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag";
+				var news = con.Query<NewsIndexVM>(sql);
 
-				// 動態建立條件參數
-				DynamicParameters parameters = new DynamicParameters();
-
-				if (newsCriteria.GamesId.HasValue && newsCriteria.GamesId.Value != 0)
-				{
-					if (newsCriteria.GamesId.Value == 1)
-					{
-						// 當 GamesId 為 1 時不加入篩選條件，列出全部
-					}
-					else
-					{
-						sql += " AND n.GamesId = @GamesId";
-						parameters.Add("@GamesId", newsCriteria.GamesId.Value);
-					}
-				}
-
-				// 如果有其他搜尋條件，請繼續在此處新增條件
-				if (!string.IsNullOrEmpty(newsCriteria.Title))
-				{
-					sql += " AND n.Title LIKE @Title";
-					parameters.Add("@Title", "%" + newsCriteria.Title + "%");
-				}
-
-				sql += @" GROUP BY n.Id, n.Title, n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
-            ORDER BY n.Id DESC";
-
-				var news = con.Query<NewsIndexVM>(sql, parameters);
-
-				// 取得當前頁數
-				int pageNumber = page ?? 1;
-
-				// 每頁顯示的項目數量
-				int pageSize = 10;
-
-				// 將資料列表轉換為分頁結果
-				var pagedNews = news.ToPagedList(pageNumber, pageSize);
-
-				return View(pagedNews);
+				return View(news);
 			}
 		}
+
+
+
+		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		//public ActionResult Index(NewsCriteria newsCriteria, int? page)
+		//{
+		//	PrepareNewsDataSource(newsCriteria.GamesId);
+		//	ViewBag.NewsCriteria = newsCriteria;
+
+		//	using (var con = new SqlConnection(_connstr))
+		//	{
+		//		string sql = @"SELECT n.Id, n.Title, n.ScheduleDate, b.Name AS BackendMemberName, gc.Name AS GameClassificationName,
+		//          COUNT(nv.MemberId) AS ViewCount, COUNT(nl.MemberId) AS LikeCount, n.ActiveFlag
+		//          FROM news AS n
+		//          JOIN BackendMembers AS b ON b.Id = n.BackendMemberId 
+		//          LEFT JOIN GameClassificationsCodes AS gc ON gc.Id = n.GamesId
+		//          LEFT JOIN NewsViews AS nv ON nv.NewsId = n.Id
+		//          LEFT JOIN NewsLikes AS nl ON nl.NewsId = n.Id
+		//          WHERE 1 = 1";
+
+		//		// 動態建立條件參數
+		//		DynamicParameters parameters = new DynamicParameters();
+
+		//		if (newsCriteria.GamesId.HasValue && newsCriteria.GamesId.Value != 0)
+		//		{
+		//			if (newsCriteria.GamesId.Value == 1)
+		//			{
+		//				// 當 GamesId 為 1 時不加入篩選條件，列出全部
+		//			}
+		//			else
+		//			{
+		//				sql += " AND n.GamesId = @GamesId";
+		//				parameters.Add("@GamesId", newsCriteria.GamesId.Value);
+		//			}
+		//		}
+
+		//		// 如果有其他搜尋條件，請繼續在此處新增條件
+		//		if (!string.IsNullOrEmpty(newsCriteria.Title))
+		//		{
+		//			sql += " AND n.Title LIKE @Title";
+		//			parameters.Add("@Title", "%" + newsCriteria.Title + "%");
+		//		}
+
+		//		sql += @" GROUP BY n.Id, n.Title, n.ScheduleDate, b.Name, gc.Name, n.ActiveFlag
+		//          ORDER BY n.Id DESC";
+
+		//		var news = con.Query<NewsIndexVM>(sql, parameters);
+
+		//		// 取得當前頁數
+		//		int pageNumber = page ?? 1;
+
+		//		// 每頁顯示的項目數量
+		//		int pageSize = 10;
+
+		//		// 將資料列表轉換為分頁結果
+		//		var pagedNews = news.ToPagedList(pageNumber, pageSize);
+
+		//		return View(pagedNews);
+		//	}
+		//}
 
 		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Create()
@@ -209,20 +233,20 @@ namespace TataGamedom.Controllers
 			return View(news);
 		}
 
-		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
-		//public ActionResult Delete(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-		//	}
-		//	News news = db.News.Find(id);
-		//	if (news == null)
-		//	{
-		//		return HttpNotFound();
-		//	}
-		//	return View(news);
-		//}
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		public ActionResult Delete(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			News news = db.News.Find(id);
+			if (news == null)
+			{
+				return HttpNotFound();
+			}
+			return View(news);
+		}
 
 		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Delete")]
@@ -244,20 +268,21 @@ namespace TataGamedom.Controllers
 			return RedirectToAction("Index");
 		}
 
-		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
-		//public ActionResult Reduction(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-		//	}
-		//	News news = db.News.Find(id);
-		//	if (news == null)
-		//	{
-		//		return HttpNotFound();
-		//	}
-		//	return View(news);
-		//}
+
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		public ActionResult Reduction(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			News news = db.News.Find(id);
+			if (news == null)
+			{
+				return HttpNotFound();
+			}
+			return View(news);
+		}
 
 
 		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
