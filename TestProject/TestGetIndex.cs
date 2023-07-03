@@ -36,7 +36,7 @@ namespace TestProject
 		[Test]
 		public void 目前InventoryItemId最大值為701_ProductId為1_Index為PC001()
 		{
-			var dto = new InventoryItemDto { ProductId = 1, StockInSheetIndex = "進貨單編號50" };
+			var dto = new InventoryItemCreateDto { ProductId = 1, StockInSheetIndex = "進貨單編號50" };
 			var orderIndexGenerator = new IndexGenerator(701);
 
 			string expectedIndex = "PC001進貨單編號50702";

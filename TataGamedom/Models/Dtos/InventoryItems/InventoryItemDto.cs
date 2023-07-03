@@ -17,15 +17,19 @@ namespace TataGamedom.Models.Dtos.InventoryItems
         public string Index { get; set; }
 
         public int ProductId { get; set; }
+		public int StockInSheetId { get; set; }
 
-        public string StockInSheetIndex { get; set; }
+		public string StockInSheetIndex { get; set; }
 
         public decimal Cost { get; set; }
 
         public string GameKey { get; set; }
 
         public string GameName { get; set; } 
-    }
+
+        public string StockInStatusCodeName { get; set; }
+
+	}
 	public class InventoryItemCreateDto
 	{
 		public int Id { get; set; }
@@ -65,11 +69,10 @@ namespace TataGamedom.Models.Dtos.InventoryItems
                 Id = entity.Id,
                 Index = entity.Index,
                 ProductId = entity.ProductId,
-                StockInSheetIndex = entity.StockInSheet.Index,
+				StockInSheetId = entity.StockInSheetId,
                 Cost = entity.Cost,
-                GameKey = entity.GameKey,
-                GameName = entity.Product.Game.ChiName
-            };
+                GameKey = entity.GameKey
+			};
         }
         public static InventoryItemCreateDto ToDto(this InventoryItemVM vm) 
         {
@@ -84,5 +87,18 @@ namespace TataGamedom.Models.Dtos.InventoryItems
 				GameKey = vm.GameKey,
 			};
         }
-    }
+		public static InventoryItemDto ToEditDto(this InventoryItemVM vm)
+		{
+			return new InventoryItemDto
+			{
+				Id = vm.Id,
+				Index = vm.Index,
+				ProductId = vm.ProductId,
+				StockInSheetId = vm.StockInSheetId,
+				Cost = vm.Cost,
+				GameKey = vm.GameKey,
+			};
+		}
+
+	}
 }

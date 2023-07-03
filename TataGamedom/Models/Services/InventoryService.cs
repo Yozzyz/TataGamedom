@@ -33,5 +33,13 @@ namespace TataGamedom.Models.Services
 			return Result.Success();
 		}
 
+        public Result Update(InventoryItemDto dto) 
+        {
+            _repo.Update(dto);
+            return Result.Success();
+        }
+
+        public InventoryItemDto GetByIndex(string index) => _repo.GetByIndex(index);
+		
 	}
 }

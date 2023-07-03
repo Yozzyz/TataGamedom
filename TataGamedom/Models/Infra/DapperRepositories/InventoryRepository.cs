@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using TataGamedom.Models.Dtos.InventoryItems;
+using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.ViewModels.InventoryItems;
 
@@ -87,5 +88,26 @@ VALUES
 			}
 		}
 
+		public void Update(InventoryItemDto dto)
+		{
+			using (var connection = new SqlConnection(Connstr)) 
+			{
+				string sql = @"
+UPDATE InventoryItems SET
+[ProductId] = @ProductId ,[StockInSheetId] = @StockInSheetId, [Cost]=@Cost, [GameKey]=@GameKey
+WHERE [Index] = @Index;";
+				connection.ExecuteScalar(sql, dto);
+			}
+		}
+
+		public InventoryItemDto GetByIndex(string index)
+		{
+			using (var connection = new SqlConnection(Connstr))
+			{
+				string sql = @"SELECT * FROM InventoryItems WHERE [Index] = @Index";
+				var inventoryItem = connection.QuerySingleOrDefault<InventoryItem>(sql, new { Index = index });
+				return inventoryItem.ToDto();
+			}
+		}
 	}
 }

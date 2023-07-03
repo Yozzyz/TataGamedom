@@ -15,9 +15,6 @@
             @Html.DisplayNameFor(model => model.SKU)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductId)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.StockInSheetIndex)
         </th>
         <th>
@@ -38,9 +35,6 @@
             @Html.DisplayFor(modelItem => item.SKU)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProductId)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.StockInSheetIndex)
         </td>
         <td>
@@ -53,7 +47,7 @@
             @Html.DisplayFor(modelItem => item.GameName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Edit", "Edit", new { Index=item.SKU }) |
         </td>
     </tr>
 }

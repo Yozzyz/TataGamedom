@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using TataGamedom.Models.Dtos.InventoryItems;
+using TataGamedom.Models.Dtos.Orders;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.Infra;
 using TataGamedom.Models.Infra.DapperRepositories;
@@ -45,7 +46,7 @@ namespace TataGamedom.Controllers
 
 		public ActionResult Create()
 		{
-			PrepareCreateOrderDataSource(null, null);
+			PrepareCreateInventoryDataSource(null, null);
 			return View();
 		}
 
@@ -55,11 +56,11 @@ namespace TataGamedom.Controllers
 		{
 			if (!ModelState.IsValid) return View(vm);
 
-			PrepareCreateOrderDataSource(vm.ProductId, vm.StockInSheetIndex);
+			PrepareCreateInventoryDataSource(vm.ProductId, vm.StockInSheetIndex);
 			Result result = _service.Create(vm.ToDto());
 			if (result.IsSuccess)
 			{
-				return RedirectToAction("Index");
+				return RedirectToAction("Details", new { productId = vm.ProductId });
 			}
 			else
 			{
@@ -69,7 +70,37 @@ namespace TataGamedom.Controllers
 
 		}
 
-		private void PrepareCreateOrderDataSource(int? productId, string StockInSheetIndex)
+
+		public ActionResult Edit(string index)
+		{
+			PrepareCreateInventoryDataSource(null, null);
+
+			if (index == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			var order = _service.GetByIndex(index).ToVM();
+			return View(order);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(InventoryItemVM vm)
+		{
+			if (!ModelState.IsValid) return View(vm);
+			PrepareCreateInventoryDataSource(vm.ProductId, vm.StockInSheetIndex);
+
+			Result result = _service.Update(vm.ToEditDto());
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("Details", new { productId = vm.ProductId });
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+		}
+
+
+		private void PrepareCreateInventoryDataSource(int? productId, string StockInSheetIndex)
 		{
 			var productIdSelectList = new List<SelectListItem>();
 			foreach (var p in db.Products) 

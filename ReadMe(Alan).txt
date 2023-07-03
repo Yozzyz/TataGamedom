@@ -1,5 +1,5 @@
 Working On
-[] 庫存 detail => 庫存明細CU   [v]R
+
 
 
 To Do
@@ -66,3 +66,6 @@ Completed
 [v] 庫存Index  => Service Search()
 [v] Debug Order Info  *資料庫名稱 ShipmentStatusCode有誤
 [v] 更改篩選剩餘庫存的SQL語法
+
+07/03
+[v] 庫存 detail => 庫存明細CRU

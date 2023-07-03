@@ -15,5 +15,7 @@ namespace TataGamedom.Models.Interfaces
 		int GetMaxIdInDb();
 		void Create(InventoryItemCreateDto dto);
 		string GetProductIndex(int productId);
+		void Update(InventoryItemDto dto);
+		InventoryItemDto GetByIndex(string index);
 	}
 }
