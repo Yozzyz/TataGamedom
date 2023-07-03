@@ -52,5 +52,40 @@ ORDER BY SKU ";
             }
         }
 
-    }
+		public int GetMaxIdInDb()
+		{
+			using (var connection = new SqlConnection(Connstr))
+			{
+				string sql = "SELECT MAX(Id) FROM InventoryItems";
+				int maxId = connection.QuerySingle<int>(sql);
+
+				return maxId;
+			}
+		}
+		public string GetProductIndex(int productId)
+		{
+			using (var connection = new SqlConnection(Connstr))
+			{
+				string sql = @"
+SELECT DISTINCT p.[Index]
+FROM Products AS p JOIN InventoryItems AS II ON II.ProductId = P.Id
+WHERE II.ProductId = @productId";
+				return connection.QuerySingleOrDefault<InventoryItemCreateDto>(sql, new { ProductId = productId }).Index;
+			}
+		}
+
+		public void Create(InventoryItemCreateDto dto)
+		{
+			using (var connection = new SqlConnection(Connstr)) 
+			{
+				string sql = @"
+INSERT INTO InventoryItems
+([Index],[ProductId],[StockInSheetId] ,[Cost],[GameKey])
+VALUES
+(@Index, @ProductId, @StockInSheetId, @Cost, @GameKey)";
+				connection.Execute(sql, dto);
+			}
+		}
+
+	}
 }

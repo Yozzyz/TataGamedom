@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using TataGamedom.Models.EFModels;
 
 namespace TataGamedom.Models.ViewModels.InventoryItems
 {
@@ -15,6 +16,8 @@ namespace TataGamedom.Models.ViewModels.InventoryItems
 
         public int ProductId { get; set; }
 
+        public  int StockInSheetId { get; set; }
+
         [Display(Name = "進貨單編號")]
         public string StockInSheetIndex { get; set; }
 
@@ -26,6 +29,8 @@ namespace TataGamedom.Models.ViewModels.InventoryItems
 
         [Display(Name = "遊戲名稱")]
         public string GameName{ get; set; }
+
+        public StockInStatusCode StockInStatusCode { get; set; }
     }
 
     public class InventoryVM 

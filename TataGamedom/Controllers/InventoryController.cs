@@ -10,10 +10,14 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using TataGamedom.Models.Dtos.InventoryItems;
 using TataGamedom.Models.EFModels;
+using TataGamedom.Models.Infra;
 using TataGamedom.Models.Infra.DapperRepositories;
 using TataGamedom.Models.Interfaces;
 using TataGamedom.Models.Services;
+using TataGamedom.Models.ViewModels.InventoryItems;
+using TataGamedom.Models.ViewModels.Orders;
 
 namespace TataGamedom.Controllers
 {
@@ -39,8 +43,50 @@ namespace TataGamedom.Controllers
 
         }
 
-        
+		public ActionResult Create()
+		{
+			PrepareCreateOrderDataSource(null, null);
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(InventoryItemVM vm)
+		{
+			if (!ModelState.IsValid) return View(vm);
+
+			PrepareCreateOrderDataSource(vm.ProductId, vm.StockInSheetIndex);
+			Result result = _service.Create(vm.ToDto());
+			if (result.IsSuccess)
+			{
+				return RedirectToAction("Index");
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, result.ErrorMessage);
+				return View(vm);
+			}
+
+		}
+
+		private void PrepareCreateOrderDataSource(int? productId, string StockInSheetIndex)
+		{
+			var productIdSelectList = new List<SelectListItem>();
+			foreach (var p in db.Products) 
+			{
+				productIdSelectList.Add(new SelectListItem { Value = p.Id.ToString(), Text = p.Index }); 
+			}
+
+			ViewBag.productId = productIdSelectList;
+
+			var StockInSheetIndexSelectList = new List<SelectListItem>();
+			foreach (var sis in db.StockInSheets) 
+			{
+				StockInSheetIndexSelectList.Add(new SelectListItem { Value = sis.Id.ToString(), Text = sis.Index }); 
+			}
+			ViewBag.StockInSheetIndex = StockInSheetIndexSelectList;
+		}
 
 
-    }
+	}
 }
