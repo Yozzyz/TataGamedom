@@ -201,6 +201,7 @@
     <Compile Include="Controllers\GameCommentsController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\NewsCommentsController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -213,6 +214,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
+    <Compile Include="Models\Dtos\InventoryItems\InventoryItemDto.cs" />
     <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
     <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
@@ -284,18 +286,20 @@
     <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameCommentRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameDapperRepository.cs" />
+    <Compile Include="Models\Infra\DapperRepositories\InventoryRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\MemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\OrderRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\ProductDapperRepository.cs" />
-    <Compile Include="Models\Infra\EFRepositories\Class1.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\Infra\IndexGenerator.cs" />
     <Compile Include="Models\Infra\Result.cs" />
     <Compile Include="Models\Infra\UploadFileHelper.cs" />
     <Compile Include="Models\Interfaces\IBackendMemberRepositiry.cs" />
     <Compile Include="Models\Interfaces\ICouponRepository.cs" />
     <Compile Include="Models\Interfaces\IGameCommentRepository.cs" />
     <Compile Include="Models\Interfaces\IGameRepository.cs" />
+    <Compile Include="Models\Interfaces\IInventoryRepository.cs" />
     <Compile Include="Models\Interfaces\IMemberRepository.cs" />
     <Compile Include="Models\Interfaces\IIndexGenerator.cs" />
     <Compile Include="Models\Interfaces\IOrderRepository.cs" />
@@ -305,6 +309,7 @@
     <Compile Include="Models\Services\CouponService.cs" />
     <Compile Include="Models\Services\GameCommentService.cs" />
     <Compile Include="Models\Services\GameService.cs" />
+    <Compile Include="Models\Services\InventoryService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
@@ -313,6 +318,7 @@
     <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
     <Compile Include="Models\ViewModels\GameComments\GameCommentDetailVM.cs" />
     <Compile Include="Models\ViewModels\GameComments\GameCommentIndexVM.cs" />
+    <Compile Include="Models\ViewModels\InventoryItems\InventoryVM.cs" />
     <Compile Include="Models\ViewModels\Games\GameAddProductVM.cs" />
     <Compile Include="Models\ViewModels\Members\BackendMembersListVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
@@ -484,6 +490,8 @@
     <Content Include="Views\Orders\Info.cshtml" />
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Delete.cshtml" />
+    <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Inventory\Details.cshtml" />
     <Content Include="Views\GameComments\Detail.cshtml" />
     <Content Include="Views\GameComments\Error.cshtml" />
     <Content Include="Views\Games\AddProduct.cshtml" />
@@ -492,6 +500,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Models\Infra\EFRepositories\" />
     <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>

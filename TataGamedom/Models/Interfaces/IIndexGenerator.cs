@@ -19,7 +19,7 @@ namespace TataGamedom.Models.Interfaces
 
 	public interface IIndexGenerator
 	{
-		string GetIndex(OrderDto dto);
+		string GetOrderIndex(OrderDto dto);
 	}
 
 }
