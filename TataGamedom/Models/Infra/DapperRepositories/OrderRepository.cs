@@ -68,7 +68,7 @@ WHERE O.[Index] = @Index
 			using (var connection = new SqlConnection(Connstr))
 			{
 				string sql = "SELECT MAX(Id) FROM Orders";
-				int maxId = connection.QuerySingle<int>(sql);
+				int maxId = connection.QuerySingleOrDefault<int>(sql);
 				
 				return maxId;
 			}	
