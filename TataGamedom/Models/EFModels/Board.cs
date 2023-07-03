@@ -30,6 +30,12 @@ namespace TataGamedom.Models.EFModels
 
         public string BoardHeaderCoverImg { get; set; }
 
+        public DateTime CreatedTime { get; set; }
+
+        public int CreatedBackendMemberId { get; set; }
+
+        public virtual BackendMember BackendMember { get; set; }
+
         public virtual Game Game { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

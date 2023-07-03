@@ -18,9 +18,9 @@ namespace TataGamedom.Filters
 	{
 		private readonly UserRole[] allowedRoles;
 
-		public AuthorizeFilter(params UserRole[] roles)
+		public AuthorizeFilter(params UserRole[] role)
 		{
-			allowedRoles = roles;
+			allowedRoles = role;
 		}
 
 

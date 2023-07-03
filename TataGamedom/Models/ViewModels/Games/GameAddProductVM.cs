@@ -9,8 +9,9 @@ namespace TataGamedom.Models.ViewModels.Games
 	public class GameAddProductVM
 	{
         public int Id { get; set; }
-        [Display(Name ="中文名稱")]
+		[Display(Name = "遊戲編號")]		
 		public int GameId { get; set; }
+		[Display(Name = "中文名稱")]
 		public string GameChiName { get; set; }
 		[Display(Name = "英文名稱")]
 		public string GameEngName { get; set; }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TataGamedom.Models.ViewModels.Games.GameIndexVM>
+﻿
+@model IEnumerable<TataGamedom.Models.ViewModels.Games.GameIndexVM>
 
 @{
     ViewBag.Title = "Index";
@@ -23,31 +24,29 @@
 }
 
 <h2>遊戲管理列表</h2>
-<div class="mb-3" style="text-align: right;">
-    @Html.ActionLink("新增遊戲", "Create", null, new { @class = "btn btn-primary" })
-</div>
+
 
 <div class="text-center">
     <table class="table" id="myTable">
         <thead>
             <tr>
-                <th class="text-center vertical-align-middle">
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th class="text-center vertical-align-middle">
-                    @Html.DisplayNameFor(model => model.ChiName)
-                </th>
-                <th class="text-center vertical-align-middle">
-                    @Html.DisplayNameFor(model => model.Classification)
+                <th>
+                    編號
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.IsRestrict)
+                    名稱
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CreatedBackendMemberName)
+                    分類
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CreatedTime)
+                    年齡限制
+                </th>
+                <th>
+                    創建人員
+                </th>
+                <th>
+                    創建時間
                 </th>
                 <th>編輯</th>
                 <th>編輯封面</th>
@@ -56,50 +55,87 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model)
-        {
             <tr>
-                <td class="text-center vertical-align-middle">
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td class="text-center vertical-align-middle">
-                    @Html.DisplayFor(modelItem => item.ChiName)
-                </td>
-                <td class="text-center vertical-align-middle">
-                    @Html.DisplayFor(modelItem => item.Classification)
+                <td>
+                    1
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsRestrict)
+                    薩爾達
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBackendMemberName)
+                    動作冒險遊戲 , 策略遊戲
                 </td>
                 <td>
-                    @item.CreatedTime.ToString("yyyy-MM-dd")
+                    <input checked="checked" class="check-box" disabled="disabled" type="checkbox" />
                 </td>
                 <td>
-                    <a href="@Url.Action("Edit", new { id = item.Id })" class="icon-link">
+                    全功能TATA
+                </td>
+                <td>
+                    2023-06-24
+                </td>
+                <td>
+                    <a href="/Games/Edit/1" class="icon-link">
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                 </td>
                 <td>
-                    <a href="@Url.Action("EditGameCover", new { id = item.Id })" class="icon-link">
+                    <a href="/Games/EditGameCover/1" class="icon-link">
                         <i class="fa-regular fa-image"></i>
                     </a>
                 </td>
                 <td>
-                    <a href="@Url.Action("Index","GameComments", new { id = item.Id })" class="icon-link">
+                    <a href="/GameComments/Index/1" class="icon-link">
                         <i class="fa-regular fa-comments"></i>
                     </a>
                 </td>
                 <td>
-                    <a href="@Url.Action("AddProduct", new { id = item.Id })" class="icon-link">
+                    <a href="/Games/AddProduct/1" class="icon-link">
                         <i class="fa-solid fa-circle-plus"></i>
                     </a>
                 </td>
             </tr>
-        }
-            </tbody>
+            <tr>
+                <td>
+                    2
+                </td>
+                <td>
+                    精靈寶可夢
+                </td>
+                <td>
+                    動作冒險遊戲 , 射擊遊戲
+                </td>
+                <td>
+                    <input checked="checked" class="check-box" disabled="disabled" type="checkbox" />
+                </td>
+                <td>
+                    商城TATA
+                </td>
+                <td>
+                    2023-06-23
+                </td>
+                <td>
+                    <a href="/Games/Edit/2" class="icon-link">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="/Games/EditGameCover/2" class="icon-link">
+                        <i class="fa-regular fa-image"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="/GameComments/Index/2" class="icon-link">
+                        <i class="fa-regular fa-comments"></i>
+                    </a>
+                </td>
+                <td>
+                    <a href="/Games/AddProduct/2" class="icon-link">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
 
     </table>
 </div>
@@ -117,10 +153,7 @@
     <script>
         $(document).ready(function () {
             $('#myTable').DataTable({
-                responsive: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json',
-                }
+                responsive: true
             });
         });
     </script>

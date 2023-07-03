@@ -1,0 +1,87 @@
+﻿@model TataGamedom.Models.ViewModels.News.NewsCommentIndexVM
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>留言詳細</h2>
+
+<div>
+    <hr />
+	<dl class="row">
+
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Content)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Content)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Time)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Time)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Title)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.Title)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.MemberName)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.MemberName)
+		</dd>
+
+		<dt>
+			@Html.DisplayNameFor(model => model.ActiveFlag)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.ActiveFlagText)
+		</dd>
+
+		@*@if (Model.ActiveFlag == true)
+		{
+			@Html.ActionLink("刪除", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })
+		}
+		else if (Model.ActiveFlag == false)
+		{
+			@Html.ActionLink("還原", "Reduction", new { id = Model.Id }, new { @class = "btn btn-danger" })
+		}*@
+	</dl>
+</div>
+
+<div class="mb-5">
+	<div class="mb-3" style="display: flex; justify-content: flex-end;">
+		@Html.ActionLink("返回", "Index", null, new { @class = "btn btn-primary" })
+		@if (Model.ActiveFlag)
+		{
+			using (Html.BeginForm("Delete", "NewsComments", new { id = Model.Id }, FormMethod.Post))
+			{
+				@Html.AntiForgeryToken()
+				<span>&nbsp;</span>
+				<input type="submit" value="刪除" class="btn btn-danger" />
+			}
+		}
+		else
+		{
+			using (Html.BeginForm("Reduction", "NewsComments", new { id = Model.Id }, FormMethod.Post))
+			{
+				@Html.AntiForgeryToken()
+				<span>&nbsp;</span>
+				<input type="submit" value="復原" class="btn btn-success" />
+			}
+		}
+	</div>
+</div>

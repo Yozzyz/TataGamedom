@@ -246,9 +246,6 @@ namespace TataGamedom.Controllers
 		[HttpPost]
 		public ActionResult AddProduct(GameAddProductVM vm, HttpPostedFileBase[] files)
 		{
-			//IGameRepository repo = new GameDapperRepository();
-			//GameService service = new GameService(repo);
-			//var game = service.GetGameByIdForAddProduct(id);
 			var currentUserAccount = User.Identity.Name;
 			var memberInDb = db.BackendMembers.FirstOrDefault(m => m.Account == currentUserAccount);
 			vm.CreateBackendMemberId = memberInDb.Id;
@@ -267,14 +264,29 @@ namespace TataGamedom.Controllers
 				}
 				vm.ProductImg = savedFileNames;
 			}
+			if(!ModelState.IsValid) return View(vm);
 			//新增商品
 			var productResult = CreateProduct(vm);
-			if (productResult.IsSuccess)
+			if (productResult.IsFail)
 			{
-				//新增商品圖片
-				return RedirectToAction("Index");
+				ModelState.AddModelError("", "該商品已存在！");
+				return View(vm);
 			}
-			else { return View(vm); }
+			//新增商品圖片
+			var imgResult = CreateProductImg(vm);
+			if (imgResult.IsFail)
+			{
+				ModelState.AddModelError("", "新增商品圖片失敗！");
+				return View(vm);
+			}
+			return RedirectToAction("Index");
+		}
+
+		private Result CreateProductImg(GameAddProductVM vm)
+		{
+			IGameRepository repo = new GameDapperRepository();
+			GameService service = new GameService(repo);
+			return service.CreateProductImg(vm);
 		}
 
 		private Result CreateProduct(GameAddProductVM vm)
