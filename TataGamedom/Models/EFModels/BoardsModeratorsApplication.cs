@@ -14,6 +14,8 @@ namespace TataGamedom.Models.EFModels
 
         public int BoardId { get; set; }
 
+        public DateTime ApplyDate { get; set; }
+
         public bool AddOrRemove { get; set; }
 
         [Required]

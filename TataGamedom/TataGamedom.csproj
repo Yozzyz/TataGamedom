@@ -225,6 +225,8 @@
     <Compile Include="Models\Dtos\Orders\OrderDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderIndexDto.cs" />
     <Compile Include="Models\Dtos\Orders\OrderInfoDto.cs" />
+    <Compile Include="Models\Dtos\Boards\BoardCreateDto.cs" />
+    <Compile Include="Models\Dtos\Boards\BoardEditDto.cs" />
     <Compile Include="Models\EFModels\Announcement.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\ApprovalStatusCode.cs" />
@@ -282,6 +284,18 @@
     <Compile Include="Models\EFModels\StockInSheet.cs" />
     <Compile Include="Models\EFModels\StockInStatusCode.cs" />
     <Compile Include="Models\EFModels\Supplier.cs" />
+    <Compile Include="Models\Infra\ApiResult.cs" />
+    <Compile Include="Models\Infra\SimpleHelper.cs" />
+    <Compile Include="Models\ViewModels\Boards\BoardCreateEditorVM.cs" />
+    <Compile Include="Models\ViewModels\Boards\BoardListVM.cs" />
+    <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameEditCoverImgDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameEditDto.cs" />
+    <Compile Include="Models\Dtos\Games\GameIndexDto.cs" />
+    <Compile Include="Models\Dtos\Members\LoginDto.cs" />
+    <Compile Include="Models\Dtos\Members\RegisterDto.cs" />
+    <Compile Include="Models\Dtos\Orders\OrderIndexDto.cs" />
     <Compile Include="Models\Infra\DapperRepositories\BackendMemberDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\CouponDapperRepository.cs" />
     <Compile Include="Models\Infra\DapperRepositories\GameCommentRepository.cs" />
@@ -502,8 +516,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Models\Infra\EFRepositories\" />
-    <Folder Include="Models\ViewModels\Boards\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
