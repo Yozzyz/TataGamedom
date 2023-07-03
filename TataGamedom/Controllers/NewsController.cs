@@ -209,22 +209,22 @@ namespace TataGamedom.Controllers
 			return View(news);
 		}
 
-		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
-		public ActionResult Delete(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			News news = db.News.Find(id);
-			if (news == null)
-			{
-				return HttpNotFound();
-			}
-			return View(news);
-		}
+		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		//public ActionResult Delete(int? id)
+		//{
+		//	if (id == null)
+		//	{
+		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		//	}
+		//	News news = db.News.Find(id);
+		//	if (news == null)
+		//	{
+		//		return HttpNotFound();
+		//	}
+		//	return View(news);
+		//}
 
-		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
@@ -243,23 +243,24 @@ namespace TataGamedom.Controllers
 			}
 			return RedirectToAction("Index");
 		}
-		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
-		public ActionResult Reduction(int? id)
-		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-			News news = db.News.Find(id);
-			if (news == null)
-			{
-				return HttpNotFound();
-			}
-			return View(news);
-		}
+
+		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		//public ActionResult Reduction(int? id)
+		//{
+		//	if (id == null)
+		//	{
+		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		//	}
+		//	News news = db.News.Find(id);
+		//	if (news == null)
+		//	{
+		//		return HttpNotFound();
+		//	}
+		//	return View(news);
+		//}
 
 
-		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
+		//[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Reduction")]
 		[ValidateAntiForgeryToken]
 		public ActionResult reductionConfirmed(int id)

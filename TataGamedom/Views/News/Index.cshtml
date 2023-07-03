@@ -1,12 +1,22 @@
 ﻿@model IEnumerable<TataGamedom.Models.ViewModels.News.NewsIndexVM>
 @using PagedList;
 @using PagedList.Mvc;
+@using System.Security.Claims
 
 @{
-	ViewBag.Title = "Index";
-	var gamesId = ViewBag.GamesId as SelectList;
-	var newsCriteria = ViewBag.NewsCriteria as TataGamedom.Models.ViewModels.News.NewsCriteria;
-	string s_gameId = newsCriteria.GamesId.HasValue ? newsCriteria.GamesId.Value.ToString() : "";
+ViewBag.Title = "Index";
+var gamesId = ViewBag.GamesId as SelectList;
+var newsCriteria = ViewBag.NewsCriteria as TataGamedom.Models.ViewModels.News.NewsCriteria;
+string s_gameId = newsCriteria.GamesId.HasValue ? newsCriteria.GamesId.Value.ToString() : "";
+
+
+
+var userIdentity = (ClaimsIdentity)User.Identity;
+var claims = userIdentity.Claims;
+var roleClaimType = userIdentity.RoleClaimType;
+var roles = claims.Where(c => c.Type == roleClaimType).ToList();
+
+var a = "b";
 }
 
 <h2>新聞總覽</h2>
