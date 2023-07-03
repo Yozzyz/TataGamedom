@@ -496,6 +496,8 @@
     <Content Include="Views\GameComments\Error.cshtml" />
     <Content Include="Views\Games\AddProduct.cshtml" />
     <Content Include="Views\BackendMembers\NotAuthorize.cshtml" />
+    <Content Include="Views\NewsComments\Details.cshtml" />
+    <Content Include="Views\NewsComments\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
