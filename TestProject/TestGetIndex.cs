@@ -1,5 +1,6 @@
 using TataGamedom.Models.Dtos.InventoryItems;
 using TataGamedom.Models.Dtos.Orders;
+using TataGamedom.Models.Dtos.StockInSheets;
 using TataGamedom.Models.Infra;
 using TataGamedom.Models.Services;
 
@@ -41,6 +42,18 @@ namespace TestProject
 
 			string expectedIndex = "PC001進貨單編號50702";
 			string actualIndex = orderIndexGenerator.GetSKU(dto, "PC001");
+
+			Assert.That(actualIndex, Is.EqualTo(expectedIndex));
+		}
+
+		[Test]
+		public void 目前StockInSheetId最大值為50_SupplierId為10()
+		{
+			var dto = new StockInSheetDto { OrderRequestDate = new DateTime(2023,06,30),SupplierId = 10};
+			var StockInSheetIndexGenerator = new IndexGenerator(50);
+
+			string expectedIndex = "202306301051";
+			string actualIndex = StockInSheetIndexGenerator.GetStockInSheetIndex(dto);
 
 			Assert.That(actualIndex, Is.EqualTo(expectedIndex));
 		}
