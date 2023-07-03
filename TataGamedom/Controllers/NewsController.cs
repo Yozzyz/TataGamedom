@@ -7,8 +7,7 @@ using System.Web.Mvc;
 using TataGamedom.Models.EFModels;
 using TataGamedom.Models.ViewModels.News;
 using PagedList;
-
-
+using TataGamedom.Filters;
 
 namespace TataGamedom.Controllers
 {
@@ -19,8 +18,7 @@ namespace TataGamedom.Controllers
 
 
 		// GET: News
-
-		[Authorize]
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Index(NewsCriteria newsCriteria, int? page)
 		{
 			PrepareNewsDataSource(newsCriteria.GamesId);
@@ -78,7 +76,7 @@ namespace TataGamedom.Controllers
 			}
 		}
 
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Create()
 		{
 			ViewBag.BackendMemberId = new SelectList(db.BackendMembers, "Id", "Name");
@@ -89,7 +87,7 @@ namespace TataGamedom.Controllers
 		}
 
 
-		[Authorize]
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(NewsCreateVM newsCreateVM)
@@ -138,7 +136,7 @@ namespace TataGamedom.Controllers
 
 
 		// GET: News/Edit
-		[Authorize]
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Edit(int? id)
 		{
 			if (id == null)
@@ -173,6 +171,7 @@ namespace TataGamedom.Controllers
 			}
 		}
 
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(NewsEditVM news)
@@ -210,7 +209,7 @@ namespace TataGamedom.Controllers
 			return View(news);
 		}
 
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Delete(int? id)
 		{
 			if (id == null)
@@ -225,7 +224,7 @@ namespace TataGamedom.Controllers
 			return View(news);
 		}
 
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
@@ -244,8 +243,7 @@ namespace TataGamedom.Controllers
 			}
 			return RedirectToAction("Index");
 		}
-
-
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Reduction(int? id)
 		{
 			if (id == null)
@@ -260,6 +258,8 @@ namespace TataGamedom.Controllers
 			return View(news);
 		}
 
+
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		[HttpPost, ActionName("Reduction")]
 		[ValidateAntiForgeryToken]
 		public ActionResult reductionConfirmed(int id)
@@ -279,6 +279,8 @@ namespace TataGamedom.Controllers
 			return RedirectToAction("Index");
 		}
 
+
+		[AuthorizeFilter(UserRole.Tataboss, UserRole.Newstata)]
 		public ActionResult Show(int? id)
 		{
 			if (id == null)

@@ -46,8 +46,34 @@ namespace TataGamedom.Controllers
 
 			var processResult = ProcessLogin(vm.Account, rememberMe);
 			Response.Cookies.Add(processResult.cookie);
+
+			// 在登录成功后的逻辑中获取BackendMembersRoleId，并存储在Session中
+			int backendMembersRoleId = GetBackendMembersRoleIdByUsername(vm.Account); // 根据用户名查询BackendMembersRoleId的逻辑，你需要根据实际情况实现该方法
+			HttpContext.Session["BackendMembersRoleId"] = backendMembersRoleId;
+
 			return Redirect(processResult.returnUrl);
 		}
+
+	
+
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult Login(LoginVM vm)
+		//{
+		//	if (ModelState.IsValid == false) return View();
+		//	Result result = ValidLogin(vm);
+
+		//	if (result.IsSuccess != true)
+		//	{
+		//		ModelState.AddModelError("", result.ErrorMessage);
+		//		return View(vm);
+		//	}
+		//	const bool rememberMe = false;
+
+		//	var processResult = ProcessLogin(vm.Account, rememberMe);
+		//	Response.Cookies.Add(processResult.cookie);
+		//	return Redirect(processResult.returnUrl);
+		//}
 
 		public ActionResult Logout()
 		{
@@ -101,6 +127,11 @@ namespace TataGamedom.Controllers
 				return View(vm);
 			}
 			return RedirectToAction("Index");
+		}
+
+		public ActionResult NotAuthorize()
+		{
+			return View();
 		}
 
 
@@ -185,6 +216,21 @@ namespace TataGamedom.Controllers
 			var url = FormsAuthentication.GetRedirectUrl(account, true); //第二個引數沒有用處  
 			return (url, cookie);  //會跳回MEMBER
 
+		}
+
+		private int GetBackendMembersRoleIdByUsername(string account)
+		{
+			using (var db = new AppDbContext()) // 用你的DbContext替代YourDbContext
+			{
+				var backendMember = db.BackendMembers.FirstOrDefault(m => m.Account == account);
+				if (backendMember != null)
+				{
+					return backendMember.BackendMembersRoleId;
+				}
+			}
+
+			// 若未找到对应的BackendMember记录，则返回一个默认的BackendMembersRoleId
+			return 0; // 或者其他你认为合适的默认值
 		}
 	}
 }

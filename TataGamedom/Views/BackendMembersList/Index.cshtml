@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TataGamedom.Models.EFModels.BackendMember>
+﻿@model IEnumerable<TataGamedom.Models.ViewModels.Members.BackendMembersListVM>
 
 @{
 	ViewBag.Title = "Index";
@@ -35,7 +35,7 @@
 			@Html.DisplayNameFor(model => model.ActiveFlag)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.BackendMembersRolesCode.Name)
+			@Html.DisplayNameFor(model => model.BackendMembersRoleName)
 		</th>
 		<th>
 			管理權限
@@ -68,14 +68,14 @@
 					@Html.DisplayFor(modelItem => item.RegistrationDate)
 				</td>*@
 			<td>
-				@Html.DisplayFor(modelItem => item.ActiveFlag)
+				@Html.DisplayFor(modelItem => item.ActiveFlagText)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.BackendMembersRolesCode.Name)
+				@Html.DisplayFor(modelItem => item.BackendMembersRoleName)
 			</td>
 			<td>
 				@Html.ActionLink("修改權限", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
-				@*@Html.ActionLink("Details", "Details", new { id = item.Id }) | 留著應該可以用
+				@*@Html.ActionLink("Details", "Details", new { id = item.Id }) | 
 					@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
 			</td>
 		</tr>
