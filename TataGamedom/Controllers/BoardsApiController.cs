@@ -54,7 +54,7 @@ namespace TataGamedom.Controllers
 			{
 				return NotFound();
 			}
-			var boardListDto = new BoardListVM
+			var vm = new BoardListVM
 			{
 				Id = board.Id,
 				BoardHeaderCoverImg = "/Files/Uploads/" + board.BoardHeaderCoverImg,
@@ -69,7 +69,7 @@ namespace TataGamedom.Controllers
 						  .FirstOrDefault()
 			};
 
-			return Ok(boardListDto);
+			return Ok(vm);
 		}
 
 		// PUT: api/BoardsApi/5

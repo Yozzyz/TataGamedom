@@ -213,7 +213,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Dtos\Boards\BoardListDto.cs" />
     <Compile Include="Models\Dtos\InventoryItems\InventoryItemDto.cs" />
     <Compile Include="Models\Dtos\Members\EditProfileDto.cs" />
     <Compile Include="Models\Dtos\Games\GameCreateDto.cs" />
