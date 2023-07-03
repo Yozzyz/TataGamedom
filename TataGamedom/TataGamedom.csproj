@@ -294,7 +294,6 @@
     <Compile Include="Models\Services\OrderService.cs" />
     <Compile Include="Models\Services\ProductService.cs" />
     <Compile Include="Models\ViewModels\Coupons\CouponIndexVM.cs" />
-    <Compile Include="Models\ViewModels\Class1.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQIndexVM.cs" />
     <Compile Include="Models\ViewModels\CustomerServices\FAQsCreateVM.cs" />
     <Compile Include="Models\ViewModels\Members\EditPasswordVM.cs" />
